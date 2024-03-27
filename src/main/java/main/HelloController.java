@@ -9,6 +9,11 @@ public class HelloController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+        welcomeText.setText("+100 біткоїнів цьому платнику податків!");
+    }
+
+    @FXML
+    protected void onZradaButtonClick() {
+        welcomeText.setText("-100 біткоїнів цьому ухилянтові!");
     }
 }
