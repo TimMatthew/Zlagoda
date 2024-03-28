@@ -1,3 +1,5 @@
+package Entities;
+
 public class Product {
     int id_product; //NN
     int Category_category_number; //NN FK

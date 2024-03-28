@@ -1,3 +1,5 @@
+package Entities;
+
 public class Sale {
     String Store_Product_UPC; //NN  PPK, FK1
     String Check_check_number; //NN PPK, FK2

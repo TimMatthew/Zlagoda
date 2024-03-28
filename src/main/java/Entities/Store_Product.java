@@ -1,3 +1,5 @@
+package Entities;
+
 public class Store_Product {
     String Store_Product_UPC; //NN PK
     String Sale_UPC_prom; //N FK лінк або на 'Товар у маґазині', або на Sale?

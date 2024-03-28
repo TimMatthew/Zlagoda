@@ -1,3 +1,5 @@
+package Entities;
+
 public class Customer_Card {
     String card_number; //NN PK
     String cust_surname; //NN
