@@ -1,4 +1,4 @@
-package Scenes;
+package scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
