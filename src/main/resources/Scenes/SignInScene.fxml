@@ -45,17 +45,17 @@
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="145.0" text="Go to Sign Up" textFill="#868686" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="260.0">
+      <Button mnemonicParsing="false" onAction="#GoToSignUp" prefHeight="41.0" prefWidth="145.0" text="Go to Sign Up" textFill="#868686" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="260.0">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="145.0" text="Sign In" textFill="#868686" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="260.0">
+      <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="41.0" prefWidth="145.0" text="Sign In" textFill="#868686" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="260.0">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="145.0" text="Cancel" textFill="#868686" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="310.0">
+      <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#Cancel" prefHeight="41.0" prefWidth="145.0" text="Cancel" textFill="#868686" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="310.0">
          <font>
             <Font size="14.0" />
          </font>
