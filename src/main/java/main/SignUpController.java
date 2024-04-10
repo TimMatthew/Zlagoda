@@ -1,4 +1,4 @@
-package Controllers;
+package main;
 
 public class SignUpController {
 }

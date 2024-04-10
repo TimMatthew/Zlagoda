@@ -3,9 +3,9 @@ package main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -13,14 +13,15 @@ import java.io.IOException;
 
 public class CashierMainMenu {
 
+    protected static final int WIDTH = 900, HEIGHT = 600;
+    protected static final FXMLLoader CASHIER_MENU_FXML_LOADER = new FXMLLoader(HelloApplication.class.getResource("CashierMainMenu.fxml"));
+
     @FXML
     private RadioButton goodsModeRadio, clientsModeRadio, receiptsModeRadio;
     @FXML
-    private Button profileButton;
-    @FXML
     private AnchorPane functionsPane;
-
-    protected static final int WIDTH = 900, HEIGHT = 600;
+    @FXML
+    private TextField cashierSearchField;
 
     //Кнопки для товарів
     private Button goodSortNameButton, goodShopSortNameButton, goodPromotionSortNameButton, goodPromotionSortAmountButton;
@@ -80,17 +81,20 @@ public class CashierMainMenu {
             functionsPane.getChildren().add(goodShopSortNameButton);
             functionsPane.getChildren().add(goodPromotionSortNameButton);
             functionsPane.getChildren().add(goodPromotionSortAmountButton);
+            cashierSearchField.setPromptText("Goods search...");
 
         }
         else if(clientsModeRadio.isSelected()){
             initClients();
             functionsPane.getChildren().add(addLoyalClientButton);
             functionsPane.getChildren().add(clientSortNameButton);
+            cashierSearchField.setPromptText("Clients search...");
         }
         else if(receiptsModeRadio.isSelected()){
             initReceipts();
             functionsPane.getChildren().add(receiptsTodayButton);
             functionsPane.getChildren().add(receiptsPeriodButton);
+            cashierSearchField.setPromptText("Receipts search...");
         }
     }
 
@@ -98,9 +102,10 @@ public class CashierMainMenu {
     protected void openCashierProfile(ActionEvent e) throws IOException {
         Stage profileStage = new Stage();
         FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("CashierProfile.fxml"));
-        Scene sc = new Scene(cashierProfileLoader.load(), 428, 483);
+        HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 483, "Cashier profile");
+        /*Scene sc = new Scene(cashierProfileLoader.load(), , );
         profileStage.setTitle("Cashier profile");
         profileStage.setScene(sc);
-        profileStage.show();
+        profileStage.show();*/
     }
 }

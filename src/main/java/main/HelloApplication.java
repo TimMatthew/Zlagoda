@@ -8,13 +8,15 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
+    public static Stage mainStage;
     @Override
     public void start(Stage stage) throws IOException {
-        setScene(stage, new FXMLLoader(HelloApplication.class.getResource("CashierMainMenu.fxml")), "Cashier Menu");
+        mainStage = stage;
+        setScene(mainStage, new FXMLLoader(HelloApplication.class.getResource("SignInScene.fxml")), SignInController.WIDTH, SignInController.HEIGHT, "Sign In");
     }
 
-    public static void setScene(Stage st, FXMLLoader fxmlLoader, String title) throws IOException {
-        Scene sc = new Scene(fxmlLoader.load(), 900, 600);
+    public static void setScene(Stage st, FXMLLoader fxmlLoader, int width, int height, String title) throws IOException {
+        Scene sc = new Scene(fxmlLoader.load(), width, height);
         st.setTitle(title);
         st.setScene(sc);
         st.show();

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="770.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ManagerMainMenu">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d3d3d3" height="770.0" stroke="BLACK" strokeType="INSIDE" width="1130.0" />
+      <AnchorPane id="optionButtonsPane" layoutX="870.0" layoutY="14.0" prefHeight="745.0" prefWidth="246.0">
+         <children>
+            <Rectangle id="managerOptionPane" fx:id="managerOptionPane" arcHeight="5.0" arcWidth="5.0" fill="#cfe9ff" height="745.0" stroke="BLACK" strokeType="INSIDE" width="246.0" />
+            <AnchorPane id="Modes" fx:id="Modes" layoutX="11.0" layoutY="14.0" prefHeight="159.0" prefWidth="224.0">
+               <children>
+                  <RadioButton  fx:id="employeesModeRadio" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#provideMode" text="Employees mode">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="modes"/>
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="manClientsModeRadio" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideMode" text="Clients mode" toggleGroup="$modes">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="categoryModeRadio" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideMode" text="Category mode" toggleGroup="$modes">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="manGoodsMode" layoutX="14.0" layoutY="102.0" mnemonicParsing="false" onAction="#provideMode" text="Goods mode" toggleGroup="$modes">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="storeGoodsMode" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" onAction="#provideMode" text="Goods in store mode" toggleGroup="$modes">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="functionsPane" fx:id="functionsPane" layoutX="16.0" layoutY="176.0" prefHeight="383.0" prefWidth="214.0">
+               <children>
+                  <AnchorPane id="modesHintPane" fx:id="modesHintPane" layoutX="31.0" layoutY="120.0" prefHeight="140.0" prefWidth="153.0">
+                     <children>
+                        <Label id="cashierPIB" fx:id="a" alignment="CENTER" layoutX="13.0" layoutY="25.0" prefHeight="28.0" prefWidth="126.0" text="Select any of" textFill="#4284a1">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <Label id="cashierPIB" fx:id="b" alignment="CENTER" layoutX="43.0" layoutY="53.0" prefHeight="25.0" prefWidth="68.0" text="modes" textFill="#4284a1">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <Label id="cashierPIB" fx:id="c" alignment="CENTER" layoutX="24.0" layoutY="81.0" prefHeight="25.0" prefWidth="107.0" text="to proceed..." textFill="#4284a1">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="AccountInfo" fx:id="AccountInfo" layoutX="48.0" layoutY="563.0" prefHeight="42.0" prefWidth="153.0">
+               <children>
+                  <Label id="cashierPIB" fx:id="cashierPIB" alignment="CENTER" layoutX="13.0" layoutY="9.0" prefHeight="25.0" prefWidth="126.0" text="Manager Name">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label id="cashierTitle" fx:id="cashierTitle" alignment="CENTER" layoutX="42.0" layoutY="34.0" prefHeight="25.0" prefWidth="68.0" text="Manager">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Button id="exitAccountButton" fx:id="exitAccountButton" alignment="CENTER" layoutX="82.0" layoutY="686.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" text="Quit">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            <Button id="profileButton" fx:id="profileButton" alignment="CENTER" layoutX="82.0" layoutY="638.0" mnemonicParsing="false" onAction="#openManagerProfile" prefHeight="35.0" prefWidth="85.0" text="Profile">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="cashierDataPane" layoutX="14.0" layoutY="14.0" prefHeight="745.0" prefWidth="843.0">
+         <children>
+            <Rectangle id="cashierDataPane" fx:id="cashierDataPane" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="745.0" stroke="BLACK" strokeType="INSIDE" width="843.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c3c3c3" height="52.0" stroke="BLACK" strokeType="INSIDE" width="843.0" />
+            <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="793.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@search_icon.png" />
+               </image></ImageView>
+            <TextField id="cashierSearchField" fx:id="cashierSearchField" layoutX="5.0" layoutY="6.0" prefHeight="42.0" prefWidth="773.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

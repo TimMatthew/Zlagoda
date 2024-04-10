@@ -7,10 +7,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="483.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CashierProfileController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGRAY" height="483.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff7a1" height="483.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
       <ImageView fitHeight="131.0" fitWidth="128.0" layoutX="151.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@profile.png" />
