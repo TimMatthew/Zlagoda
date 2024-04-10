@@ -101,7 +101,7 @@ public class CashierMainMenu {
     @FXML
     protected void openCashierProfile(ActionEvent e) throws IOException {
         Stage profileStage = new Stage();
-        FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("CashierProfile.fxml"));
+        FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
         HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 483, "Cashier profile");
         /*Scene sc = new Scene(cashierProfileLoader.load(), , );
         profileStage.setTitle("Cashier profile");
