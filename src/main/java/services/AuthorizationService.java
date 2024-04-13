@@ -34,8 +34,8 @@ public class AuthorizationService {
             statement.setString(4, employee.getEmpl_patronymic());
             statement.setString(5, employee.getEmpl_role());
             statement.setString(6, employee.getSalary());
-            statement.setDate(7, new Date(employee.getDate_of_birth().getTime()));
-            statement.setDate(8, new Date(employee.getDate_of_start().getTime()));
+            statement.setDate(7, employee.getDate_of_birth());
+            statement.setDate(8, employee.getDate_of_start());
             statement.setString(9, employee.getPhone_number());
             statement.setString(10, employee.getCity());
             statement.setString(11, employee.getStreet());
@@ -69,26 +69,14 @@ public class AuthorizationService {
         if (!resultSet.next())
             return false;
 
-        String employee_id = resultSet.getString("id_employee");
+        UserInfo.id = resultSet.getString("id_employee");
 
         statement.close();
         resultSet.close();
 
+       UserInfo.updateEmployeeProfile();
 
-        sql = "SELECT empl_role FROM employee WHERE id_employee =?";
-        PreparedStatement statement1 = connection.prepareStatement(sql);
-        statement1.setString(1, employee_id);
-        ResultSet resultSet1 = statement1.executeQuery();
-        if (!resultSet1.next())
-            return false;
-
-        String empl_role = resultSet1.getString("empl_role");
-
-        statement1.close();
-        resultSet1.close();
-
-        UserInfo.id = employee_id;
-        UserInfo.position = empl_role;
+        UserInfo.position = UserInfo.employeeProfile.getEmpl_role();
         return true;
     }
 

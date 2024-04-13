@@ -1,6 +1,6 @@
 package Entities;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.UUID;
 
 public class Employee {
@@ -17,7 +17,10 @@ public class Employee {
     String street; //NN
     String zip_code; //NN
 
-    public Employee(String empl_surname, String empl_name, String empl_patronymic, String empl_role, String salary, Date date_of_birth, Date date_of_start, String phone_number, String city, String street, String zip_code) {
+    public Employee(String empl_surname, String empl_name, String empl_patronymic, String empl_role,
+                    String salary, Date date_of_birth, Date date_of_start, String phone_number,
+                    String city, String street, String zip_code) {
+
         this.id_employee = UUID.randomUUID().toString();
         this.empl_surname = empl_surname;
         this.empl_name = empl_name;
@@ -30,6 +33,16 @@ public class Employee {
         this.city = city;
         this.street = street;
         this.zip_code = zip_code;
+    }
+
+    public Employee(String id_employee, String empl_surname, String empl_name, String empl_patronymic,
+                    String empl_role, String salary, Date date_of_birth, Date date_of_start,
+                    String phone_number, String city, String street, String zip_code) {
+
+        this(empl_surname, empl_name, empl_patronymic, empl_role, salary, date_of_birth, date_of_start,
+                phone_number, city, street, zip_code);
+
+        this.id_employee = id_employee;
     }
 
     public String getId_employee() {
@@ -57,6 +70,8 @@ public class Employee {
     }
 
     public String getEmpl_patronymic() {
+        if (empl_patronymic == null)
+            return "";
         return empl_patronymic;
     }
 
