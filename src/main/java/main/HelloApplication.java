@@ -17,7 +17,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         mainStage = stage;
-        //setScene(mainStage, new FXMLLoader(HelloApplication.class.getResource("SignInScene.fxml")), SignInController.WIDTH, SignInController.HEIGHT, "Sign In");
+        setScene(mainStage, new FXMLLoader(HelloApplication.class.getResource("SignInScene.fxml")), SignInController.WIDTH, SignInController.HEIGHT, "Sign In");
     }
 
     public static void setScene(Stage st, FXMLLoader fxmlLoader, int width, int height, String title) throws IOException {

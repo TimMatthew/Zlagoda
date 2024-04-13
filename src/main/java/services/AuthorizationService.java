@@ -69,15 +69,15 @@ public class AuthorizationService {
         if (!resultSet.next())
             return false;
 
-        String employee_id = resultSet.getString("");
+        String employee_id = resultSet.getString("id_employee");
 
         statement.close();
         resultSet.close();
 
 
-        sql = "SELECT empl_role FROM employee WHERE employee_id =?";
+        sql = "SELECT empl_role FROM employee WHERE id_employee =?";
         PreparedStatement statement1 = connection.prepareStatement(sql);
-        statement.setString(1, employee_id);
+        statement1.setString(1, employee_id);
         ResultSet resultSet1 = statement1.executeQuery();
         if (!resultSet1.next())
             return false;
