@@ -7,7 +7,6 @@ import sessionmanagement.UserInfo;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
-import java.util.UUID;
 
 public class AuthorizationService {
     private final DataBaseHandler dataBaseHandler;

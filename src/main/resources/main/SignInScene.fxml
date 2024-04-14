@@ -8,39 +8,49 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.SignInController">
-   <children>
-      <Text fill="#fbff00" layoutY="33.0" stroke="#0019ff" strokeType="OUTSIDE" strokeWidth="2.0" text="ZLAGODA" textAlignment="CENTER" underline="true" wrappingWidth="400.0" AnchorPane.topAnchor="20.0">
-         <font>
-            <Font name="Broadway" size="36.0" />
-         </font>
-      </Text>
-      <Label fx:id="loginLabel" prefHeight="27.0" prefWidth="600.0" text="Login" textFill="#868686" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="70.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="userLogin" prefHeight="26.0" prefWidth="300.0" promptText=". . ." AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0" />
-      <Label prefHeight="27.0" prefWidth="600.0" text="Password" textFill="#868686" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <PasswordField fx:id="userPassword" prefHeight="26.0" prefWidth="300.0" promptText=". . ." AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="170.0" />
-      <Button id="signInButton" fx:id="signInButton" layoutX="300.0" layoutY="229.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="41.0" prefWidth="145.0" text="Sign In" textFill="#868686" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="229.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button layoutX="150.0" layoutY="228.0" mnemonicParsing="false" onAction="#Cancel" prefHeight="42.0" prefWidth="146.0" text="Cancel" textFill="#868686" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="206.0" AnchorPane.topAnchor="228.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Label fx:id="errorLabel" layoutX="151.2" layoutY="198.4" prefHeight="26.0" prefWidth="300.0" text="Error" textFill="RED" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="198.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane prefHeight="300.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.SignInController">
+   <Text fill="#fbff00" layoutY="33.0" stroke="#0019ff" strokeType="OUTSIDE" strokeWidth="2.0" text="ZLAGODA"
+         textAlignment="CENTER" underline="true" wrappingWidth="400.0" AnchorPane.topAnchor="20.0">
+      <font>
+         <Font name="Broadway" size="36.0"/>
+      </font>
+   </Text>
+   <Label fx:id="loginLabel" prefHeight="27.0" prefWidth="600.0" text="Login" textFill="#868686"
+          AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="70.0">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="userLogin" prefHeight="26.0" prefWidth="300.0" promptText=". . ." AnchorPane.leftAnchor="50.0"
+              AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0"/>
+   <Label prefHeight="27.0" prefWidth="600.0" text="Password" textFill="#868686" AnchorPane.leftAnchor="50.0"
+          AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <PasswordField fx:id="userPassword" prefHeight="26.0" prefWidth="300.0" promptText=". . ."
+                  AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="170.0"/>
+   <Button id="signInButton" fx:id="signInButton" layoutX="300.0" layoutY="229.0" mnemonicParsing="false"
+           onAction="#goToMainMenu" prefHeight="41.0" prefWidth="145.0" text="Sign In" textFill="#868686"
+           AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="229.0">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Button>
+   <Button layoutX="150.0" layoutY="228.0" mnemonicParsing="false" onAction="#Cancel" prefHeight="42.0"
+           prefWidth="146.0" text="Cancel" textFill="#868686" AnchorPane.leftAnchor="50.0"
+           AnchorPane.rightAnchor="206.0" AnchorPane.topAnchor="228.0">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Button>
+   <Label fx:id="errorLabel" layoutX="151.2" layoutY="198.4" prefHeight="26.0" prefWidth="300.0" text="Error"
+          textFill="RED" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+          AnchorPane.topAnchor="198.0">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
 </AnchorPane>

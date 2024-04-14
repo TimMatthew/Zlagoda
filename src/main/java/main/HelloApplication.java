@@ -1,16 +1,13 @@
 package main;
 
-import Entities.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import services.AuthorizationService;
 import services.DataBaseHandler;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Date;
 
 public class HelloApplication extends Application {
 

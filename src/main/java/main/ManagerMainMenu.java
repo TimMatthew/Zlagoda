@@ -1,7 +1,6 @@
 package main;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -224,6 +223,6 @@ public class ManagerMainMenu {
     protected void openManagerProfile(ActionEvent e) throws IOException {
         Stage profileStage = new Stage();
         FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
-        HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 483, "Manager profile");
+        HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 510, "Manager profile");
     }
 }
