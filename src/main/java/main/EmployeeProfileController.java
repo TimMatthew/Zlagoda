@@ -2,6 +2,7 @@ package main;
 
 import Entities.Employee;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +20,10 @@ import java.util.regex.Pattern;
 
 public class EmployeeProfileController implements Initializable {
 
+    protected static final FXMLLoader FXML_LOADER(){
+        return new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
+    }
+    protected static final int WIDTH = 428, HEIGHT = 510;
     @FXML
     public Label errorLabel;
     @FXML

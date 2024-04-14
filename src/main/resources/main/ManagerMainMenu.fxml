@@ -91,7 +91,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button id="exitAccountButton" fx:id="exitAccountButton" alignment="CENTER" layoutX="82.0" layoutY="696.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" text="Quit">
+            <Button id="exitAccountButton" fx:id="exitAccountButton" alignment="CENTER" layoutX="82.0" layoutY="696.0" mnemonicParsing="false" onAction="#quit" prefHeight="35.0" prefWidth="85.0" text="Quit">
                <font>
                   <Font size="16.0" />
                </font></Button>

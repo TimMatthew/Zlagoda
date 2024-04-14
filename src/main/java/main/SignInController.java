@@ -3,6 +3,7 @@ package main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import services.AuthorizationService;
 import sessionmanagement.UserInfo;
@@ -19,6 +20,10 @@ public class SignInController {
 
     protected static final int WIDTH = 400, HEIGHT = 300;
 
+    public static FXMLLoader FXML_LOADER(){
+        return new FXMLLoader(HelloApplication.class.getResource("SignInScene.fxml"));
+    }
+
     @FXML
     protected void goToMainMenu(ActionEvent e) throws IOException, SQLException {
         String login = userLogin.getText().trim();
@@ -34,7 +39,7 @@ public class SignInController {
             HelloApplication.mainStage.hide();
             errorLabel.setVisible(false);
             if (UserInfo.position.equals("Manager"))
-                HelloApplication.setScene(HelloApplication.mainStage, ManagerMainMenu.MANAGER_MENU_FXML_LOADER, ManagerMainMenu.WIDTH, ManagerMainMenu.HEIGHT, "Manager Main Menu");
+                HelloApplication.setScene(HelloApplication.mainStage, ManagerMainMenu.FXML_LOADER(), ManagerMainMenu.WIDTH, ManagerMainMenu.HEIGHT, "Manager Main Menu");
             else
                 HelloApplication.setScene(HelloApplication.mainStage, CashierMainMenu.CASHIER_MENU_FXML_LOADER, CashierMainMenu.WIDTH, CashierMainMenu.HEIGHT, "Cashier Main Menu");
         }
@@ -50,6 +55,5 @@ public class SignInController {
     private void setErrorMessage(String msg){
         errorLabel.setVisible(true);
         errorLabel.setText(msg);
-
     }
 }

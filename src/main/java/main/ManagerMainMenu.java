@@ -11,10 +11,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sessionmanagement.UserInfo;
 
 import java.io.IOException;
 
 public class ManagerMainMenu {
+
+    protected static FXMLLoader FXML_LOADER(){
+        return new FXMLLoader(HelloApplication.class.getResource("ManagerMainMenu.fxml"));
+    }
+    protected static final int WIDTH = 1130;
+    protected static final int HEIGHT = 770;
 
     @FXML
     private TextField managerSearchField;
@@ -22,10 +29,6 @@ public class ManagerMainMenu {
     private RadioButton employeesMode, managerClientsMode, categoryMode, managerProductsMode, storeProductsMode, managerReceiptsMode;
     @FXML
     private AnchorPane functionsPane;
-
-    protected static final FXMLLoader MANAGER_MENU_FXML_LOADER = new FXMLLoader(HelloApplication.class.getResource("ManagerMainMenu.fxml"));
-    protected static final int WIDTH = 1130;
-    protected static final int HEIGHT = 770;
 
     //Функції для працівників
     private Button addEmployee, emplSortSur, sortCashiersBySurname, emplPhoneAddressBySur;
@@ -221,8 +224,13 @@ public class ManagerMainMenu {
 
     @FXML
     protected void openManagerProfile(ActionEvent e) throws IOException {
-        Stage profileStage = new Stage();
-        FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
-        HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 510, "Manager profile");
+        HelloApplication.setScene(new Stage(), EmployeeProfileController.FXML_LOADER(), EmployeeProfileController.WIDTH, EmployeeProfileController.HEIGHT, "Manager profile");
+    }
+
+    public void quit(ActionEvent actionEvent) throws IOException {
+        UserInfo.id = null;
+        UserInfo.position = null;
+        UserInfo.employeeProfile = null;
+        HelloApplication.setScene(HelloApplication.mainStage, SignInController.FXML_LOADER(), SignInController.WIDTH, SignInController.HEIGHT, "Sign In");
     }
 }
