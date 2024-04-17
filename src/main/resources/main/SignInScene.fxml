@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="300.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.SignInController">
+            fx:controller="main.Authorization">
    <Text fill="#fbff00" layoutY="33.0" stroke="#0019ff" strokeType="OUTSIDE" strokeWidth="2.0" text="ZLAGODA"
          textAlignment="CENTER" underline="true" wrappingWidth="400.0" AnchorPane.topAnchor="20.0">
       <font>

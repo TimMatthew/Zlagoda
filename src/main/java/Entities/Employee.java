@@ -142,4 +142,8 @@ public class Employee {
     public void setZip_code(String zip_code) {
         this.zip_code = zip_code;
     }
+
+    public String getFullName(){
+        return empl_patronymic == null ? empl_surname + " " + empl_name : empl_surname + " " + empl_name + " " + empl_patronymic;
+    }
 }

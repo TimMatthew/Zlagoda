@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -9,38 +11,38 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.EmployeeProfileController">
-   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff7a1" height="510.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
+<AnchorPane prefHeight="500.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.EmployeeProfile">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff7a1" height="540.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
    <ImageView fitHeight="131.0" fitWidth="128.0" layoutX="151.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@profile.png" />
    </ImageView>
    <AnchorPane id="cashierPIB" layoutX="99.0" layoutY="170.0" prefHeight="92.0" prefWidth="230.0">
-      <Label fx:id="nameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="14.0" prefHeight="14.0" prefWidth="106.0" text="Name">
+      <Label fx:id="nameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="14.0" prefHeight="14.0" prefWidth="106.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="nameField" alignment="TOP_CENTER" layoutX="62.0" layoutY="14.0" prefHeight="14.0" prefWidth="106.0" text="Name">
+      <TextField fx:id="nameField" alignment="TOP_CENTER" layoutX="62.0" layoutY="14.0" prefHeight="14.0" prefWidth="106.0" promptText="Name">
          <font>
             <Font size="11.0" />
          </font>
       </TextField>
-      <Label fx:id="surnameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="36.0" prefHeight="14.0" prefWidth="106.0" text="Surname">
+      <Label fx:id="surnameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="36.0" prefHeight="14.0" prefWidth="106.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="surnameField" alignment="TOP_CENTER" layoutX="62.0" layoutY="36.0" prefHeight="14.0" prefWidth="106.0" text="Surname">
+      <TextField fx:id="surnameField" alignment="TOP_CENTER" layoutX="62.0" layoutY="36.0" prefHeight="14.0" prefWidth="106.0" promptText="Surname">
          <font>
             <Font size="11.0" />
          </font>
       </TextField>
-      <Label fx:id="patronymicLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="58.0" prefHeight="14.0" prefWidth="106.0" text="Patronymic">
+      <Label fx:id="patronymicLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="58.0" prefHeight="14.0" prefWidth="106.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="patronymicField" alignment="TOP_CENTER" layoutX="62.0" layoutY="58.0" prefHeight="14.0" prefWidth="106.0" text="Patronymic">
+      <TextField fx:id="patronymicField" alignment="TOP_CENTER" layoutX="62.0" layoutY="58.0" prefHeight="14.0" prefWidth="106.0" promptText="Patronymic">
          <font>
             <Font size="11.0" />
          </font>
@@ -57,7 +59,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="positionLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="16.0" prefHeight="21.0" prefWidth="145.0" text="employee_position">
+      <Label fx:id="positionLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="16.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="15.0" />
          </font>
@@ -67,111 +69,120 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="salaryLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="37.0" prefHeight="21.0" prefWidth="145.0" text="cashier_salary">
+      <Label fx:id="salaryLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="37.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="salaryField" alignment="TOP_LEFT" layoutX="186.0" layoutY="37.0" prefHeight="21.0" prefWidth="145.0" text="cashier_salary">
+      <TextField fx:id="salaryField" alignment="TOP_LEFT" layoutX="186.0" layoutY="37.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="58.0" prefHeight="21.0" prefWidth="91.0" text="Date of birth:">
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="61.0" prefHeight="21.0" prefWidth="91.0" text="Date of birth:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="birthdayLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="58.0" prefHeight="21.0" prefWidth="114.0" text="cashier_birth">
+      <Label fx:id="birthdayLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="61.0" prefHeight="21.0" prefWidth="114.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="birthdayField" alignment="TOP_LEFT" layoutX="186.0" layoutY="58.0" prefHeight="21.0" prefWidth="145.0" text="cashier_birth">
+      <DatePicker fx:id="birthdayField" layoutX="186.0" layoutY="59.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="84.0" prefHeight="21.0" prefWidth="153.0" text="Date of employement:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="startLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="84.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="startField" layoutX="186.0" layoutY="84.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="110.0" prefHeight="21.0" prefWidth="67.0" text="Phone:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="phoneLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="110.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="phoneField" alignment="TOP_LEFT" layoutX="186.0" layoutY="110.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="79.0" prefHeight="21.0" prefWidth="153.0" text="Date of employement:">
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="131.0" prefHeight="21.0" prefWidth="74.0" text="City:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="startLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="79.0" prefHeight="21.0" prefWidth="145.0" text="cashier_start">
+      <Label fx:id="cityLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="131.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="startField" alignment="TOP_LEFT" layoutX="186.0" layoutY="79.0" prefHeight="21.0" prefWidth="145.0" text="cashier_start">
+      <TextField fx:id="cityField" alignment="TOP_LEFT" layoutX="186.0" layoutY="131.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="100.0" prefHeight="21.0" prefWidth="67.0" text="Phone:">
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="152.0" prefHeight="21.0" prefWidth="74.0" text="Street:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="phoneLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="100.0" prefHeight="21.0" prefWidth="145.0" text="cashier_position">
+      <Label fx:id="streetLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="152.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="phoneField" alignment="TOP_LEFT" layoutX="186.0" layoutY="100.0" prefHeight="21.0" prefWidth="145.0" text="cashier_position">
+      <TextField fx:id="streetField" alignment="TOP_LEFT" layoutX="186.0" layoutY="152.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="121.0" prefHeight="21.0" prefWidth="74.0" text="City:">
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="173.0" prefHeight="21.0" prefWidth="74.0" text="Zip-code:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="cityLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="121.0" prefHeight="21.0" prefWidth="145.0" text="cashier_city">
+      <Label fx:id="zipcodeLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="173.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="cityField" alignment="TOP_LEFT" layoutX="186.0" layoutY="121.0" prefHeight="21.0" prefWidth="145.0" text="cashier_city">
+      <TextField fx:id="zipcodeField" alignment="TOP_LEFT" layoutX="186.0" layoutY="173.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="142.0" prefHeight="21.0" prefWidth="74.0" text="Street:">
+      <Button fx:id="editButton" layoutX="142.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
+      <Button fx:id="saveButton" layoutX="142.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="67.0" text="Save" />
+      <Label fx:id="errorLabel" layoutX="14.0" layoutY="232.0" prefHeight="18.0" prefWidth="318.0" text="Label" textFill="RED" visible="false">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="streetLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="142.0" prefHeight="21.0" prefWidth="145.0" text="cashier_street">
+      <Button fx:id="deleteButton" layoutX="264.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="27.0" prefWidth="67.0" text="Delete" />
+      <ChoiceBox fx:id="positionChoiceBox" layoutX="186.0" layoutY="12.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label fx:id="loginLabel" alignment="TOP_LEFT" layoutX="16.0" layoutY="194.0" prefHeight="21.0" prefWidth="74.0" text="Login:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="streetField" alignment="TOP_LEFT" layoutX="186.0" layoutY="142.0" prefHeight="21.0" prefWidth="145.0" text="cashier_street">
+      <TextField fx:id="loginField" alignment="TOP_LEFT" layoutX="186.0" layoutY="194.0" prefHeight="21.0" prefWidth="145.0">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="163.0" prefHeight="21.0" prefWidth="74.0" text="Zip-code:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="zipcodeLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="163.0" prefHeight="21.0" prefWidth="145.0" text="cashier_zip_code">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="zipcodeField" alignment="TOP_LEFT" layoutX="186.0" layoutY="163.0" prefHeight="21.0" prefWidth="145.0" text="cashier_zip_code">
+      <Label fx:id="passwordLabel" alignment="TOP_LEFT" layoutX="25.0" layoutY="216.0" prefHeight="15.0" prefWidth="306.0" text="Initial password is always PASSWORD. User must change it manually." textAlignment="CENTER" underline="true">
          <font>
             <Font size="10.0" />
-         </font>
-      </TextField>
-      <Button fx:id="editButton" layoutX="142.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
-      <Button fx:id="saveButton" layoutX="142.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="67.0" text="Save" />
-      <Label fx:id="errorLabel" layoutX="14.0" layoutY="192.0" prefHeight="18.0" prefWidth="318.0" text="Label" textFill="RED" visible="false">
-         <font>
-            <Font size="15.0" />
          </font>
       </Label>
    </AnchorPane>

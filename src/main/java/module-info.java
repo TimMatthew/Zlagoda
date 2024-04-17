@@ -4,6 +4,7 @@ module org.example.zlagoda {
     requires java.sql;
     requires mysql.connector.j;
 
+    opens Entities to javafx.base;
 
     opens main to javafx.fxml;
     exports main;

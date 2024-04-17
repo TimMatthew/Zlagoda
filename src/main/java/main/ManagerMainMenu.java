@@ -1,21 +1,27 @@
 package main;
 
+import Entities.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import services.EmployeeService;
 import sessionmanagement.UserInfo;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ManagerMainMenu {
+public class ManagerMainMenu implements Initializable {
+
 
     protected static FXMLLoader FXML_LOADER(){
         return new FXMLLoader(HelloApplication.class.getResource("ManagerMainMenu.fxml"));
@@ -24,14 +30,19 @@ public class ManagerMainMenu {
     protected static final int HEIGHT = 770;
 
     @FXML
+    public TableView dataTable;
+    private ObservableList<Employee> data;
+    @FXML
     private TextField managerSearchField;
+    @FXML
+    public Label employeePIB, employeeTitle;
     @FXML
     private RadioButton employeesMode, managerClientsMode, categoryMode, managerProductsMode, storeProductsMode, managerReceiptsMode;
     @FXML
     private AnchorPane functionsPane;
 
     //Функції для працівників
-    private Button addEmployee, emplSortSur, sortCashiersBySurname, emplPhoneAddressBySur;
+    private Button addEmployee, emplSortSur, sortCashiersBySurname, emplPhoneAddressBySur, editEmployee;
 
     //Функції для клієнтів
     private Button addClient, clientSortSur, clientSortSurWithCard;
@@ -50,11 +61,18 @@ public class ManagerMainMenu {
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
     private Button goodsAmountSoldInSetTime;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        employeePIB.setText(UserInfo.employeeProfile.getFullName());
+        employeeTitle.setText(UserInfo.employeeProfile.getEmpl_role());
+    }
+
     private void initEmployees(){
         addEmployee = new Button("Add employee");
         addEmployee.setLayoutX(50); addEmployee.setLayoutY(20);
         addEmployee.setPrefWidth(120); addEmployee.setPrefHeight(30);
         addEmployee.setFont(new Font(13));
+        addEmployee.setOnAction(actionEvent -> addNewEmployee());
 
         emplSortSur = new Button("Sort employees by surname");
         emplSortSur.setLayoutX(20); emplSortSur.setLayoutY(70);
@@ -70,6 +88,12 @@ public class ManagerMainMenu {
         emplPhoneAddressBySur.setLayoutX(7); emplPhoneAddressBySur.setLayoutY(170);
         emplPhoneAddressBySur.setPrefWidth(200); emplPhoneAddressBySur.setPrefHeight(30);
         emplPhoneAddressBySur.setFont(new Font(13));
+
+        editEmployee = new Button("Edit selected employee");
+        editEmployee.setLayoutX(7); editEmployee.setLayoutY(220);
+        editEmployee.setPrefWidth(200); editEmployee.setPrefHeight(30);
+        editEmployee.setFont(new Font(13));
+        editEmployee.setOnAction(actionEvent -> editSelectedEmployee());
 
     }
 
@@ -171,6 +195,48 @@ public class ManagerMainMenu {
         checksAllCashiersAndTime.setPrefWidth(180); checksAllCashiersAndTime.setPrefHeight(30);
     }
 
+    private void showEmployees(){
+        TableColumn<Employee, String> surname = new TableColumn<>("Surname");
+        TableColumn<Employee, String> name = new TableColumn<>("Name");
+        TableColumn<Employee, String> patronymic = new TableColumn<>("Patronymic");
+        TableColumn<Employee, String> role = new TableColumn<>("Role");
+        TableColumn<Employee, String> salary = new TableColumn<>("Salary");
+        TableColumn<Employee, String> date_of_birth = new TableColumn<>("Birthday");
+        TableColumn<Employee, String> date_of_start = new TableColumn<>("Start Date");
+        TableColumn<Employee, String> phone_number = new TableColumn<>("Phone");
+        TableColumn<Employee, String> city = new TableColumn<>("City");
+        TableColumn<Employee, String> street = new TableColumn<>("Street");
+        TableColumn<Employee, String> zip_code = new TableColumn<>("Zip code");
+
+        surname.setCellValueFactory(new PropertyValueFactory<>("empl_surname"));
+        name.setCellValueFactory(new PropertyValueFactory<>("empl_name"));
+        patronymic.setCellValueFactory(new PropertyValueFactory<>("empl_patronymic"));
+        role.setCellValueFactory(new PropertyValueFactory<>("empl_role"));
+        salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        date_of_birth.setCellValueFactory(new PropertyValueFactory<>("date_of_birth"));
+        date_of_start.setCellValueFactory(new PropertyValueFactory<>("date_of_start"));
+        phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        city.setCellValueFactory(new PropertyValueFactory<>("city"));
+        street.setCellValueFactory(new PropertyValueFactory<>("street"));
+        zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(surname, name, patronymic, role, salary, date_of_birth, date_of_start, phone_number, city, street, zip_code);
+        data = new EmployeeService().getAllEmployees();
+        dataTable.setItems(data);
+
+    }
+    private void addNewEmployee() {
+        EmployeeProfile.initProfile(null, "New employee profile");
+    }
+    private void editSelectedEmployee() {
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Employee selected = (Employee)dataTable.getItems().get(selectedIndex);
+            EmployeeProfile.initProfile(selected, selected.getFullName() + " profile");
+        }
+    }
+
     @FXML
     private void provideMode(ActionEvent e){
 
@@ -182,7 +248,9 @@ public class ManagerMainMenu {
             functionsPane.getChildren().add(emplSortSur);
             functionsPane.getChildren().add(sortCashiersBySurname);
             functionsPane.getChildren().add(emplPhoneAddressBySur);
+            functionsPane.getChildren().add(editEmployee);
             managerSearchField.setPromptText("Employees search...");
+            showEmployees();
         }
         else if(managerClientsMode.isSelected()){
             initClients();
@@ -223,14 +291,17 @@ public class ManagerMainMenu {
     }
 
     @FXML
-    protected void openManagerProfile(ActionEvent e) throws IOException {
-        HelloApplication.setScene(new Stage(), EmployeeProfileController.FXML_LOADER(), EmployeeProfileController.WIDTH, EmployeeProfileController.HEIGHT, "Manager profile");
+    protected void openManagerProfile(ActionEvent e) {
+        EmployeeProfile.initProfile(UserInfo.employeeProfile, "Manager profile");
     }
 
+    @FXML
     public void quit(ActionEvent actionEvent) throws IOException {
         UserInfo.id = null;
         UserInfo.position = null;
         UserInfo.employeeProfile = null;
-        HelloApplication.setScene(HelloApplication.mainStage, SignInController.FXML_LOADER(), SignInController.WIDTH, SignInController.HEIGHT, "Sign In");
+        HelloApplication.setScene(HelloApplication.mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Sign In");
     }
+
+
 }

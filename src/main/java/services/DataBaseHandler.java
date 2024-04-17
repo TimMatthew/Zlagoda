@@ -20,7 +20,7 @@ public class DataBaseHandler {
     private void initConnection(){
         String connectionString = String.format("jdbc:mysql://%s:%s/%s", dbHost, dbPort, dbName);
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(connectionString, dbLogin, dbPass);
         } catch (Exception e){
             System.err.println(e.getMessage());

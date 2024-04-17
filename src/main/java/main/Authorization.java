@@ -11,7 +11,7 @@ import sessionmanagement.UserInfo;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class SignInController {
+public class Authorization {
     public Label loginLabel;
     public TextField userLogin;
     public PasswordField userPassword;

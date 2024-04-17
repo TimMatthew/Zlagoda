@@ -1,13 +1,16 @@
 package services;
 
 import Entities.Employee;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EmployeeService {
-    private Connection connection;
+    private final Connection connection;
 
     public EmployeeService(){
         connection = new DataBaseHandler().getConnection();
@@ -35,5 +38,37 @@ public class EmployeeService {
             statement.executeUpdate();
         }
     }
+    public ObservableList<Employee> getAllEmployees() {
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM employee";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id_employee");
+                String surname = rs.getString("empl_surname");
+                String name = rs.getString("empl_name");
+                String patronymic = rs.getString("empl_patronymic");
+                String role = rs.getString("empl_role");
+                String salary = rs.getString("salary");
+                java.sql.Date dateOfBirth = rs.getDate("date_of_birth");
+                java.sql.Date dateOfStart = rs.getDate("date_of_start");
+                String phoneNumber = rs.getString("phone_number");
+                String city = rs.getString("city");
+                String street = rs.getString("street");
+                String zipCode = rs.getString("zip_code");
 
+                employees.add(new Employee(id, surname, name, patronymic, role, salary, dateOfBirth, dateOfStart, phoneNumber, city, street, zipCode));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return employees;
+    }
+    public void deleteEmployee(String employeeId) throws SQLException {
+        String sql = "DELETE FROM employee WHERE id_employee = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, employeeId);
+            statement.executeUpdate();
+        }
+    }
 }

@@ -1,11 +1,9 @@
 package main;
 
-import Entities.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import services.AuthorizationService;
 import services.DataBaseHandler;
 
 import java.io.IOException;
@@ -18,7 +16,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException, SQLException {
         mainStage = stage;
         mainStage.setResizable(false);
-        setScene(mainStage, SignInController.FXML_LOADER(), SignInController.WIDTH, SignInController.HEIGHT, "Sign In");
+        setScene(mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Sign In");
     }
 
     @Override
