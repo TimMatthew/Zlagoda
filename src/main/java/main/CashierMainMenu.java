@@ -103,9 +103,5 @@ public class CashierMainMenu {
         Stage profileStage = new Stage();
         FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
         HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 510, "Cashier profile");
-        /*Scene sc = new Scene(cashierProfileLoader.load(), , );
-        profileStage.setTitle("Cashier profile");
-        profileStage.setScene(sc);
-        profileStage.show();*/
     }
 }

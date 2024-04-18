@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DataBaseHandler {
-    private static final String dbHost = "127.0.0.1";
-    private static final String dbPort = "3306";
-    private static final String dbName = "zlagoda";
-    private static final String dbLogin = "root";
-    private static final String dbPass = "root";
+    private static final String dbHost = "mysql-zlagoda-zlagoda.b.aivencloud.com";
+    private static final String dbPort = "28885";
+    private static final String dbName = "zlagoda_schema";
+    private static final String dbLogin = "avnadmin";
+    private static final String dbPass = "AVNS_R-gLe4KjLQzR9i9Wxh9";
 
     private static Connection con;
 
