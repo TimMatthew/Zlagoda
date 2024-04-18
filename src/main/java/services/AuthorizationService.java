@@ -43,7 +43,7 @@ public class AuthorizationService {
             statement.executeUpdate();
         }
 
-        sql = "INSERT INTO user (user_login, user_password, id_employee)" +
+        sql = "INSERT INTO user_t (user_login, user_password, id_employee)" +
               "VALUES (?,?,?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, login);
@@ -60,7 +60,7 @@ public class AuthorizationService {
         password = getHashedPassword(password);
         Connection connection = dataBaseHandler.getConnection();
 
-        String sql = "SELECT * FROM user WHERE user_login =? AND user_password =?";
+        String sql = "SELECT * FROM user_t WHERE user_login =? AND user_password =?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, login);
         statement.setString(2, password);
@@ -90,7 +90,7 @@ public class AuthorizationService {
     }
 
     public boolean isUserExist(String login) throws SQLException {
-        String sql = "SELECT * FROM user WHERE user_login = ?";
+        String sql = "SELECT * FROM user_t WHERE user_login = ?";
 
         PreparedStatement statement = dataBaseHandler.getConnection().prepareStatement(sql);
         statement.setString(1, login);
