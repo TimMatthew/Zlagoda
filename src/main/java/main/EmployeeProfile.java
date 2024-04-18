@@ -282,7 +282,6 @@ public class EmployeeProfile implements Initializable {
     private void setErrorMessage(String msg){
         errorLabel.setVisible(true);
         errorLabel.setText(msg);
-
     }
 
     public static void initProfile(Employee empl, String title){
@@ -291,7 +290,7 @@ public class EmployeeProfile implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(HelloApplication.mainStage);
         try {
-            HelloApplication.setScene(stage, EmployeeProfile.FXML_LOADER(), EmployeeProfile.WIDTH, EmployeeProfile.HEIGHT, title);
+            HelloApplication.setScene(stage, FXML_LOADER(), WIDTH, HEIGHT, title);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

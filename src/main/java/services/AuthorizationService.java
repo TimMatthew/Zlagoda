@@ -99,6 +99,21 @@ public class AuthorizationService {
         return resultSet.next();
     }
 
+    public boolean changePassword(String password) {
+        password = getHashedPassword(password);
+        String sql = "UPDATE user SET user_password =? WHERE user_login =? AND user_password =?";
+        try(PreparedStatement statement = dataBaseHandler.getConnection().prepareStatement(sql)) {
+            statement.setString(1, password);
+            statement.setString(2, UserInfo.id);
+            statement.setString(3, password);
+
+            int result = statement.executeUpdate();
+            return result == 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String getHashedPassword(String password){
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
