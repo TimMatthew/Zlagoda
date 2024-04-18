@@ -8,7 +8,7 @@ public class DataBaseHandler {
     private static final String dbPort = "28885";
     private static final String dbName = "zlagoda_schema";
     private static final String dbLogin = "avnadmin";
-    private static final String dbPass = "";
+    private static final String dbPass = "AVNS_R-gLe4KjLQzR9i9Wxh9";
 
     private static Connection con;
 
