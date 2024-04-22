@@ -40,7 +40,7 @@ public class EmployeeService {
     }
     public ObservableList<Employee> getAllEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM employee";
+        String sql = "SELECT * FROM employee ORDER BY empl_surname";
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {

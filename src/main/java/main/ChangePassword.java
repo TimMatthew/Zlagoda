@@ -44,11 +44,10 @@ public class ChangePassword {
             return;
         }
 
-        if (!new AuthorizationService().changePassword(newPassword.getText())){
+        if (!new AuthorizationService().changePassword(oldPassword.getText(), newPassword.getText())){
             setErrorMessage("Incorrect password.");
             return;
         }
-
         stage.close();
     }
 

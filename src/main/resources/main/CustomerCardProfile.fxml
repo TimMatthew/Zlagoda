@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CustomerCardProfile">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff7a1" height="480.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
+   <ImageView fitHeight="131.0" fitWidth="128.0" layoutX="151.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@customer_icon.png" />
+   </ImageView>
+   <AnchorPane id="cashierPIB" layoutX="99.0" layoutY="170.0" prefHeight="92.0" prefWidth="230.0">
+      <Label fx:id="nameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="14.0" prefHeight="14.0" prefWidth="106.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameField" alignment="TOP_CENTER" layoutX="55.0" layoutY="5.0" prefHeight="27.0" prefWidth="120.0" promptText="Name">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label fx:id="surnameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="36.0" prefHeight="14.0" prefWidth="106.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="surnameField" alignment="TOP_CENTER" layoutX="55.0" layoutY="34.0" prefHeight="27.0" prefWidth="120.0" promptText="Surname">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label fx:id="patronymicLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="58.0" prefHeight="14.0" prefWidth="106.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="patronymicField" alignment="TOP_CENTER" layoutX="55.0" layoutY="63.0" prefHeight="27.0" prefWidth="120.0" promptText="Patronymic">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+   </AnchorPane>
+   <Label alignment="CENTER" layoutX="141.0" layoutY="14.0" prefHeight="28.0" prefWidth="146.0" text="Customer profile">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <AnchorPane layoutX="39.0" layoutY="254.0" prefHeight="180.0" prefWidth="351.0">
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="14.0" prefHeight="21.0" prefWidth="67.0" text="Phone:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="phoneLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="14.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="phoneField" alignment="TOP_LEFT" layoutX="186.0" layoutY="14.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="41.0" prefHeight="21.0" prefWidth="74.0" text="City:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="cityLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="41.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="cityField" alignment="TOP_LEFT" layoutX="186.0" layoutY="41.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="94.0" prefHeight="21.0" prefWidth="74.0" text="Zip-code:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="zipcodeLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="94.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="zipcodeField" alignment="TOP_LEFT" layoutX="186.0" layoutY="94.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="22.0" layoutY="149.0" prefHeight="24.0" prefWidth="304.0" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="121.0" prefHeight="22.0" prefWidth="120.0" text="Percent discount:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="percentLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="121.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="percentField" alignment="TOP_LEFT" layoutX="186.0" layoutY="121.0" prefHeight="21.0" prefWidth="145.0" />
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="67.0" prefHeight="21.0" prefWidth="74.0" text="Street:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="streetLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="67.0" prefHeight="21.0" prefWidth="145.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="streetField" alignment="TOP_LEFT" layoutX="186.0" layoutY="67.0" prefHeight="21.0" prefWidth="145.0" />
+   </AnchorPane>
+   <Button fx:id="editButton" layoutX="181.0" layoutY="434.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
+   <Button fx:id="saveButton" layoutX="58.0" layoutY="434.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="67.0" text="Save" />
+   <Button fx:id="deleteButton" layoutX="305.0" layoutY="434.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="27.0" prefWidth="67.0" text="Delete" />
+</AnchorPane>

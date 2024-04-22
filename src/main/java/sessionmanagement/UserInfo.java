@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class UserInfo {
     public static String id;
+    public static String login;
     public static String position;
     public static Employee employeeProfile;
 

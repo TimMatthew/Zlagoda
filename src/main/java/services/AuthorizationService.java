@@ -69,6 +69,7 @@ public class AuthorizationService {
             return false;
 
         UserInfo.id = resultSet.getString("id_employee");
+        UserInfo.login = login;
 
         statement.close();
         resultSet.close();
@@ -99,16 +100,17 @@ public class AuthorizationService {
         return resultSet.next();
     }
 
-    public boolean changePassword(String password) {
+    public boolean changePassword(String oldPassword, String password) {
+        oldPassword = getHashedPassword(oldPassword);
         password = getHashedPassword(password);
         String sql = "UPDATE user_t SET user_password =? WHERE user_login =? AND user_password =?";
         try(PreparedStatement statement = dataBaseHandler.getConnection().prepareStatement(sql)) {
             statement.setString(1, password);
-            statement.setString(2, UserInfo.id);
-            statement.setString(3, password);
+            statement.setString(2, UserInfo.login);
+            statement.setString(3, oldPassword);
 
             int result = statement.executeUpdate();
-            return result == 0;
+            return result != 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

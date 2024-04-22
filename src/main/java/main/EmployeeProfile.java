@@ -28,14 +28,13 @@ public class EmployeeProfile implements Initializable {
 
     public static Employee currentEmployee;
     private static Stage stage;
-    public Button deleteButton;
 
     protected static FXMLLoader FXML_LOADER(){
-        return new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
+        return new FXMLLoader(EmployeeProfile.class.getResource("EmployeeProfile.fxml"));
     }
     protected static final int WIDTH = 428, HEIGHT = 560;
     @FXML
-    public Label errorLabel;
+    public Label errorLabel, passwordInfoLabel;
     @FXML
     private Label nameLabel, surnameLabel, patronymicLabel, positionLabel, salaryLabel,
             birthdayLabel, startLabel, phoneLabel, cityLabel, streetLabel, zipcodeLabel, loginLabel;
@@ -51,11 +50,12 @@ public class EmployeeProfile implements Initializable {
     public ChoiceBox<String> positionChoiceBox;
 
     @FXML
-    private Button editButton, saveButton, changePasswordButton;
+    private Button editButton, saveButton, changePasswordButton, deleteButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         positionChoiceBox.setItems(FXCollections.observableArrayList("Manager", "Cashier"));
+        changePasswordButton.setVisible(false);
 
         if (currentEmployee != null) {
             nameLabel.setText(currentEmployee.getEmpl_name());
@@ -72,16 +72,19 @@ public class EmployeeProfile implements Initializable {
 
             positionChoiceBox.setValue(currentEmployee.getEmpl_role());
             positionChoiceBox.setVisible(false);
-            loginField.setVisible(false);
             loginLabel.setVisible(false);
+            loginField.setVisible(false);
+            passwordInfoLabel.setVisible(false);
 
             if (UserInfo.position.equals("Cashier"))
                 editButton.setVisible(false);
             saveButton.setVisible(false);
+            deleteButton.setVisible(false);
 
             setLabelsVisible(true);
             setTextFieldsVisible(false);
         } else {
+            editButton.setVisible(false);
             setLabelsVisible(false);
             setTextFieldsVisible(true);
         }
@@ -106,8 +109,9 @@ public class EmployeeProfile implements Initializable {
         positionLabel.setText(positionChoiceBox.getValue());
 
         editButton.setVisible(false);
-        deleteButton.setVisible(false);
-        changePasswordButton.setVisible(false);
+        deleteButton.setVisible(true);
+        if (UserInfo.id.equals(currentEmployee.getId_employee()))
+            changePasswordButton.setVisible(true);
         saveButton.setVisible(true);
     }
 
@@ -133,9 +137,9 @@ public class EmployeeProfile implements Initializable {
             setLabelsVisible(true);
             setTextFieldsVisible(false);
             editButton.setVisible(true);
-            changePasswordButton.setVisible(true);
+            changePasswordButton.setVisible(false);
             saveButton.setVisible(false);
-            deleteButton.setVisible(true);
+            deleteButton.setVisible(false);
             return;
         }
 
@@ -149,16 +153,20 @@ public class EmployeeProfile implements Initializable {
                 setErrorMessage("Login is already taken.");
                 return;
             }
+            ManagerMainMenu.employeeData.add(newEmployee);
             stage.close();
         } else {
         Employee upd = new Employee(currentEmployee.getId_employee(), name, surname, patronymic, role, salary, Date.valueOf(birthday), Date.valueOf(start), phone, city, street, zipcode);
         EmployeeService service = new EmployeeService();
         try {
             service.updateEmployee(upd);
+            int index = ManagerMainMenu.employeeData.indexOf(currentEmployee);
+            ManagerMainMenu.employeeData.add(index, upd);
+            ManagerMainMenu.employeeData.remove(currentEmployee);
         } catch (SQLException e) {
             setErrorMessage(e.getMessage());
             return;
-        }
+        } catch (IndexOutOfBoundsException | NullPointerException ignored) {}
 
         if (UserInfo.id.equals(currentEmployee.getId_employee()))
             UserInfo.updateEmployeeProfile();
@@ -187,6 +195,7 @@ public class EmployeeProfile implements Initializable {
     public void handleDeleteButtonAction(ActionEvent actionEvent) throws SQLException {
         if (currentEmployee != null){
             new EmployeeService().deleteEmployee(currentEmployee.getId_employee());
+            ManagerMainMenu.employeeData.remove(currentEmployee);
             currentEmployee = null;
         }
         stage.close();

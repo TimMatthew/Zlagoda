@@ -11,8 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import services.CustomerCardService;
 import services.EmployeeService;
 import sessionmanagement.UserInfo;
 
@@ -31,7 +30,8 @@ public class ManagerMainMenu implements Initializable {
 
     @FXML
     public TableView dataTable;
-    private ObservableList<Employee> data;
+    public static ObservableList<Employee> employeeData;
+    public static ObservableList<Customer_Card> customerCardData;
     @FXML
     private TextField managerSearchField;
     @FXML
@@ -47,7 +47,7 @@ public class ManagerMainMenu implements Initializable {
     private Button addEmployee, /*emplSortSur, sortCashiersBySurname,*/ emplPhoneAddressBySur, editEmployee;
 
     //Функції для клієнтів
-    private Button addClient /*clientSortSur, clientSortSurWithCard*/;
+    private Button addClient, editClient /*clientSortSur, clientSortSurWithCard*/;
 
     //Функції для категорій товарів
     private Button addCategory /*categorySortName*/;
@@ -103,6 +103,13 @@ public class ManagerMainMenu implements Initializable {
         addClient.setLayoutX(50); addClient.setLayoutY(20);
         addClient.setPrefWidth(120); addClient.setPrefHeight(30);
         addClient.setFont(new Font(13));
+        addClient.setOnAction(actionEvent -> addNewCustomerCard());
+
+        editClient = new Button("Edit selected client");
+        editClient.setLayoutX(20); editClient.setLayoutY(70);
+        editClient.setPrefWidth(180); editClient.setPrefHeight(30);
+        editClient.setFont(new Font(13));
+        editClient.setOnAction(actionEvent -> editSelectedCustomerCard());
 
         /*clientSortSur = new Button("Sort clients by surname");
         clientSortSur.setLayoutX(20); clientSortSur.setLayoutY(70);
@@ -197,48 +204,6 @@ public class ManagerMainMenu implements Initializable {
         checksAllCashiersAndTime.setPrefWidth(180); checksAllCashiersAndTime.setPrefHeight(30);
     }
 
-    private void showEmployees(){
-        TableColumn<Employee, String> surname = new TableColumn<>("Surname");
-        TableColumn<Employee, String> name = new TableColumn<>("Name");
-        TableColumn<Employee, String> patronymic = new TableColumn<>("Patronymic");
-        TableColumn<Employee, String> role = new TableColumn<>("Role");
-        TableColumn<Employee, String> salary = new TableColumn<>("Salary");
-        TableColumn<Employee, String> date_of_birth = new TableColumn<>("Birthday");
-        TableColumn<Employee, String> date_of_start = new TableColumn<>("Start Date");
-        TableColumn<Employee, String> phone_number = new TableColumn<>("Phone");
-        TableColumn<Employee, String> city = new TableColumn<>("City");
-        TableColumn<Employee, String> street = new TableColumn<>("Street");
-        TableColumn<Employee, String> zip_code = new TableColumn<>("Zip code");
-
-        surname.setCellValueFactory(new PropertyValueFactory<>("empl_surname"));
-        name.setCellValueFactory(new PropertyValueFactory<>("empl_name"));
-        patronymic.setCellValueFactory(new PropertyValueFactory<>("empl_patronymic"));
-        role.setCellValueFactory(new PropertyValueFactory<>("empl_role"));
-        salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        date_of_birth.setCellValueFactory(new PropertyValueFactory<>("date_of_birth"));
-        date_of_start.setCellValueFactory(new PropertyValueFactory<>("date_of_start"));
-        phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
-        city.setCellValueFactory(new PropertyValueFactory<>("city"));
-        street.setCellValueFactory(new PropertyValueFactory<>("street"));
-        zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
-
-        dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(surname, name, patronymic, role, salary, date_of_birth, date_of_start, phone_number, city, street, zip_code);
-        data = new EmployeeService().getAllEmployees();
-        dataTable.setItems(data);
-
-    }
-    private void addNewEmployee() {
-        EmployeeProfile.initProfile(null, "New employee profile");
-    }
-    private void editSelectedEmployee() {
-        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            Employee selected = (Employee)dataTable.getItems().get(selectedIndex);
-            EmployeeProfile.initProfile(selected, selected.getFullName() + " profile");
-        }
-    }
-
     @FXML
     private void provideMode(ActionEvent e){
 
@@ -259,7 +224,9 @@ public class ManagerMainMenu implements Initializable {
             functionsPane.getChildren().add(addClient);
             /*functionsPane.getChildren().add(clientSortSur);
             functionsPane.getChildren().add(clientSortSurWithCard);*/
+            functionsPane.getChildren().add(editClient);
             managerSearchField.setPromptText("Clients search...");
+            showCustomerCards();
         }
         else if(categoryMode.isSelected()){
             initCategories();
@@ -306,4 +273,86 @@ public class ManagerMainMenu implements Initializable {
     }
 
 
+    private void showEmployees(){
+        TableColumn<Employee, String> surname = new TableColumn<>("Surname");
+        TableColumn<Employee, String> name = new TableColumn<>("Name");
+        TableColumn<Employee, String> patronymic = new TableColumn<>("Patronymic");
+        TableColumn<Employee, String> role = new TableColumn<>("Role");
+        TableColumn<Employee, String> salary = new TableColumn<>("Salary");
+        TableColumn<Employee, String> date_of_birth = new TableColumn<>("Birthday");
+        TableColumn<Employee, String> date_of_start = new TableColumn<>("Start Date");
+        TableColumn<Employee, String> phone_number = new TableColumn<>("Phone");
+        TableColumn<Employee, String> city = new TableColumn<>("City");
+        TableColumn<Employee, String> street = new TableColumn<>("Street");
+        TableColumn<Employee, String> zip_code = new TableColumn<>("Zip code");
+
+        surname.setCellValueFactory(new PropertyValueFactory<>("empl_surname"));
+        name.setCellValueFactory(new PropertyValueFactory<>("empl_name"));
+        patronymic.setCellValueFactory(new PropertyValueFactory<>("empl_patronymic"));
+        role.setCellValueFactory(new PropertyValueFactory<>("empl_role"));
+        salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        date_of_birth.setCellValueFactory(new PropertyValueFactory<>("date_of_birth"));
+        date_of_start.setCellValueFactory(new PropertyValueFactory<>("date_of_start"));
+        phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        city.setCellValueFactory(new PropertyValueFactory<>("city"));
+        street.setCellValueFactory(new PropertyValueFactory<>("street"));
+        zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(surname, name, patronymic, role, salary, date_of_birth, date_of_start, phone_number, city, street, zip_code);
+        updateEmployeesTable();
+        dataTable.setItems(employeeData);
+    }
+
+    private void updateEmployeesTable(){
+        employeeData = new EmployeeService().getAllEmployees();
+    }
+    private void addNewEmployee() {
+        EmployeeProfile.initProfile(null, "New employee profile");
+    }
+    private void editSelectedEmployee() {
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Employee selected = (Employee)dataTable.getItems().get(selectedIndex);
+            EmployeeProfile.initProfile(selected, selected.getFullName() + " profile");
+        }
+    }
+
+    private void showCustomerCards(){
+        TableColumn<Employee, String> surname = new TableColumn<>("Surname");
+        TableColumn<Employee, String> name = new TableColumn<>("Name");
+        TableColumn<Employee, String> patronymic = new TableColumn<>("Patronymic");
+        TableColumn<Employee, String> phone_number = new TableColumn<>("Phone");
+        TableColumn<Employee, String> city = new TableColumn<>("City");
+        TableColumn<Employee, String> street = new TableColumn<>("Street");
+        TableColumn<Employee, String> zip_code = new TableColumn<>("Zip code");
+        TableColumn<Employee, String> percent = new TableColumn<>("Discount");
+
+        surname.setCellValueFactory(new PropertyValueFactory<>("cust_surname"));
+        name.setCellValueFactory(new PropertyValueFactory<>("cust_name"));
+        patronymic.setCellValueFactory(new PropertyValueFactory<>("cust_patronymic"));
+        phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        city.setCellValueFactory(new PropertyValueFactory<>("city"));
+        street.setCellValueFactory(new PropertyValueFactory<>("street"));
+        zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
+        percent.setCellValueFactory(new PropertyValueFactory<>("percent"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(surname, name, patronymic, phone_number, city, street, zip_code, percent);
+        updateCustomerCardTable();
+        dataTable.setItems(customerCardData);
+    }
+    private void updateCustomerCardTable(){
+        customerCardData = new CustomerCardService().getAllCustomers();
+    }
+    private void addNewCustomerCard() {
+        CustomerCardProfile.initProfile(null, "New customer card profile");
+    }
+    private void editSelectedCustomerCard() {
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Customer_Card selected = (Customer_Card)dataTable.getItems().get(selectedIndex);
+            CustomerCardProfile.initProfile(selected, selected.getFullName() + " profile");
+        }
+    }
 }
