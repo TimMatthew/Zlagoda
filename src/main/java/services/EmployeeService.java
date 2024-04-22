@@ -17,7 +17,7 @@ public class EmployeeService {
     }
 
     public void updateEmployee(Employee employee) throws SQLException {
-        String sql = "UPDATE employee SET empl_surname=?, empl_name=?, empl_patronymic=?, " +
+        String sql = "UPDATE zlagoda_schema.employee SET empl_surname=?, empl_name=?, empl_patronymic=?, " +
                 "empl_role=?, salary=?, date_of_birth=?, date_of_start=?, phone_number=?, " +
                 "city=?, street=?, zip_code=? WHERE id_employee=?";
 

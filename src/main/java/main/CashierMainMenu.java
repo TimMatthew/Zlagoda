@@ -8,6 +8,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sessionmanagement.UserInfo;
 
 import java.io.IOException;
 
@@ -103,5 +104,13 @@ public class CashierMainMenu {
         Stage profileStage = new Stage();
         FXMLLoader cashierProfileLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
         HelloApplication.setScene(profileStage, cashierProfileLoader, 428, 510, "Cashier profile");
+    }
+
+    @FXML
+    protected void quit(ActionEvent e) throws IOException {
+        UserInfo.id = null;
+        UserInfo.position = null;
+        UserInfo.employeeProfile = null;
+        HelloApplication.setScene(HelloApplication.mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Sign In");
     }
 }

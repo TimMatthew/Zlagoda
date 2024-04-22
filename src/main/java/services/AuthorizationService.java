@@ -101,7 +101,7 @@ public class AuthorizationService {
 
     public boolean changePassword(String password) {
         password = getHashedPassword(password);
-        String sql = "UPDATE user SET user_password =? WHERE user_login =? AND user_password =?";
+        String sql = "UPDATE user_t SET user_password =? WHERE user_login =? AND user_password =?";
         try(PreparedStatement statement = dataBaseHandler.getConnection().prepareStatement(sql)) {
             statement.setString(1, password);
             statement.setString(2, UserInfo.id);

@@ -33,12 +33,12 @@ public class EmployeeProfile implements Initializable {
     protected static FXMLLoader FXML_LOADER(){
         return new FXMLLoader(HelloApplication.class.getResource("EmployeeProfile.fxml"));
     }
-    protected static final int WIDTH = 428, HEIGHT = 540;
+    protected static final int WIDTH = 428, HEIGHT = 560;
     @FXML
     public Label errorLabel;
     @FXML
     private Label nameLabel, surnameLabel, patronymicLabel, positionLabel, salaryLabel,
-            birthdayLabel, startLabel, phoneLabel, cityLabel, streetLabel, zipcodeLabel, loginLabel, passwordLabel;
+            birthdayLabel, startLabel, phoneLabel, cityLabel, streetLabel, zipcodeLabel, loginLabel;
 
     @FXML
     private TextField nameField, surnameField, patronymicField, salaryField,
@@ -51,7 +51,7 @@ public class EmployeeProfile implements Initializable {
     public ChoiceBox<String> positionChoiceBox;
 
     @FXML
-    private Button editButton, saveButton;
+    private Button editButton, saveButton, changePasswordButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -72,10 +72,8 @@ public class EmployeeProfile implements Initializable {
 
             positionChoiceBox.setValue(currentEmployee.getEmpl_role());
             positionChoiceBox.setVisible(false);
-            deleteButton.setVisible(false);
             loginField.setVisible(false);
             loginLabel.setVisible(false);
-            passwordLabel.setVisible(false);
 
             if (UserInfo.position.equals("Cashier"))
                 editButton.setVisible(false);
@@ -108,6 +106,8 @@ public class EmployeeProfile implements Initializable {
         positionLabel.setText(positionChoiceBox.getValue());
 
         editButton.setVisible(false);
+        deleteButton.setVisible(false);
+        changePasswordButton.setVisible(false);
         saveButton.setVisible(true);
     }
 
@@ -133,7 +133,9 @@ public class EmployeeProfile implements Initializable {
             setLabelsVisible(true);
             setTextFieldsVisible(false);
             editButton.setVisible(true);
+            changePasswordButton.setVisible(true);
             saveButton.setVisible(false);
+            deleteButton.setVisible(true);
             return;
         }
 
@@ -189,6 +191,13 @@ public class EmployeeProfile implements Initializable {
         }
         stage.close();
     }
+
+    @FXML
+    public void goToChangePassword(ActionEvent e) throws IOException {
+        ChangePassword.initWindow();
+    }
+
+
     private void setLabelsVisible(boolean visible) {
         nameLabel.setVisible(visible);
         surnameLabel.setVisible(visible);
@@ -244,7 +253,7 @@ public class EmployeeProfile implements Initializable {
             return false;
         }
 
-        if (!Pattern.matches("\\d{5}", zipcode)) {
+        if (!Pattern.matches("\\d{9}", zipcode)) {
             setErrorMessage("Invalid zipcode format");
             return false;
         }
