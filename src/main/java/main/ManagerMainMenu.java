@@ -11,8 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import services.CategoryService;
 import services.CustomerCardService;
 import services.EmployeeService;
+import services.ProductService;
 import sessionmanagement.UserInfo;
 
 import java.io.IOException;
@@ -33,6 +35,7 @@ public class ManagerMainMenu implements Initializable {
     public static ObservableList<Employee> employeeData;
     public static ObservableList<Customer_Card> customerCardData;
     public static ObservableList<Category> categoryData;
+    public static ObservableList<Product> productData;
     @FXML
     private TextField managerSearchField;
     @FXML
@@ -51,10 +54,10 @@ public class ManagerMainMenu implements Initializable {
     private Button addClient, editClient /*clientSortSur, clientSortSurWithCard*/;
 
     //Функції для категорій товарів
-    private Button addCategory /*categorySortName*/;
+    private Button addCategory, editCategory /*categorySortName*/;
 
     //Функції для товарів
-    private Button addProduct /*productSortName, prodsSortNameWithCategory*/;
+    private Button addProduct, editProduct /*productSortName, prodsSortNameWithCategory*/;
 
     //Функції для товарів у магазині
     private Button addStoreProduct, /*storeProdsSortByAmount*/ storeProdInfoByUPC;
@@ -128,6 +131,13 @@ public class ManagerMainMenu implements Initializable {
         addCategory.setLayoutX(50); addCategory.setLayoutY(20);
         addCategory.setPrefWidth(120); addCategory.setPrefHeight(30);
         addCategory.setFont(new Font(13));
+        addCategory.setOnAction(actionEvent -> addNewCategory());
+
+        editCategory = new Button("Edit category");
+        editCategory.setLayoutX(20); editCategory.setLayoutY(70);
+        editCategory.setPrefWidth(120); editCategory.setPrefHeight(30);
+        editCategory.setFont(new Font(13));
+        editCategory.setOnAction(actionEvent -> editSelectedCategory());
 
         /*categorySortName = new Button("Sort categories by name");
         categorySortName.setLayoutX(20); categorySortName.setLayoutY(70);
@@ -141,6 +151,13 @@ public class ManagerMainMenu implements Initializable {
         addProduct.setLayoutX(50); addProduct.setLayoutY(20);
         addProduct.setPrefWidth(120); addProduct.setPrefHeight(30);
         addProduct.setFont(new Font(13));
+        addProduct.setOnAction(actionEvent -> addNewProduct());
+
+        editProduct = new Button("Edit selected product");
+        editProduct.setLayoutX(20); editProduct.setLayoutY(70);
+        editProduct.setPrefWidth(180); editProduct.setPrefHeight(30);
+        editProduct.setFont(new Font(13));
+        editProduct.setOnAction(actionEvent -> editSelectedProduct());
 
         /*productSortName = new Button("Sort products by name");
         productSortName.setLayoutX(20); productSortName.setLayoutY(70);
@@ -232,6 +249,7 @@ public class ManagerMainMenu implements Initializable {
         else if(categoryMode.isSelected()){
             initCategories();
             functionsPane.getChildren().add(addCategory);
+            functionsPane.getChildren().add(editCategory);
             //functionsPane.getChildren().add(categorySortName);
             managerSearchField.setPromptText("Categories search...");
             showCategories();
@@ -239,9 +257,11 @@ public class ManagerMainMenu implements Initializable {
         else if(managerProductsMode.isSelected()){
             initProducts();
             functionsPane.getChildren().add(addProduct);
+            functionsPane.getChildren().add(editProduct);
            /* functionsPane.getChildren().add(productSortName);
             functionsPane.getChildren().add(prodsSortNameWithCategory);*/
             managerSearchField.setPromptText("Products search...");
+            showProducts();
         }
         else if(storeProductsMode.isSelected()){
             initStoreProducts();
@@ -288,6 +308,13 @@ public class ManagerMainMenu implements Initializable {
         TableColumn<Employee, String> street = new TableColumn<>("Street");
         TableColumn<Employee, String> zip_code = new TableColumn<>("Zip code");
 
+
+        TableColumn fullName = new TableColumn<>("Full name");
+        TableColumn address = new TableColumn<>("Address");
+
+        fullName.getColumns().addAll(surname, name, patronymic);
+        address.getColumns().addAll(city, street, zip_code);
+
         surname.setCellValueFactory(new PropertyValueFactory<>("empl_surname"));
         name.setCellValueFactory(new PropertyValueFactory<>("empl_name"));
         patronymic.setCellValueFactory(new PropertyValueFactory<>("empl_patronymic"));
@@ -301,7 +328,7 @@ public class ManagerMainMenu implements Initializable {
         zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
 
         dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(surname, name, patronymic, role, salary, date_of_birth, date_of_start, phone_number, city, street, zip_code);
+        dataTable.getColumns().addAll(fullName, role, salary, date_of_birth, date_of_start, phone_number, address);
         updateEmployeesTable();
         dataTable.setItems(employeeData);
     }
@@ -330,6 +357,12 @@ public class ManagerMainMenu implements Initializable {
         TableColumn<Customer_Card, String> zip_code = new TableColumn<>("Zip code");
         TableColumn<Customer_Card, String> percent = new TableColumn<>("Discount");
 
+        TableColumn fullName = new TableColumn<>("Full name");
+        TableColumn address = new TableColumn<>("Address");
+
+        fullName.getColumns().addAll(surname, name, patronymic);
+        address.getColumns().addAll(city, street, zip_code);
+
         surname.setCellValueFactory(new PropertyValueFactory<>("cust_surname"));
         name.setCellValueFactory(new PropertyValueFactory<>("cust_name"));
         patronymic.setCellValueFactory(new PropertyValueFactory<>("cust_patronymic"));
@@ -340,7 +373,7 @@ public class ManagerMainMenu implements Initializable {
         percent.setCellValueFactory(new PropertyValueFactory<>("percent"));
 
         dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(surname, name, patronymic, phone_number, city, street, zip_code, percent);
+        dataTable.getColumns().addAll(fullName, phone_number, address, percent);
         updateCustomerCardTable();
         dataTable.setItems(customerCardData);
     }
@@ -366,15 +399,15 @@ public class ManagerMainMenu implements Initializable {
 
         id.setCellValueFactory(new PropertyValueFactory<>("category_number"));
         name.setCellValueFactory(new PropertyValueFactory<>("category_name"));
-        count.setCellValueFactory(new PropertyValueFactory<>("products_count"));
+        //count.setCellValueFactory(new PropertyValueFactory<>("products_count"));
 
         dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(id, name, count);
+        dataTable.getColumns().addAll(id, name);
         updateCategoryTable();
-        dataTable.setItems(customerCardData);
+        dataTable.setItems(categoryData);
     }
     private void updateCategoryTable(){
-        customerCardData = new CustomerCardService().getAllCustomers();
+        categoryData = new CategoryService().getAllCategories();
     }
     private void addNewCategory() {
         CategoryManager.initProfile(null, "New category");
@@ -383,7 +416,36 @@ public class ManagerMainMenu implements Initializable {
         int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             Category selected = (Category)dataTable.getItems().get(selectedIndex);
-            CategoryManager.initProfile(selected, selected.getCategory_name() + " category ");
+            CategoryManager.initProfile(selected, selected.getCategory_name() + " category");
+        }
+    }
+    private void showProducts(){
+        TableColumn<Product, Integer> id = new TableColumn<>("ID");
+        TableColumn<Product, String> name = new TableColumn<>("Name");
+        TableColumn<Product, Integer> category = new TableColumn<>("Category");
+        TableColumn<Product, Integer> characteristic = new TableColumn<>("Characteristics");
+
+        id.setCellValueFactory(new PropertyValueFactory<>("id_product"));
+        name.setCellValueFactory(new PropertyValueFactory<>("product_name"));
+        category.setCellValueFactory(new PropertyValueFactory<>("category_name"));
+        characteristic.setCellValueFactory(new PropertyValueFactory<>("characteristics"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(id, name, category, characteristic);
+        updateProductTable();
+        dataTable.setItems(productData);
+    }
+    private void updateProductTable(){
+        productData = new ProductService().getAllProducts();
+    }
+    private void addNewProduct() {
+        ProductManager.initProfile(null, "New product");
+    }
+    private void editSelectedProduct() {
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Product selected = (Product)dataTable.getItems().get(selectedIndex);
+            ProductManager.initProfile(selected, selected.getProduct_name() + " product");
         }
     }
 //endregion

@@ -72,6 +72,7 @@ public class EmployeeProfile implements Initializable {
 
             positionChoiceBox.setValue(currentEmployee.getEmpl_role());
             positionChoiceBox.setVisible(false);
+            deleteButton.setVisible(false);
             loginLabel.setVisible(false);
             loginField.setVisible(false);
             passwordInfoLabel.setVisible(false);
@@ -109,9 +110,10 @@ public class EmployeeProfile implements Initializable {
         positionLabel.setText(positionChoiceBox.getValue());
 
         editButton.setVisible(false);
-        deleteButton.setVisible(true);
         if (UserInfo.id.equals(currentEmployee.getId_employee()))
             changePasswordButton.setVisible(true);
+        else
+            deleteButton.setVisible(true);
         saveButton.setVisible(true);
     }
 

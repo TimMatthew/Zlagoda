@@ -1,7 +1,6 @@
 package Entities;
 
-
-import java.util.UUID;
+import services.CategoryService;
 
 public class Category {
     int category_number; //NN PK
@@ -9,7 +8,7 @@ public class Category {
     int products_count; //NN
 
     public Category(String category_name) {
-        this.category_number = 0;
+        this.category_number = new CategoryService().getNewCategoryID();
         this.category_name = category_name;
     }
     public Category(int category_number, String category_name) {

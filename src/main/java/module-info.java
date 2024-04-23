@@ -8,4 +8,5 @@ module org.example.zlagoda {
 
     opens main to javafx.fxml;
     exports main;
+    exports Entities;
 }

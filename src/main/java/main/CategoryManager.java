@@ -47,6 +47,7 @@ public class CategoryManager implements Initializable {
             if (UserInfo.position.equals("Cashier"))
                 editButton.setVisible(false);
             saveButton.setVisible(false);
+            deleteButton.setVisible(false);
 
             nameLabel.setVisible(true);
             nameField.setVisible(false);
@@ -59,6 +60,14 @@ public class CategoryManager implements Initializable {
     }
 
     public void handleEditButtonAction(ActionEvent actionEvent) {
+        nameLabel.setVisible(false);
+        nameField.setVisible(true);
+
+        nameField.setText(nameLabel.getText());
+
+        editButton.setVisible(false);
+        deleteButton.setVisible(true);
+        saveButton.setVisible(true);
     }
 
     public void handleSaveButtonAction(ActionEvent actionEvent) throws SQLException {
@@ -69,7 +78,7 @@ public class CategoryManager implements Initializable {
             nameField.setVisible(false);
             editButton.setVisible(true);
             saveButton.setVisible(false);
-            deleteButton.setVisible(true);
+            deleteButton.setVisible(false);
             return;
         }
 
@@ -78,7 +87,7 @@ public class CategoryManager implements Initializable {
 
         CategoryService cs = new CategoryService();
         if (currentCategory == null){
-            Category category = new Category(1, name);
+            Category category = new Category(name);
             if (!cs.addCategory(category)){
                 setErrorMessage("The name is already taken.");
                 return;
@@ -130,7 +139,7 @@ public class CategoryManager implements Initializable {
             return false;
         }
         if (name.length() > 50) {
-            setErrorMessage("The maximum field length has been exceeded.");
+            setErrorMessage("The maximum name length has been exceeded.");
             return false;
         }
         errorLabel.setVisible(false);

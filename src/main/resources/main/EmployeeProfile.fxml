@@ -144,7 +144,7 @@
       <Button fx:id="editButton" layoutX="142.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
       <Button fx:id="saveButton" layoutX="18.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="67.0" text="Save" />
       <Button fx:id="deleteButton" layoutX="266.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="27.0" prefWidth="67.0" text="Delete" />
-      <Button fx:id="changePasswordButton" layoutX="116.0" layoutY="259.0" mnemonicParsing="false" onAction="#goToChangePassword" prefHeight="26.0" prefWidth="120.0" text="Change password" />
+      <Button fx:id="changePasswordButton" layoutX="215.0" layoutY="259.0" mnemonicParsing="false" onAction="#goToChangePassword" prefHeight="26.0" prefWidth="120.0" text="Change password" />
       <ChoiceBox fx:id="positionChoiceBox" layoutX="186.0" layoutY="12.0" prefHeight="21.0" prefWidth="145.0" />
       <Label fx:id="loginLabel" alignment="TOP_LEFT" layoutX="16.0" layoutY="194.0" prefHeight="21.0" prefWidth="74.0" text="Login:">
          <font>
