@@ -97,7 +97,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c3c3c3" height="52.0" layoutY="1.0" stroke="BLACK" strokeType="INSIDE" width="669.0" />
             <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="619.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@search_icon.png" />
+                  <Image url="@icons/search_icon.png" />
                </image></ImageView>
             <TextField id="cashierSearchField" fx:id="cashierSearchField" layoutX="5.0" layoutY="6.0" prefHeight="42.0" prefWidth="605.0">
                <font>

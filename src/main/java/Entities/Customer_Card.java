@@ -14,7 +14,7 @@ public class Customer_Card {
     String percent; //NN
 
     public Customer_Card(String cust_surname, String cust_name, String cust_patronymic, String phone_number, String city, String street, String zip_code, String percent) {
-        this.card_number = phone_number;
+        this.card_number = UUID.randomUUID().toString();
         this.cust_surname = cust_surname;
         this.cust_name = cust_name;
         this.cust_patronymic = cust_patronymic;

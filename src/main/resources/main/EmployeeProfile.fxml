@@ -14,7 +14,7 @@
 <AnchorPane prefHeight="500.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.EmployeeProfile">
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff7a1" height="560.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
    <ImageView fitHeight="131.0" fitWidth="128.0" layoutX="151.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@profile.png" />
+      <Image url="@icons/profile.png" />
    </ImageView>
    <AnchorPane id="cashierPIB" layoutX="99.0" layoutY="170.0" prefHeight="92.0" prefWidth="230.0">
       <Label fx:id="nameLabel" alignment="TOP_CENTER" layoutX="62.0" layoutY="14.0" prefHeight="14.0" prefWidth="106.0">

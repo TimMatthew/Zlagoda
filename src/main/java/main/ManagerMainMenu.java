@@ -32,6 +32,7 @@ public class ManagerMainMenu implements Initializable {
     public TableView dataTable;
     public static ObservableList<Employee> employeeData;
     public static ObservableList<Customer_Card> customerCardData;
+    public static ObservableList<Category> categoryData;
     @FXML
     private TextField managerSearchField;
     @FXML
@@ -233,6 +234,7 @@ public class ManagerMainMenu implements Initializable {
             functionsPane.getChildren().add(addCategory);
             //functionsPane.getChildren().add(categorySortName);
             managerSearchField.setPromptText("Categories search...");
+            showCategories();
         }
         else if(managerProductsMode.isSelected()){
             initProducts();
@@ -272,7 +274,7 @@ public class ManagerMainMenu implements Initializable {
         HelloApplication.setScene(HelloApplication.mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Sign In");
     }
 
-
+//region data table content
     private void showEmployees(){
         TableColumn<Employee, String> surname = new TableColumn<>("Surname");
         TableColumn<Employee, String> name = new TableColumn<>("Name");
@@ -319,14 +321,14 @@ public class ManagerMainMenu implements Initializable {
     }
 
     private void showCustomerCards(){
-        TableColumn<Employee, String> surname = new TableColumn<>("Surname");
-        TableColumn<Employee, String> name = new TableColumn<>("Name");
-        TableColumn<Employee, String> patronymic = new TableColumn<>("Patronymic");
-        TableColumn<Employee, String> phone_number = new TableColumn<>("Phone");
-        TableColumn<Employee, String> city = new TableColumn<>("City");
-        TableColumn<Employee, String> street = new TableColumn<>("Street");
-        TableColumn<Employee, String> zip_code = new TableColumn<>("Zip code");
-        TableColumn<Employee, String> percent = new TableColumn<>("Discount");
+        TableColumn<Customer_Card, String> surname = new TableColumn<>("Surname");
+        TableColumn<Customer_Card, String> name = new TableColumn<>("Name");
+        TableColumn<Customer_Card, String> patronymic = new TableColumn<>("Patronymic");
+        TableColumn<Customer_Card, String> phone_number = new TableColumn<>("Phone");
+        TableColumn<Customer_Card, String> city = new TableColumn<>("City");
+        TableColumn<Customer_Card, String> street = new TableColumn<>("Street");
+        TableColumn<Customer_Card, String> zip_code = new TableColumn<>("Zip code");
+        TableColumn<Customer_Card, String> percent = new TableColumn<>("Discount");
 
         surname.setCellValueFactory(new PropertyValueFactory<>("cust_surname"));
         name.setCellValueFactory(new PropertyValueFactory<>("cust_name"));
@@ -355,4 +357,34 @@ public class ManagerMainMenu implements Initializable {
             CustomerCardProfile.initProfile(selected, selected.getFullName() + " profile");
         }
     }
+
+
+    private void showCategories(){
+        TableColumn<Category, Integer> id = new TableColumn<>("ID");
+        TableColumn<Category, String> name = new TableColumn<>("Name");
+        TableColumn<Category, Integer> count = new TableColumn<>("Unique products count");
+
+        id.setCellValueFactory(new PropertyValueFactory<>("category_number"));
+        name.setCellValueFactory(new PropertyValueFactory<>("category_name"));
+        count.setCellValueFactory(new PropertyValueFactory<>("products_count"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(id, name, count);
+        updateCategoryTable();
+        dataTable.setItems(customerCardData);
+    }
+    private void updateCategoryTable(){
+        customerCardData = new CustomerCardService().getAllCustomers();
+    }
+    private void addNewCategory() {
+        CategoryManager.initProfile(null, "New category");
+    }
+    private void editSelectedCategory() {
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Category selected = (Category)dataTable.getItems().get(selectedIndex);
+            CategoryManager.initProfile(selected, selected.getCategory_name() + " category ");
+        }
+    }
+//endregion
 }
