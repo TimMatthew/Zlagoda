@@ -39,9 +39,13 @@ public class Authorization {
             HelloApplication.mainStage.hide();
             errorLabel.setVisible(false);
             if (UserInfo.position.equals("Manager"))
-                HelloApplication.setScene(HelloApplication.mainStage, ManagerMainMenu.FXML_LOADER(), ManagerMainMenu.WIDTH, ManagerMainMenu.HEIGHT, "Manager Main Menu");
+            {
+                new MainMenu().initManager(HelloApplication.mainStage, MainMenu.WIDTH, MainMenu.HEIGHT, "Особистий кабінет менеджера");
+            }
             else
-                HelloApplication.setScene(HelloApplication.mainStage, CashierMainMenu.CASHIER_MENU_FXML_LOADER, CashierMainMenu.WIDTH, CashierMainMenu.HEIGHT, "Cashier Main Menu");
+            {
+                new MainMenu().initCashier(HelloApplication.mainStage, MainMenu.WIDTH, MainMenu.HEIGHT, "Особистий кабінет касира");
+            }
         }
         else
             setErrorMessage("Incorrect login or password.");

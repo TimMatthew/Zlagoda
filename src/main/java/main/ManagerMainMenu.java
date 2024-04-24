@@ -25,10 +25,9 @@ public class ManagerMainMenu implements Initializable {
 
 
     protected static FXMLLoader FXML_LOADER(){
-        return new FXMLLoader(HelloApplication.class.getResource("ManagerMainMenu.fxml"));
+        return new FXMLLoader(HelloApplication.class.getResource("src/main/resources/main/fxml/ManagerMainMenu.fxml"));
     }
-    protected static final int WIDTH = 1326;
-    protected static final int HEIGHT = 770;
+    protected static final int WIDTH = 1326, HEIGHT = 770;
 
     @FXML
     public TableView dataTable;
@@ -48,20 +47,19 @@ public class ManagerMainMenu implements Initializable {
 
 
     //Функції для працівників
-    private Button addEmployee, /*emplSortSur, sortCashiersBySurname,*/ emplPhoneAddressBySur, editEmployee;
+    private Button addEmployee,emplPhoneAddressBySur, editEmployee;
 
     //Функції для клієнтів
-    private Button addClient, editClient /*clientSortSur, clientSortSurWithCard*/;
+    private Button addClient, editClient;
 
     //Функції для категорій товарів
-    private Button addCategory, editCategory /*categorySortName*/;
+    private Button addCategory, editCategory;
 
     //Функції для товарів
-    private Button addProduct, editProduct /*productSortName, prodsSortNameWithCategory*/;
+    private Button addProduct, editProduct;
 
     //Функції для товарів у магазині
-    private Button addStoreProduct, /*storeProdsSortByAmount*/ storeProdInfoByUPC;
-    /*private ComboBox<String> promStoreProdsSort, storeProdsSort;*/
+    private Button addStoreProduct, storeProdInfoByUPC;
 
     //Функції для чеків
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
@@ -79,16 +77,6 @@ public class ManagerMainMenu implements Initializable {
         addEmployee.setPrefWidth(120); addEmployee.setPrefHeight(30);
         addEmployee.setFont(new Font(13));
         addEmployee.setOnAction(actionEvent -> addNewEmployee());
-
-        /*emplSortSur = new Button("Sort employees by surname");
-        emplSortSur.setLayoutX(20); emplSortSur.setLayoutY(70);
-        emplSortSur.setPrefWidth(180); emplSortSur.setPrefHeight(30);
-        emplSortSur.setFont(new Font(13));
-
-        sortCashiersBySurname = new Button("Sort cashiers by surname");
-        sortCashiersBySurname.setLayoutX(25); sortCashiersBySurname.setLayoutY(120);
-        sortCashiersBySurname.setPrefWidth(170); sortCashiersBySurname.setPrefHeight(30);
-        sortCashiersBySurname.setFont(new Font(13));*/
 
         emplPhoneAddressBySur = new Button("Phone and address by surname");
         emplPhoneAddressBySur.setLayoutX(7); emplPhoneAddressBySur.setLayoutY(70);
@@ -114,16 +102,6 @@ public class ManagerMainMenu implements Initializable {
         editClient.setPrefWidth(180); editClient.setPrefHeight(30);
         editClient.setFont(new Font(13));
         editClient.setOnAction(actionEvent -> editSelectedCustomerCard());
-
-        /*clientSortSur = new Button("Sort clients by surname");
-        clientSortSur.setLayoutX(20); clientSortSur.setLayoutY(70);
-        clientSortSur.setPrefWidth(180); clientSortSur.setPrefHeight(30);
-        clientSortSur.setFont(new Font(13));
-
-        clientSortSurWithCard = new Button("  Sort clients with\n cards by surname");
-        clientSortSurWithCard.setLayoutX(25); clientSortSurWithCard.setLayoutY(120);
-        clientSortSurWithCard.setPrefWidth(170); clientSortSurWithCard.setPrefHeight(50);
-        clientSortSurWithCard.setFont(new Font(13));*/
     }
 
     private void initCategories(){
@@ -138,12 +116,6 @@ public class ManagerMainMenu implements Initializable {
         editCategory.setPrefWidth(120); editCategory.setPrefHeight(30);
         editCategory.setFont(new Font(13));
         editCategory.setOnAction(actionEvent -> editSelectedCategory());
-
-        /*categorySortName = new Button("Sort categories by name");
-        categorySortName.setLayoutX(20); categorySortName.setLayoutY(70);
-        categorySortName.setPrefWidth(180); categorySortName.setPrefHeight(30);
-        categorySortName.setFont(new Font(13));*/
-
     }
 
     private void initProducts(){
@@ -158,18 +130,6 @@ public class ManagerMainMenu implements Initializable {
         editProduct.setPrefWidth(180); editProduct.setPrefHeight(30);
         editProduct.setFont(new Font(13));
         editProduct.setOnAction(actionEvent -> editSelectedProduct());
-
-        /*productSortName = new Button("Sort products by name");
-        productSortName.setLayoutX(20); productSortName.setLayoutY(70);
-        productSortName.setPrefWidth(180); productSortName.setPrefHeight(30);
-        productSortName.setFont(new Font(13));
-
-
-        prodsSortNameWithCategory = new Button("     Sort products of\n set category by name");
-        prodsSortNameWithCategory.setLayoutX(20); prodsSortNameWithCategory.setLayoutY(120);
-        prodsSortNameWithCategory.setPrefWidth(180); prodsSortNameWithCategory.setPrefHeight(50);
-        prodsSortNameWithCategory.setFont(new Font(13));*/
-
     }
 
     private void initStoreProducts(){
@@ -178,26 +138,10 @@ public class ManagerMainMenu implements Initializable {
         addStoreProduct.setPrefWidth(120); addStoreProduct.setPrefHeight(30);
         addStoreProduct.setFont(new Font(13));
 
-        /*storeProdsSortByAmount = new Button("Sort products by amount");
-        storeProdsSortByAmount.setLayoutX(20); storeProdsSortByAmount.setLayoutY(70);
-        storeProdsSortByAmount.setPrefWidth(180); storeProdsSortByAmount.setPrefHeight(30);
-        storeProdsSortByAmount.setFont(new Font(13));*/
-
         storeProdInfoByUPC = new Button("Product Info by UPC");
         storeProdInfoByUPC.setLayoutX(20); storeProdInfoByUPC.setLayoutY(70);
         storeProdInfoByUPC.setPrefWidth(180); storeProdInfoByUPC.setPrefHeight(30);
         storeProdInfoByUPC.setFont(new Font(13));
-
-        /*promStoreProdsSort = new ComboBox<>(FXCollections.observableArrayList("By names", "By amount"));
-        promStoreProdsSort.setPromptText("Promotionals sorted");
-        promStoreProdsSort.setLayoutX(20); promStoreProdsSort.setLayoutY(170);
-        promStoreProdsSort.setPrefWidth(180); promStoreProdsSort.setPrefHeight(30);
-
-
-        storeProdsSort = new ComboBox<>(FXCollections.observableArrayList("By names", "By amount"));
-        storeProdsSort.setPromptText("Products sorted");
-        storeProdsSort.setLayoutX(20); storeProdsSort.setLayoutY(220);
-        storeProdsSort.setPrefWidth(180); storeProdsSort.setPrefHeight(30);*/
     }
 
 

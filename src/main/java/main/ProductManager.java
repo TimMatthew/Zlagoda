@@ -54,7 +54,7 @@ public class ProductManager implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        categoryMap = ManagerMainMenu.categoryData.stream()
+        categoryMap = MainMenu.categoryData.stream()
                 .collect(Collectors.toMap(Category::getCategory_name, Category::getCategory_number));
         categoriesComboBox.setItems(FXCollections.observableArrayList(categoryMap.keySet()));
 

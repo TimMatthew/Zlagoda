@@ -80,7 +80,7 @@
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <Button id="profileButton" fx:id="profileButton" alignment="CENTER" layoutX="54.0" layoutY="465.0" mnemonicParsing="false" onAction="#openCashierProfile" prefHeight="25.0" prefWidth="81.0" text="Profile">
+            <Button id="profileButton" fx:id="profileButton" alignment="CENTER" layoutX="54.0" layoutY="465.0" mnemonicParsing="false" onAction="#openProfile" prefHeight="25.0" prefWidth="81.0" text="Profile">
                <font>
                   <Font size="13.0" />
                </font></Button>

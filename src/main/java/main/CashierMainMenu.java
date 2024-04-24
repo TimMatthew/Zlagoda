@@ -1,3 +1,4 @@
+/*
 package main;
 
 import javafx.event.ActionEvent;
@@ -14,8 +15,8 @@ import java.io.IOException;
 
 public class CashierMainMenu {
 
-    protected static final int WIDTH = 900, HEIGHT = 600;
-    protected static final FXMLLoader CASHIER_MENU_FXML_LOADER = new FXMLLoader(HelloApplication.class.getResource("CashierMainMenu.fxml"));
+    protected static final int WIDTH = 1326, HEIGHT = 770;
+    protected static final FXMLLoader CASHIER_MENU_FXML_LOADER = new FXMLLoader(HelloApplication.class.getResource("src/main/resources/main/fxml/CashierMainMenu.fxml"));
 
     @FXML
     private RadioButton goodsModeRadio, clientsModeRadio, receiptsModeRadio;
@@ -33,7 +34,7 @@ public class CashierMainMenu {
     //Кнопки для чеків
     private Button receiptsTodayButton, receiptsPeriodButton;
 
-    protected void initGoods(){
+    protected void initCashierGoods(){
         goodSortNameButton = new Button("Sort by names");
         goodSortNameButton.setLayoutX(30); goodSortNameButton.setLayoutY(20);
         goodSortNameButton.setPrefWidth(100); goodSortNameButton.setPrefHeight(25);
@@ -51,7 +52,7 @@ public class CashierMainMenu {
         goodPromotionSortAmountButton.setPrefWidth(160); goodPromotionSortAmountButton.setPrefHeight(34);
     }
 
-    protected void initClients(){
+    protected void initCashierClients(){
         addLoyalClientButton = new Button("Add loyal client");
         addLoyalClientButton.setLayoutX(25); addLoyalClientButton.setLayoutY(20);
         addLoyalClientButton.setPrefWidth(110); addLoyalClientButton.setPrefHeight(25);
@@ -61,7 +62,7 @@ public class CashierMainMenu {
         clientSortNameButton.setPrefWidth(110); clientSortNameButton.setPrefHeight(25);
     }
 
-    protected void initReceipts(){
+    protected void initCashierReceipts(){
         receiptsTodayButton = new Button("Receipts for today");
         receiptsTodayButton.setLayoutX(13); receiptsTodayButton.setLayoutY(20);
         receiptsTodayButton.setPrefWidth(140); receiptsTodayButton.setPrefHeight(25);
@@ -77,7 +78,7 @@ public class CashierMainMenu {
         functionsPane.getChildren().clear();
 
         if(goodsModeRadio.isSelected()){
-            initGoods();
+            initCashierGoods();
             functionsPane.getChildren().add(goodSortNameButton);
             functionsPane.getChildren().add(goodShopSortNameButton);
             functionsPane.getChildren().add(goodPromotionSortNameButton);
@@ -86,13 +87,13 @@ public class CashierMainMenu {
 
         }
         else if(clientsModeRadio.isSelected()){
-            initClients();
+            initCashierClients();
             functionsPane.getChildren().add(addLoyalClientButton);
             functionsPane.getChildren().add(clientSortNameButton);
             cashierSearchField.setPromptText("Clients search...");
         }
         else if(receiptsModeRadio.isSelected()){
-            initReceipts();
+            initCashierReceipts();
             functionsPane.getChildren().add(receiptsTodayButton);
             functionsPane.getChildren().add(receiptsPeriodButton);
             cashierSearchField.setPromptText("Receipts search...");
@@ -114,3 +115,4 @@ public class CashierMainMenu {
         HelloApplication.setScene(HelloApplication.mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Sign In");
     }
 }
+*/
