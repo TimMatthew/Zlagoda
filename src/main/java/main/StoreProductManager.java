@@ -1,7 +1,5 @@
 package main;
 
-import Entities.Category;
-import Entities.Product;
 import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -11,18 +9,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import services.CategoryService;
-import services.ProductService;
 import services.StoreProductService;
 import sessionmanagement.UserInfo;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class StoreProductManager implements Initializable {
 
@@ -31,7 +25,6 @@ public class StoreProductManager implements Initializable {
     private static boolean isPromotional;
     private static StoreProductService service;
     private static Stage stage;
-    private static Map<String, Integer> productMap;
 
     protected static FXMLLoader FXML_LOADER(){
         return new FXMLLoader(StoreProductManager.class.getResource("StoreProductManager.fxml"));
@@ -56,9 +49,7 @@ public class StoreProductManager implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        productMap = MainMenu.productData.stream()
-                .collect(Collectors.toMap(Product::getProduct_name, Product::getId_product));
-        productChoiceBox.setItems(FXCollections.observableArrayList(productMap.keySet()));
+        productChoiceBox.setItems(FXCollections.observableArrayList(MainMenu.productMapGetID.keySet()));
         service = new StoreProductService();
 
         promCountSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0, 5));
@@ -119,12 +110,12 @@ public class StoreProductManager implements Initializable {
     private void handleSaveButtonAction() throws SQLException {
         String productName = productChoiceBox.getValue();
 
-        if (!productMap.containsKey(productName)){
+        if (!MainMenu.productMapGetID.containsKey(productName)){
             setErrorMessage("Product must be chosen.");
             return;
         }
 
-        int id_product = productMap.get(productName);
+        int id_product = MainMenu.productMapGetID.get(productName);
         double price = priceSpinner.getValue();
         int product_number = countSpinner.getValue();
         boolean promotional_product = promotionalCheckBox.isSelected();

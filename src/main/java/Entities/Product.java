@@ -1,5 +1,6 @@
 package Entities;
 
+import main.MainMenu;
 import services.CategoryService;
 import services.ProductService;
 
@@ -56,7 +57,7 @@ public class Product {
     }
 
     public String getCategory_name() {
-        category_name = new CategoryService().getCategoryName(category_number);
+        category_name = MainMenu.categoryMapGetName.get(category_number);
         return category_name;
     }
 }

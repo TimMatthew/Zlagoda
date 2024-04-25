@@ -1,5 +1,6 @@
 package Entities;
 
+import main.MainMenu;
 import services.ProductService;
 import utils.UPC;
 
@@ -74,7 +75,7 @@ public class Store_Product {
     }
 
     public String getProductName() {
-        productName = new ProductService().getProductName(Product_id_product);
+        productName = MainMenu.productMapGetName.get(Product_id_product);
         return productName;
     }
 }

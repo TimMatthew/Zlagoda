@@ -1,6 +1,5 @@
 package main;
 
-import Entities.Employee;
 import Entities.Product;
 import Entities.Category;
 import javafx.collections.FXCollections;
@@ -12,25 +11,19 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.CategoryService;
-import services.EmployeeService;
 import services.ProductService;
 import sessionmanagement.UserInfo;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class ProductManager implements Initializable {
 
 
     public static Product currentProduct;
     private static Stage stage;
-    private static Map<String, Integer> categoryMap;
 
     protected static FXMLLoader FXML_LOADER(){
         return new FXMLLoader(ProductManager.class.getResource("ProductManager.fxml"));
@@ -53,10 +46,7 @@ public class ProductManager implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        categoryMap = MainMenu.categoryData.stream()
-                .collect(Collectors.toMap(Category::getCategory_name, Category::getCategory_number));
-        categoriesComboBox.setItems(FXCollections.observableArrayList(categoryMap.keySet()));
+        categoriesComboBox.setItems(FXCollections.observableArrayList(MainMenu.categoryMapGetID.keySet()));
 
         if (currentProduct != null) {
             nameLabel.setText(currentProduct.getProduct_name());
@@ -116,12 +106,12 @@ public class ProductManager implements Initializable {
             return;
 
 
-        if (!categoryMap.containsKey(category)){
+        if (!MainMenu.categoryMapGetID.containsKey(category)){
             Category newCategory = new Category(category);
             new CategoryService().addCategory(newCategory);
             category_number = newCategory.getCategory_number();
         } else {
-            category_number = categoryMap.get(category);
+            category_number = MainMenu.categoryMapGetID.get(category);
         }
 
         ProductService ps = new ProductService();

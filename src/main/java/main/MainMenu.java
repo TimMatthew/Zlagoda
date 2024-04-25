@@ -1,7 +1,6 @@
 package main;
 
 import Entities.*;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +20,8 @@ import javafx.scene.control.*;
 import utils.DataPrinter;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class MainMenu{
@@ -50,7 +51,11 @@ public class MainMenu{
     public static ObservableList<Employee> employeeData;
     public static ObservableList<Customer_Card> customerCardData;
     public static ObservableList<Category> categoryData;
+    public static Map<String, Integer> categoryMapGetID;
+    public static Map<Integer, String> categoryMapGetName;
     public static ObservableList<Product> productData;
+    public static Map<String, Integer> productMapGetID;
+    public static Map<Integer, String> productMapGetName;
     public static ObservableList<Store_Product> storeProductData;
 
     //Кнопки для товарів
@@ -102,6 +107,11 @@ public class MainMenu{
         storeProductsMode.setVisible(false);
         managerReceiptsMode.setVisible(false);
         printReportButton.setVisible(false);
+
+        updateCustomerCardTable();
+        updateCategoryTable();
+        updateProductTable();
+        updateStoreProductTable();
     }
 
     protected void initManager(Stage st) throws IOException{
@@ -121,6 +131,12 @@ public class MainMenu{
         goodsModeRadio.setVisible(false);
         clientsModeRadio.setVisible(false);
         receiptsModeRadio.setVisible(false);
+
+        updateEmployeesTable();
+        updateCustomerCardTable();
+        updateCategoryTable();
+        updateProductTable();
+        updateStoreProductTable();
     }
 
     @FXML
@@ -236,9 +252,17 @@ public class MainMenu{
     }
     private void updateProductTable(){
         productData = new ProductService().getAllProducts();
+        productMapGetID = productData.stream()
+                .collect(Collectors.toMap(Product::getProduct_name, Product::getId_product));
+        productMapGetName = productData.stream()
+                .collect(Collectors.toMap(Product::getId_product, Product::getProduct_name));
     }
     private void updateCategoryTable(){
         categoryData = new CategoryService().getAllCategories();
+        categoryMapGetID = categoryData.stream()
+                .collect(Collectors.toMap(Category::getCategory_name, Category::getCategory_number));
+        categoryMapGetName = categoryData.stream()
+                .collect(Collectors.toMap(Category::getCategory_number, Category::getCategory_name));
     }
     private void updateEmployeesTable(){
         employeeData = new EmployeeService().getAllEmployees();
