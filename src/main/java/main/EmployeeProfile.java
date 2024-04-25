@@ -55,7 +55,9 @@ public class EmployeeProfile implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         positionChoiceBox.setItems(FXCollections.observableArrayList("Manager", "Cashier"));
-        changePasswordButton.setVisible(false);
+
+        if (!UserInfo.id.equals(currentEmployee.getId_employee()))
+            changePasswordButton.setVisible(false);
 
         if (currentEmployee != null) {
             nameLabel.setText(currentEmployee.getEmpl_name());
@@ -77,7 +79,7 @@ public class EmployeeProfile implements Initializable {
             loginField.setVisible(false);
             passwordInfoLabel.setVisible(false);
 
-            if (UserInfo.position.equals("Cashier"))
+            if (UserInfo.id.equals(currentEmployee.getId_employee()))
                 editButton.setVisible(false);
             saveButton.setVisible(false);
             deleteButton.setVisible(false);
@@ -169,9 +171,6 @@ public class EmployeeProfile implements Initializable {
             setErrorMessage(e.getMessage());
             return;
         } catch (IndexOutOfBoundsException | NullPointerException ignored) {}
-
-        if (UserInfo.id.equals(currentEmployee.getId_employee()))
-            UserInfo.updateEmployeeProfile();
         }
 
         setLabelsVisible(true);
@@ -233,11 +232,8 @@ public class EmployeeProfile implements Initializable {
         cityField.setVisible(visible);
         streetField.setVisible(visible);
         zipcodeField.setVisible(visible);
-
-        if (currentEmployee != null && !UserInfo.id.equals(currentEmployee.getId_employee())) {
-            positionChoiceBox.setVisible(visible);
-            deleteButton.setVisible(visible);
-        }
+        positionChoiceBox.setVisible(visible);
+        deleteButton.setVisible(visible);
     }
 
     private boolean valuesValidation(String name, String surname, String patronymic, String salary, LocalDate birthday,

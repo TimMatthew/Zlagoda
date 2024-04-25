@@ -119,7 +119,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button id="printReportButton" fx:id="printReportButton" alignment="CENTER" layoutX="48.0" layoutY="644.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="155.0" text="Print reports">
+            <Button id="printReportButton" fx:id="printReportButton" alignment="CENTER" layoutX="48.0" layoutY="644.0" mnemonicParsing="false" onAction="#printReport" prefHeight="35.0" prefWidth="155.0" text="Print reports">
                <font>
                   <Font size="16.0" />
                </font>

@@ -1,4 +1,6 @@
-package services;
+package utils;
+
+import services.StoreProductService;
 
 import java.util.Random;
 

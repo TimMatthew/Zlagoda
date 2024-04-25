@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import services.*;
 import sessionmanagement.UserInfo;
 import javafx.scene.control.*;
+import utils.DataPrinter;
+
 import java.io.IOException;
 
 
@@ -557,5 +559,10 @@ public class MainMenu{
     public void createCheck(ActionEvent actionEvent) throws IOException {
         Stage s = new Stage();
         HelloApplication.setScene(s, new FXMLLoader(HelloApplication.class.getResource("CheckMenu.fxml")), 967, 644, "Каса");
+    }
+
+    @FXML
+    public void printReport(ActionEvent actionEvent) {
+        DataPrinter.printTableView(dataTable);
     }
 }

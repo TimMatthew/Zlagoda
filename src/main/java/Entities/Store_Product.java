@@ -1,8 +1,7 @@
 package Entities;
 
-import services.CategoryService;
 import services.ProductService;
-import services.UPC;
+import utils.UPC;
 
 public class Store_Product {
     String Store_Product_UPC; //NN PK

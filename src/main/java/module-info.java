@@ -3,6 +3,7 @@ module org.example.zlagoda {
     requires javafx.fxml;
     requires java.sql;
     requires mysql.connector.j;
+    requires jasperreports;
 
     opens Entities to javafx.base;
 
