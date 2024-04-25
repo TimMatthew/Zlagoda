@@ -1,9 +1,8 @@
 package main;
 
-import Entities.Category;
-import Entities.Customer_Card;
-import Entities.Employee;
-import Entities.Product;
+import Entities.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,14 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import services.CategoryService;
-import services.CustomerCardService;
-import services.EmployeeService;
-import services.ProductService;
+import services.*;
 import sessionmanagement.UserInfo;
 import javafx.scene.control.*;
 import java.io.IOException;
@@ -43,7 +40,7 @@ public class MainMenu{
     private Button addProduct, editProduct;
 
     //Функції для товарів у магазині
-    private Button addStoreProduct, storeProdInfoByUPC;
+    private Button addStoreProduct, editStoreProduct;
 
     //Функції для чеків
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
@@ -52,6 +49,7 @@ public class MainMenu{
     public static ObservableList<Customer_Card> customerCardData;
     public static ObservableList<Category> categoryData;
     public static ObservableList<Product> productData;
+    public static ObservableList<Store_Product> storeProductData;
 
     //Кнопки для товарів
     private Button goodSortNameButton, goodShopSortNameButton, goodPromotionSortNameButton, goodPromotionSortAmountButton;
@@ -347,6 +345,60 @@ public class MainMenu{
         }
     }
 
+    private void showStoreProducts(){
+        TableColumn<Store_Product, Integer> upc = new TableColumn<>("UPC");
+        TableColumn<Store_Product, String> product = new TableColumn<>("Product");
+        TableColumn<Store_Product, Integer> price = new TableColumn<>("Price");
+        TableColumn<Store_Product, Integer> count = new TableColumn<>("Count");
+        TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Promotional");
+
+        upc.setCellValueFactory(new PropertyValueFactory<>("Store_Product_UPC"));
+        product.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
+        count.setCellValueFactory(new PropertyValueFactory<>("products_number"));
+        promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
+        promotional.setCellFactory(column -> new CheckBoxTableCell<>());
+
+        promotional.setCellValueFactory(cellData -> {
+            Store_Product cellValue = cellData.getValue();
+            return new SimpleBooleanProperty(cellValue.isPromotional_product());
+        });
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(upc, product, price, count, promotional);
+        updateStoreProductTable();
+        dataTable.setItems(storeProductData);
+    }
+    public static void updateStoreProductTable(){
+        storeProductData = new StoreProductService().getAllStoreProducts();
+    }
+    private void addNewStoreProduct() {
+        StoreProductManager.initProfile(null, null, "New store product");
+    }
+    private void editSelectedStoreProduct() {
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Store_Product selected = (Store_Product)dataTable.getItems().get(selectedIndex);
+            Store_Product prom;
+            if (selected.isPromotional_product()){
+                prom = selected;
+                selected = storeProductData.stream()
+                        .filter(product -> prom.getStore_Product_UPC() != null && prom.getStore_Product_UPC().equals(product.getSale_UPC_prom()))
+                        .findFirst()
+                        .orElse(null);
+            } else if (selected.getSale_UPC_prom() != null){
+                Store_Product finalSelected = selected;
+                prom = storeProductData.stream()
+                        .filter(product -> finalSelected.getSale_UPC_prom() != null && finalSelected.getSale_UPC_prom().equals(product.getStore_Product_UPC()))
+                        .findFirst()
+                        .orElse(null);;
+            } else {
+                prom = null;
+            }
+            StoreProductManager.initProfile(selected, prom,  selected.getProductName() + " product");
+        }
+    }
+
     private void initEmployees(){
         addEmployee = new Button("Add employee");
         addEmployee.setLayoutX(50); addEmployee.setLayoutY(20);
@@ -413,15 +465,17 @@ public class MainMenu{
         addStoreProduct.setLayoutX(50); addStoreProduct.setLayoutY(20);
         addStoreProduct.setPrefWidth(120); addStoreProduct.setPrefHeight(30);
         addStoreProduct.setFont(new Font(13));
+        addStoreProduct.setOnAction(actionEvent -> addNewStoreProduct());
 
 
-        storeProdInfoByUPC = new Button("Product Info by UPC");
-        storeProdInfoByUPC.setLayoutX(20); storeProdInfoByUPC.setLayoutY(70);
-        storeProdInfoByUPC.setPrefWidth(180); storeProdInfoByUPC.setPrefHeight(30);
-        storeProdInfoByUPC.setFont(new Font(13));
+        editStoreProduct = new Button("Edit store product");
+        editStoreProduct.setLayoutX(20); editStoreProduct.setLayoutY(70);
+        editStoreProduct.setPrefWidth(180); editStoreProduct.setPrefHeight(30);
+        editStoreProduct.setFont(new Font(13));
+        editStoreProduct.setOnAction(actionEvent -> editSelectedStoreProduct());
     }
 
-    private void initRecepits(){
+    private void initReceipts(){
 
         goodsAmountSoldInSetTime = new Button("Goods amount sold\n      for set period");
         goodsAmountSoldInSetTime.setLayoutX(20); goodsAmountSoldInSetTime.setLayoutY(100);
@@ -479,11 +533,12 @@ public class MainMenu{
         else if(storeProductsMode.isSelected()){
             initStoreProducts();
             functionsPane.getChildren().add(addStoreProduct);
-            functionsPane.getChildren().add(storeProdInfoByUPC);
+            functionsPane.getChildren().add(editStoreProduct);
             searchField.setPromptText("Products in store search...");
+            showStoreProducts();
         }
         else if(managerReceiptsMode.isSelected()){
-            initRecepits();
+            initReceipts();
             functionsPane.getChildren().add(goodsAmountSoldInSetTime);
             functionsPane.getChildren().add(checksSetCashiersAndTime);
             functionsPane.getChildren().add(checksAllCashiersAndTime);

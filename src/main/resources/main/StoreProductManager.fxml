@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="428.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.StoreProductManager">
+   <children>
+      <AnchorPane prefHeight="428.0" prefWidth="428.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fff7a1" height="428.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
+            <ImageView fitHeight="131.0" fitWidth="128.0" layoutX="151.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/store_product_icon.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="158.0" layoutY="14.0" prefHeight="28.0" prefWidth="114.0" text="Store product">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="39.0" layoutY="178.0" prefHeight="245.0" prefWidth="351.0">
+               <children>
+                  <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="16.0" prefHeight="21.0" prefWidth="74.0" text="Product:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="productLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="16.0" prefHeight="21.0" prefWidth="145.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="productChoiceBox" layoutX="186.0" layoutY="12.0" prefHeight="21.0" prefWidth="145.0" />
+                  <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="40.0" prefHeight="21.0" prefWidth="74.0" text="Price:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="priceLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="40.0" prefHeight="21.0" prefWidth="145.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Spinner fx:id="priceSpinner" editable="true" layoutX="186.0" layoutY="40.0" prefHeight="25.0" prefWidth="145.0" />
+                  <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="68.0" prefHeight="21.0" prefWidth="67.0" text="Count:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="countLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="68.0" prefHeight="21.0" prefWidth="145.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Spinner fx:id="countSpinner" editable="true" layoutX="186.0" layoutY="68.0" prefHeight="25.0" prefWidth="145.0" />
+                  <CheckBox fx:id="promotionalCheckBox" alignment="CENTER" layoutX="109.0" layoutY="101.0" mnemonicParsing="false" onAction="#promotionalChanged" text="Promotional product" />
+                  <Label fx:id="promCountTitleLabel" alignment="TOP_LEFT" layoutX="16.0" layoutY="123.0" prefHeight="22.0" prefWidth="133.0" text="Promotional count:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="promCountLabel" alignment="TOP_LEFT" layoutX="186.0" layoutY="123.0" prefHeight="21.0" prefWidth="145.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Spinner fx:id="promCountSpinner" editable="true" layoutX="185.0" layoutY="123.0" prefHeight="25.0" prefWidth="145.0" />
+                  <Label fx:id="promInfoLabel" layoutX="76.0" layoutY="153.0" prefHeight="18.0" prefWidth="217.0" text="Promotional products have a 20% discount." underline="true">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="editButton" layoutX="142.0" layoutY="201.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
+                  <Button fx:id="saveButton" layoutX="18.0" layoutY="201.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="67.0" text="Save" />
+                  <Button fx:id="deleteButton" layoutX="266.0" layoutY="201.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="27.0" prefWidth="67.0" text="Delete" />
+                  <Label fx:id="errorLabel" alignment="CENTER" layoutX="22.0" layoutY="174.0" prefHeight="24.0" prefWidth="308.0" textFill="RED">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -89,7 +89,7 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="121.0" prefHeight="22.0" prefWidth="120.0" text="Percent discount:">
+      <Label alignment="TOP_LEFT" layoutX="16.0" layoutY="121.0" prefHeight="22.0" prefWidth="120.0" text="Discount, %:">
          <font>
             <Font size="15.0" />
          </font>

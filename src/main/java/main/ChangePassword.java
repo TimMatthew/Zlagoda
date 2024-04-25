@@ -30,6 +30,7 @@ public class ChangePassword {
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(HelloApplication.mainStage);
+        stage.setResizable(false);
         try {
             HelloApplication.setScene(stage, FXML_LOADER(), WIDTH, HEIGHT, "Changing password...");
         } catch (IOException e) {

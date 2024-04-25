@@ -120,9 +120,13 @@ public class CategoryManager implements Initializable {
 
     public void handleDeleteButtonAction(ActionEvent actionEvent) throws SQLException {
         if (currentCategory != null){
-            new CategoryService().deleteCategory(currentCategory.getCategory_number());
-            MainMenu.categoryData.remove(currentCategory);
-            currentCategory = null;
+            if (new CategoryService().deleteCategory(currentCategory.getCategory_number())) {
+                MainMenu.categoryData.remove(currentCategory);
+                currentCategory = null;
+            } else {
+                setErrorMessage("A category cannot be deleted while it contains products.");
+                return;
+            }
         }
         stage.close();
     }
@@ -151,6 +155,7 @@ public class CategoryManager implements Initializable {
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(HelloApplication.mainStage);
+        stage.setResizable(false);
         try {
             HelloApplication.setScene(stage, FXML_LOADER(), WIDTH, HEIGHT, title);
         } catch (IOException e) {

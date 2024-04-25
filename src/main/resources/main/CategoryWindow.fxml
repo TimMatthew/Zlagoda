@@ -35,11 +35,7 @@
                </font>
             </Label>
             <TextField fx:id="nameField" alignment="TOP_LEFT" layoutX="102.0" layoutY="14.0" prefHeight="26.0" prefWidth="230.0" />
-            <Label fx:id="errorLabel" alignment="CENTER" layoutX="24.0" layoutY="40.0" prefHeight="24.0" prefWidth="304.0" textFill="RED">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="40.0" prefHeight="24.0" prefWidth="351.0" textFill="RED" />
          </children>
       </AnchorPane>
       <Button fx:id="editButton" layoutX="180.0" layoutY="266.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />

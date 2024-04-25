@@ -5,10 +5,8 @@ import Entities.Customer_Card;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.*;
 
 public class CategoryService {
     private final Connection connection;
@@ -60,11 +58,14 @@ public class CategoryService {
         }
         return customers;
     }
-    public void deleteCategory(int card_number) throws SQLException {
-        String sql = "DELETE FROM customer_card WHERE card_number = ?";
+    public boolean deleteCategory(int category_number) throws SQLException {
+        String sql = "DELETE FROM category WHERE category_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, card_number);
+            statement.setInt(1, category_number);
             statement.executeUpdate();
+            return true;
+        } catch (SQLIntegrityConstraintViolationException e){
+            return false;
         }
     }
 

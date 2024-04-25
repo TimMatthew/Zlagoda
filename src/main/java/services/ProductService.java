@@ -35,20 +35,20 @@ public class ProductService {
         return true;
     }
 
-    public void updateProduct(Product card) throws SQLException {
+    public void updateProduct(Product product) throws SQLException {
         String sql = "UPDATE product SET category_number=?, product_name=?, characteristics=? WHERE id_product=?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, card.getCategory_number());
-            statement.setString(2, card.getProduct_name());
-            statement.setString(3, card.getCharacteristics());
-            statement.setInt(4, card.getId_product());
+            statement.setInt(1, product.getCategory_number());
+            statement.setString(2, product.getProduct_name());
+            statement.setString(3, product.getCharacteristics());
+            statement.setInt(4, product.getId_product());
 
             statement.executeUpdate();
         }
     }
     public ObservableList<Product> getAllProducts() {
-        ObservableList<Product> customers = FXCollections.observableArrayList();
+        ObservableList<Product> products = FXCollections.observableArrayList();
         String sql = "SELECT * FROM product GROUP BY id_product";
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             ResultSet rs = pst.executeQuery();
@@ -58,12 +58,12 @@ public class ProductService {
                 String name = rs.getString("product_name");
                 String characteristics = rs.getString("characteristics");
 
-                customers.add(new Product(id, category_id, name, characteristics));
+                products.add(new Product(id, category_id, name, characteristics));
             }
         } catch (SQLException e) {
             System.err.println("Error fetching employees from database: " + e.getMessage());
         }
-        return customers;
+        return products;
     }
     public void deleteProduct(int id) throws SQLException {
         String sql = "DELETE FROM product WHERE  id_product= ?";
@@ -83,6 +83,23 @@ public class ProductService {
             try(ResultSet resultSet = statement.executeQuery()) {
                 return resultSet.next();
             }
+        }
+    }
+    public String getProductName(int id) {
+        String sql = "SELECT product_name FROM product WHERE id_product = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next())
+                    return resultSet.getString("product_name");
+                else
+                    return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
