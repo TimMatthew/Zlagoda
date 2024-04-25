@@ -155,16 +155,16 @@ public class EmployeeProfile implements Initializable {
                 setErrorMessage("Login is already taken.");
                 return;
             }
-            ManagerMainMenu.employeeData.add(newEmployee);
+            MainMenu.employeeData.add(newEmployee);
             stage.close();
         } else {
         Employee upd = new Employee(currentEmployee.getId_employee(), name, surname, patronymic, role, salary, Date.valueOf(birthday), Date.valueOf(start), phone, city, street, zipcode);
         EmployeeService service = new EmployeeService();
         try {
             service.updateEmployee(upd);
-            int index = ManagerMainMenu.employeeData.indexOf(currentEmployee);
-            ManagerMainMenu.employeeData.add(index, upd);
-            ManagerMainMenu.employeeData.remove(currentEmployee);
+            int index = MainMenu.employeeData.indexOf(currentEmployee);
+            MainMenu.employeeData.add(index, upd);
+            MainMenu.employeeData.remove(currentEmployee);
         } catch (SQLException e) {
             setErrorMessage(e.getMessage());
             return;
@@ -197,7 +197,7 @@ public class EmployeeProfile implements Initializable {
     public void handleDeleteButtonAction(ActionEvent actionEvent) throws SQLException {
         if (currentEmployee != null){
             new EmployeeService().deleteEmployee(currentEmployee.getId_employee());
-            ManagerMainMenu.employeeData.remove(currentEmployee);
+            MainMenu.employeeData.remove(currentEmployee);
             currentEmployee = null;
         }
         stage.close();

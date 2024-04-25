@@ -45,7 +45,6 @@ public class ProductManager implements Initializable {
     private TextField nameField;
     @FXML
     private TextArea characteristicsArea;
-
     @FXML
     public ComboBox<String> categoriesComboBox;
 
@@ -54,6 +53,7 @@ public class ProductManager implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         categoryMap = MainMenu.categoryData.stream()
                 .collect(Collectors.toMap(Category::getCategory_name, Category::getCategory_number));
         categoriesComboBox.setItems(FXCollections.observableArrayList(categoryMap.keySet()));
@@ -131,15 +131,15 @@ public class ProductManager implements Initializable {
                 setErrorMessage("The product is already added.");
                 return;
             }
-            ManagerMainMenu.productData.add(newProduct);
+            MainMenu.productData.add(newProduct);
             stage.close();
         } else {
             Product upd = new Product(currentProduct.getId_product(), category_number, name, characteristics);
             try {
                 ps.updateProduct(upd);
-                int index = ManagerMainMenu.productData.indexOf(currentProduct);
-                ManagerMainMenu.productData.add(index, upd);
-                ManagerMainMenu.productData.remove(currentProduct);
+                int index = MainMenu.productData.indexOf(currentProduct);
+                MainMenu.productData.add(index, upd);
+                MainMenu.productData.remove(currentProduct);
             } catch (SQLException e) {
                 setErrorMessage(e.getMessage());
                 return;
@@ -161,7 +161,7 @@ public class ProductManager implements Initializable {
     public void handleDeleteButtonAction(ActionEvent actionEvent) throws SQLException {
         if (currentProduct != null){
             new ProductService().deleteProduct(currentProduct.getId_product());
-            ManagerMainMenu.productData.remove(currentProduct);
+            MainMenu.productData.remove(currentProduct);
             currentProduct = null;
         }
         stage.close();

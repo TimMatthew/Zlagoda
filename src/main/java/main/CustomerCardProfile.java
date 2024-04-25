@@ -117,15 +117,15 @@ public class CustomerCardProfile implements Initializable {
                 setErrorMessage("Unexpected error was occurred.");
                 return;
             }
-            ManagerMainMenu.customerCardData.add(newCard);
+            MainMenu.customerCardData.add(newCard);
             stage.close();
         } else {
             Customer_Card upd = new Customer_Card(currentCustomer.getCard_number(), surname, name, patronymic, phone, city, street, zipcode, percent);
             try {
                 ccs.updateCustomerCard(upd);
-                int index = ManagerMainMenu.customerCardData.indexOf(currentCustomer);
-                ManagerMainMenu.customerCardData.add(index, upd);
-                ManagerMainMenu.customerCardData.remove(currentCustomer);
+                int index = MainMenu.customerCardData.indexOf(currentCustomer);
+                MainMenu.customerCardData.add(index, upd);
+                MainMenu.customerCardData.remove(currentCustomer);
             } catch (SQLException e) {
                 setErrorMessage(e.getMessage());
                 return;
@@ -154,7 +154,7 @@ public class CustomerCardProfile implements Initializable {
     public void handleDeleteButtonAction(ActionEvent actionEvent) throws SQLException {
         if (currentCustomer != null){
             new CustomerCardService().deleteCustomerCard(currentCustomer.getCard_number());
-            ManagerMainMenu.customerCardData.remove(currentCustomer);
+            MainMenu.customerCardData.remove(currentCustomer);
             currentCustomer = null;
         }
         stage.close();

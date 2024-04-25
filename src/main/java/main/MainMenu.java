@@ -27,7 +27,6 @@ import java.io.IOException;
 public class MainMenu{
 
     protected static final int WIDTH = 1326, HEIGHT = 770;
-    //protected static final FXMLLoader MAIN_MENU_FXML_LOADER =
 
     private boolean employeeType;
 
@@ -80,11 +79,11 @@ public class MainMenu{
     private Button createCheckButton;
     @FXML
     public TableView dataTable;
-    protected void initCashier(Stage st, int width, int height, String title) throws IOException {
+    protected void initCashier(Stage st) throws IOException {
 
         Parent root = new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")).load();
-        Scene sc = new Scene(root, width, height);
-        st.setTitle(title);
+        Scene sc = new Scene(root, MainMenu.WIDTH, MainMenu.HEIGHT);
+        st.setTitle("Особистий кабінет касира");
         st.setScene(sc);
         st.show();
 
@@ -105,11 +104,11 @@ public class MainMenu{
         printReportButton.setVisible(false);
     }
 
-    protected void initManager(Stage st, int width, int height, String title) throws IOException{
+    protected void initManager(Stage st) throws IOException{
 
         Parent root = new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")).load();
-        Scene sc = new Scene(root, width, height);
-        st.setTitle(title);
+        Scene sc = new Scene(root, MainMenu.WIDTH, MainMenu.HEIGHT);
+        st.setTitle("Особистий кабінет менеджера");
         st.setScene(sc);
         st.show();
 
@@ -300,7 +299,6 @@ public class MainMenu{
 
         id.setCellValueFactory(new PropertyValueFactory<>("category_number"));
         name.setCellValueFactory(new PropertyValueFactory<>("category_name"));
-        //count.setCellValueFactory(new PropertyValueFactory<>("products_count"));
 
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(id, name);
@@ -498,9 +496,11 @@ public class MainMenu{
         UserInfo.id = null;
         UserInfo.position = null;
         UserInfo.employeeProfile = null;
-        HelloApplication.setScene(HelloApplication.mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Sign In");
+        HelloApplication.setScene(HelloApplication.mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Ласкаво просимо в ZLAGODA!");
     }
 
-    public void createCheck(ActionEvent actionEvent) {
+    public void createCheck(ActionEvent actionEvent) throws IOException {
+        Stage s = new Stage();
+        HelloApplication.setScene(s, new FXMLLoader(HelloApplication.class.getResource("CheckMenu.fxml")), 967, 644, "Каса");
     }
 }

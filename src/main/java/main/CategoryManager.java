@@ -92,15 +92,15 @@ public class CategoryManager implements Initializable {
                 setErrorMessage("The name is already taken.");
                 return;
             }
-            ManagerMainMenu.categoryData.add(category);
+            MainMenu.categoryData.add(category);
             stage.close();
         } else {
             Category upd = new Category(currentCategory.getCategory_number(), name);
             try {
                 cs.updateCategory(upd);
-                int index = ManagerMainMenu.customerCardData.indexOf(currentCategory);
-                ManagerMainMenu.categoryData.add(index, upd);
-                ManagerMainMenu.categoryData.remove(currentCategory);
+                int index = MainMenu.customerCardData.indexOf(currentCategory);
+                MainMenu.categoryData.add(index, upd);
+                MainMenu.categoryData.remove(currentCategory);
             } catch (SQLException e) {
                 setErrorMessage(e.getMessage());
                 return;
@@ -121,7 +121,7 @@ public class CategoryManager implements Initializable {
     public void handleDeleteButtonAction(ActionEvent actionEvent) throws SQLException {
         if (currentCategory != null){
             new CategoryService().deleteCategory(currentCategory.getCategory_number());
-            ManagerMainMenu.categoryData.remove(currentCategory);
+            MainMenu.categoryData.remove(currentCategory);
             currentCategory = null;
         }
         stage.close();

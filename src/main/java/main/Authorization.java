@@ -40,11 +40,11 @@ public class Authorization {
             errorLabel.setVisible(false);
             if (UserInfo.position.equals("Manager"))
             {
-                new MainMenu().initManager(HelloApplication.mainStage, MainMenu.WIDTH, MainMenu.HEIGHT, "Особистий кабінет менеджера");
+                new MainMenu().initManager(HelloApplication.mainStage);
             }
             else
             {
-                new MainMenu().initCashier(HelloApplication.mainStage, MainMenu.WIDTH, MainMenu.HEIGHT, "Особистий кабінет касира");
+                new MainMenu().initCashier(HelloApplication.mainStage);
             }
         }
         else
