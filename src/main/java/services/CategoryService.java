@@ -1,12 +1,16 @@
 package services;
 
 import Entities.Category;
-import Entities.Customer_Card;
+import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import net.sf.jasperreports.engine.util.LinkedMap;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CategoryService {
     private final Connection connection;
@@ -111,4 +115,23 @@ public class CategoryService {
         return maxCategoryNumber + 1;
     }
 
+    public LinkedHashMap<String, List<String>> getAvailableProductsByCategory() {
+        LinkedHashMap<String, List<String>> dependencies = new LinkedHashMap<>();
+        String sql = "SELECT store_product.id_Product, category_number FROM product JOIN store_product ON store_product.id_product = product.id_product WHERE promotional_product = 1";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String id_product = rs.getString("id_product");
+                String category_number = rs.getString("category_number");
+
+                if (!dependencies.containsKey(category_number)) {
+                    dependencies.put(category_number, new ArrayList<>());
+                }
+                dependencies.get(category_number).add(id_product);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return dependencies;
+    }
 }

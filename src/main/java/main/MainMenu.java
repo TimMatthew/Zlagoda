@@ -17,18 +17,17 @@ import sessionmanagement.UserInfo;
 import javafx.scene.control.*;
 import utils.DataPrinter;
 import java.io.IOException;
-import java.sql.*;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MainMenu{
 
-
-
     protected static final int WIDTH = 1326, HEIGHT = 770;
 
     //Функції для працівників
-    private Button addEmployee,emplPhoneAddressBySur, editEmployee;
+    private Button addEmployee, emplPhoneAddressBySur, editEmployee;
 
     //Функції для клієнтів
     private Button addClient, editClient;
@@ -58,6 +57,9 @@ public class MainMenu{
     //Кнопки для товарів
     private Button genericGoodsButton, storeGoodsButton, promotedGoodsButton, nonPromotedGoodsButton;
 
+    //Кнопки для категорій
+    private Button listedCategoriesButton;
+
     //Кнопки для клієнтів
     private Button addLoyalClientButton, clientSortNameButton;
 
@@ -81,6 +83,7 @@ public class MainMenu{
     private Button createCheckButton;
     @FXML
     public TableView dataTable;
+
     protected void initCashier(Stage st) throws IOException {
         Parent root = new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")).load();
         Scene sc = new Scene(root, MainMenu.WIDTH, MainMenu.HEIGHT);
@@ -154,37 +157,45 @@ public class MainMenu{
         storeGoodsButton.setFont(new Font(13));
         storeGoodsButton.setOnAction(actionEvent -> showStoreProducts());
 
-        promotedGoodsButton = new Button("Discounted goods");
+        promotedGoodsButton = new Button("Promoted goods");
         promotedGoodsButton.setLayoutX(20); promotedGoodsButton.setLayoutY(120);
         promotedGoodsButton.setPrefWidth(150); promotedGoodsButton.setPrefHeight(30);
         promotedGoodsButton.setFont(new Font(13));
         promotedGoodsButton.setOnAction(actionEvent -> showPromotedStoreProducts(true));
 
-        nonPromotedGoodsButton = new Button("Non-discounted goods");
+        nonPromotedGoodsButton = new Button("Non-promoted goods");
         nonPromotedGoodsButton.setLayoutX(20); nonPromotedGoodsButton.setLayoutY(170);
         nonPromotedGoodsButton.setPrefWidth(150); nonPromotedGoodsButton.setPrefHeight(30);
         nonPromotedGoodsButton.setFont(new Font(13));
         nonPromotedGoodsButton.setOnAction(actionEvent -> showPromotedStoreProducts(false));
     }
 
-    protected void initCashierClients(){
-        addLoyalClientButton = new Button("Add loyal client");
-        addLoyalClientButton.setLayoutX(25); addLoyalClientButton.setLayoutY(20);
-        addLoyalClientButton.setPrefWidth(110); addLoyalClientButton.setPrefHeight(25);
-
-        clientSortNameButton = new Button("Sort by name");
-        clientSortNameButton.setLayoutX(25); clientSortNameButton.setLayoutY(70);
-        clientSortNameButton.setPrefWidth(110); clientSortNameButton.setPrefHeight(25);
+    protected void initCashierCategoriesModes() {
+        listedCategoriesButton = new Button("Listed categories");
+        listedCategoriesButton.setLayoutX(20); listedCategoriesButton.setLayoutY(20);
+        listedCategoriesButton.setPrefWidth(150); listedCategoriesButton.setPrefHeight(30);
+        listedCategoriesButton.setFont(new Font(13));
+        listedCategoriesButton.setOnAction(actionEvent -> showCategories());
     }
 
-    protected void initCashierReceipts(){
+    protected void initCashierClientsManipulationTools(){
+        addLoyalClientButton = new Button("Add loyal client");
+        addLoyalClientButton.setLayoutX(20); addLoyalClientButton.setLayoutY(220);
+        addLoyalClientButton.setPrefWidth(110); addLoyalClientButton.setPrefHeight(30);
+
+        clientSortNameButton = new Button("Sort by name");
+        clientSortNameButton.setLayoutX(20); clientSortNameButton.setLayoutY(270);
+        clientSortNameButton.setPrefWidth(110); clientSortNameButton.setPrefHeight(30);
+    }
+
+    protected void initCashierReceiptsManipulationTools(){
         receiptsTodayButton = new Button("Receipts for today");
         receiptsTodayButton.setLayoutX(13); receiptsTodayButton.setLayoutY(20);
-        receiptsTodayButton.setPrefWidth(140); receiptsTodayButton.setPrefHeight(25);
+        receiptsTodayButton.setPrefWidth(140); receiptsTodayButton.setPrefHeight(30);
 
         receiptsPeriodButton = new Button("Receipts for set period");
         receiptsPeriodButton.setLayoutX(13); receiptsPeriodButton.setLayoutY(70);
-        receiptsPeriodButton.setPrefWidth(140); receiptsPeriodButton.setPrefHeight(25);
+        receiptsPeriodButton.setPrefWidth(140); receiptsPeriodButton.setPrefHeight(30);
     }
 
     @FXML
@@ -195,7 +206,6 @@ public class MainMenu{
         if(goodsModeRadio.isSelected()){
             initCashierGoodsModes();
             initGoodsManipulationTools();
-
             functionsPane.getChildren().add(genericGoodsButton);
             functionsPane.getChildren().add(storeGoodsButton);
             functionsPane.getChildren().add(promotedGoodsButton);
@@ -205,14 +215,22 @@ public class MainMenu{
             functionsPane.getChildren().add(editProduct);
             searchField.setPromptText("Goods search...");
         }
+        else if(categoriesModeRatio.isSelected()) {
+            initCashierCategoriesModes();
+            initCategoriesManipulationTools();
+            functionsPane.getChildren().add(listedCategoriesButton);
+            functionsPane.getChildren().add(addCategory);
+            functionsPane.getChildren().add(editCategory);
+            searchField.setPromptText("Categories search...");
+        }
         else if(clientsModeRadio.isSelected()){
-            initCashierClients();
+            initCashierClientsManipulationTools();
             functionsPane.getChildren().add(addLoyalClientButton);
             functionsPane.getChildren().add(clientSortNameButton);
             searchField.setPromptText("Clients search...");
         }
         else if(receiptsModeRadio.isSelected()){
-            initCashierReceipts();
+            initCashierReceiptsManipulationTools();
             functionsPane.getChildren().add(receiptsTodayButton);
             functionsPane.getChildren().add(receiptsPeriodButton);
             searchField.setPromptText("Receipts search...");
@@ -327,17 +345,88 @@ public class MainMenu{
         dataTable.setItems(productData);
     }
 
+    private void showStoreProducts(){
+        TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
+        TableColumn<Store_Product, String> name = new TableColumn<>("Name");
+        TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
+        TableColumn<Store_Product, Double> price = new TableColumn<>("price");
+        TableColumn<Store_Product, Integer> products_num = new TableColumn<>("Quantity");
+        TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
+
+        ObservableList<Store_Product> store_products =  new ProductService().getStoreProducts();
+
+        id.setCellValueFactory(new PropertyValueFactory<>("Product_id_product"));
+        name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        upc.setCellValueFactory(new PropertyValueFactory<>("Store_Product_UPC"));
+        price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
+        products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
+        promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(id, name, upc, price, products_num, promotional);
+        dataTable.setItems(store_products);
+    }
+
+    private void showPromotedStoreProducts(boolean promoted) {
+        TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
+        TableColumn<Store_Product, String> name = new TableColumn<>("Name");
+        TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
+        TableColumn<Store_Product, Double> price = new TableColumn<>("price");
+        TableColumn<Store_Product, Integer> products_num = new TableColumn<>("Quantity");
+        TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
+
+        ObservableList<Store_Product> store_products = new ProductService().getPromotedStoreProducts(promoted);
+
+        id.setCellValueFactory(new PropertyValueFactory<>("Product_id_product"));
+        name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        upc.setCellValueFactory(new PropertyValueFactory<>("Store_Product_UPC"));
+        price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
+        products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
+        promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(id, name, upc, price, products_num, promotional);
+        dataTable.setItems(store_products);
+    }
+
     private void showCategories(){
+        updateProductTable();
+        updateCategoryTable();
+
         TableColumn<Category, Integer> id = new TableColumn<>("ID");
         TableColumn<Category, String> name = new TableColumn<>("Name");
-        TableColumn<Category, Integer> count = new TableColumn<>("Unique products count");
+        TableColumn<Category, Integer> count = new TableColumn<>("Overall products of this category");
+        TableColumn<Category, Integer> count_store = new TableColumn<>("Available products of this category");
 
         id.setCellValueFactory(new PropertyValueFactory<>("category_number"));
         name.setCellValueFactory(new PropertyValueFactory<>("category_name"));
 
+        for(int i = 0; i < categoryData.size(); i++){
+            int counter = 0;
+            for(int j = 0; j < productData.size(); j++){
+                if (categoryData.get(i).getCategory_number() == productData.get(j).getCategory_number()) {
+                    counter++;
+                }
+            }
+            categoryData.get(i).setProducts_count(counter);
+        }
+
+        count.setCellValueFactory(new PropertyValueFactory<>("products_count"));
+
+        LinkedHashMap<String, List<String>> dependencies = new CategoryService().getAvailableProductsByCategory();
+        for (String category : dependencies.keySet()) {
+            List<String> products = dependencies.get(category);
+            for(int i = 0; i < categoryData.size(); i++) {
+                if (Integer.parseInt(category) == categoryData.get(i).getCategory_number()) {
+                    categoryData.get(i).setAvailableProducts_count(products.size());
+                }
+            }
+        }
+
+        count_store.setCellValueFactory(new PropertyValueFactory<>("availableProducts_count"));
+
         dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(id, name);
-        updateCategoryTable();
+        dataTable.getColumns().addAll(id, name, count, count_store);
         dataTable.setItems(categoryData);
     }
 
@@ -380,50 +469,6 @@ public class MainMenu{
             Product selected = (Product)dataTable.getItems().get(selectedIndex);
             ProductManager.initProfile(selected, selected.getProduct_name() + " product");
         }
-    }
-
-    private void showStoreProducts(){
-        TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
-        TableColumn<Store_Product, String> name = new TableColumn<>("Name");
-        TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
-        TableColumn<Store_Product, Double> price = new TableColumn<>("price");
-        TableColumn<Store_Product, Integer> products_num = new TableColumn<>("Quantity");
-        TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
-
-        ObservableList<Store_Product> store_products = DataBaseRequestManager.getStoreProducts();
-
-        id.setCellValueFactory(new PropertyValueFactory<>("Product_id_product"));
-        name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        upc.setCellValueFactory(new PropertyValueFactory<>("Store_Product_UPC"));
-        price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
-        products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
-        promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
-
-        dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(id, name, upc, price, products_num, promotional);
-        dataTable.setItems(store_products);
-    }
-
-    private void showPromotedStoreProducts(boolean promoted) {
-        TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
-        TableColumn<Store_Product, String> name = new TableColumn<>("Name");
-        TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
-        TableColumn<Store_Product, Double> price = new TableColumn<>("price");
-        TableColumn<Store_Product, Integer> products_num = new TableColumn<>("Quantity");
-        TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
-
-        ObservableList<Store_Product> store_products = DataBaseRequestManager.getPromotedStoreProducts(promoted);
-
-        id.setCellValueFactory(new PropertyValueFactory<>("Product_id_product"));
-        name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        upc.setCellValueFactory(new PropertyValueFactory<>("Store_Product_UPC"));
-        price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
-        products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
-        promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
-
-        dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(id, name, upc, price, products_num, promotional);
-        dataTable.setItems(store_products);
     }
 
     public static void updateStoreProductTable(){
@@ -482,16 +527,16 @@ public class MainMenu{
         addClient.setFont(new Font(13));
         addClient.setOnAction(actionEvent -> addNewCustomerCard());
 
-        editClient = new Button("Edit selected client");
+        editClient = new Button("Edit client");
         editClient.setLayoutX(20); editClient.setLayoutY(270);
-        editClient.setPrefWidth(180); editClient.setPrefHeight(30);
+        editClient.setPrefWidth(120); editClient.setPrefHeight(30);
         editClient.setFont(new Font(13));
         editClient.setOnAction(actionEvent -> editSelectedCustomerCard());
     }
 
     private void initCategoriesManipulationTools(){
         addCategory = new Button("Add category");
-        addCategory.setLayoutX(50); addCategory.setLayoutY(220);
+        addCategory.setLayoutX(20); addCategory.setLayoutY(220);
         addCategory.setPrefWidth(120); addCategory.setPrefHeight(30);
         addCategory.setFont(new Font(13));
         addCategory.setOnAction(actionEvent -> addNewCategory());
@@ -510,9 +555,9 @@ public class MainMenu{
         addProduct.setFont(new Font(13));
         addProduct.setOnAction(actionEvent -> addNewProduct());
 
-        editProduct = new Button("Edit selected product");
+        editProduct = new Button("Edit product");
         editProduct.setLayoutX(20); editProduct.setLayoutY(270);
-        editProduct.setPrefWidth(180); editProduct.setPrefHeight(30);
+        editProduct.setPrefWidth(120); editProduct.setPrefHeight(30);
         editProduct.setFont(new Font(13));
         editProduct.setOnAction(actionEvent -> editSelectedProduct());
     }
@@ -526,7 +571,7 @@ public class MainMenu{
 
         editStoreProduct = new Button("Edit store product");
         editStoreProduct.setLayoutX(20); editStoreProduct.setLayoutY(270);
-        editStoreProduct.setPrefWidth(180); editStoreProduct.setPrefHeight(30);
+        editStoreProduct.setPrefWidth(120); editStoreProduct.setPrefHeight(30);
         editStoreProduct.setFont(new Font(13));
         editStoreProduct.setOnAction(actionEvent -> editSelectedStoreProduct());
     }
@@ -534,7 +579,7 @@ public class MainMenu{
     private void initReceipts(){
         goodsAmountSoldInSetTime = new Button("Goods amount sold\n      for set period");
         goodsAmountSoldInSetTime.setLayoutX(20); goodsAmountSoldInSetTime.setLayoutY(100);
-        goodsAmountSoldInSetTime.setPrefWidth(180); goodsAmountSoldInSetTime.setPrefHeight(50);
+        goodsAmountSoldInSetTime.setPrefWidth(120); goodsAmountSoldInSetTime.setPrefHeight(50);
         goodsAmountSoldInSetTime.setFont(new Font(13));
 
         //Якщо всі касири - вилізає віконце тільки промптом на період
@@ -542,13 +587,13 @@ public class MainMenu{
         checksSetCashiersAndTime = new ComboBox<>(FXCollections.observableArrayList("Of all cashiers", "Of set cashiers"));
         checksSetCashiersAndTime.setPromptText("Receipts for set period");
         checksSetCashiersAndTime.setLayoutX(20); checksSetCashiersAndTime.setLayoutY(170);
-        checksSetCashiersAndTime.setPrefWidth(180); checksSetCashiersAndTime.setPrefHeight(30);
+        checksSetCashiersAndTime.setPrefWidth(120); checksSetCashiersAndTime.setPrefHeight(30);
 
         //Аналогічний принцип
         checksAllCashiersAndTime = new ComboBox<>(FXCollections.observableArrayList("Of all cashiers", "Of set cashiers"));
         checksAllCashiersAndTime.setPromptText("Sum of sold goods");
         checksAllCashiersAndTime.setLayoutX(20); checksAllCashiersAndTime.setLayoutY(220);
-        checksAllCashiersAndTime.setPrefWidth(180); checksAllCashiersAndTime.setPrefHeight(30);
+        checksAllCashiersAndTime.setPrefWidth(120); checksAllCashiersAndTime.setPrefHeight(30);
     }
 
     @FXML

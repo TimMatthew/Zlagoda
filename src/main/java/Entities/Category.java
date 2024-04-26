@@ -6,14 +6,19 @@ public class Category {
     int category_number; //NN PK
     String category_name; //NN
     int products_count; //NN
+    int available_products_count;
 
     public Category(String category_name) {
         this.category_number = new CategoryService().getNewCategoryID();
         this.category_name = category_name;
+        this.products_count = 0;
+        this.available_products_count = 0;
     }
     public Category(int category_number, String category_name) {
         this.category_number = category_number;
         this.category_name = category_name;
+        this.products_count = 0;
+        this.available_products_count = 0;
     }
 
     public int getCategory_number() {
@@ -33,6 +38,18 @@ public class Category {
     }
 
     public int getProducts_count() {
-        return 0;
+        return products_count;
+    }
+
+    public void setProducts_count(int count) {
+        this.products_count = count;
+    }
+
+    public int getAvailableProducts_count() {
+        return available_products_count;
+    }
+
+    public void setAvailableProducts_count(int count) {
+        this.available_products_count = count;
     }
 }
