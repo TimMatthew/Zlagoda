@@ -36,6 +36,7 @@ public class CheckMenu implements Initializable{
     @FXML
     public TableView storeProductsTable;
     @FXML
+    public Label checkIllustration;
     public Label checkTitle, operatorTitle;
     @FXML
     public ListView<Sale> saleListView;

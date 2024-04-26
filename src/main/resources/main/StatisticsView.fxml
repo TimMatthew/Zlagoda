@@ -53,7 +53,33 @@
                         <AnchorPane id="modesHintPane" layoutX="31.0" layoutY="94.0" prefHeight="140.0" prefWidth="153.0" />
                      </children>
                   </AnchorPane>
-                  <Button id="profileButton" fx:id="topCategoriesByAvgPriceButton" alignment="CENTER" layoutX="24.0" layoutY="48.0" mnemonicParsing="false" onAction="#showTopCategoriesByAvgPrice" prefHeight="38.0" prefWidth="197.0" text="Top categories by avg. price">
+                  <Button id="profileButton" fx:id="topProductsByPriceButton" alignment="CENTER" layoutX="24.0" layoutY="48.0" mnemonicParsing="false" onAction="#showTopProductsByPrice" prefHeight="38.0" prefWidth="197.0" text="Top products by price">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="topCategoriesByAvgPriceButton" alignment="CENTER" layoutX="24.0" layoutY="108" mnemonicParsing="false" onAction="#showTopCategoriesByAvgPrice" prefHeight="38.0" prefWidth="197.0" text="Top categories by avg. price">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="topProductsBySoldAmountsButton" alignment="CENTER" layoutX="24.0" layoutY="168" mnemonicParsing="false" onAction="#showTopProductsBySoldAmounts" prefHeight="38.0" prefWidth="197.0" text="Top products by sold amounts">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="topCategoriesBySoldAmountsButton" alignment="CENTER" layoutX="24.0" layoutY="228" mnemonicParsing="false" onAction="#showTopCategoriesBySoldAmounts" prefHeight="38.0" prefWidth="197.0" text="Top categories by sold amounts">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+
+                  <Button id="profileButton" fx:id="topEmployeesByChecksButton" alignment="CENTER" layoutX="24.0" layoutY="288" mnemonicParsing="false" onAction="#showTopEmployeesByChecksButton" prefHeight="38.0" prefWidth="197.0" text="Top employees by checks prices">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="workerOfTheWeekButton" alignment="CENTER" layoutX="24.0" layoutY="348" mnemonicParsing="false" onAction="#showWorkerOfTheWeek" prefHeight="38.0" prefWidth="197.0" text="View worker of the week">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -63,7 +89,8 @@
             <AnchorPane id="cashierDataPane" layoutX="14.0" layoutY="14.0" prefHeight="745.0" prefWidth="1037.0">
                <children>
                   <Rectangle id="cashierDataPane" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="745.0" stroke="BLACK" strokeType="INSIDE" width="1037.0" />
-                  <BarChart fx:id="topCategoriesByAvgPriceChart" animated="false" prefHeight="745.0" prefWidth="1037.0" title="Top categories by average price" visible="false">
+
+                  <BarChart fx:id="barChart" animated="false" prefHeight="745.0" prefWidth="1037.0" title="Top categories by average price" visible="false">
                      <xAxis>
                         <CategoryAxis label="Category" side="BOTTOM" />
                      </xAxis>
@@ -71,6 +98,7 @@
                         <NumberAxis label="Price" side="LEFT" />
                      </yAxis>
                   </BarChart>
+
                   <ImageView fx:id="logo" fitHeight="164.0" fitWidth="214.0" layoutX="427.0" layoutY="291.0" opacity="0.68" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/logo.png" />

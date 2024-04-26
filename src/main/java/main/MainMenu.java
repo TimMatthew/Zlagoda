@@ -1,12 +1,14 @@
 package main;
 
 import Entities.*;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -217,14 +219,10 @@ public class MainMenu implements Initializable {
             functionsPane.getChildren().add(storeProductsButton);
             functionsPane.getChildren().add(promotedProductsButton);
             functionsPane.getChildren().add(nonPromotedProductsButton);
-
-            searchField.setPromptText("Goods search...");
         }
         else if(categoriesModeRadio.isSelected()) {
             initCashierCategoriesModes();
             functionsPane.getChildren().add(listedCategoriesButton);
-
-            searchField.setPromptText("Categories search...");
         }
         else if(clientsModeRadio.isSelected()){
             initCashierClientsModes();
@@ -233,14 +231,12 @@ public class MainMenu implements Initializable {
 
             functionsPane.getChildren().add(addLoyalClientButton);
             functionsPane.getChildren().add(clientSortNameButton);
-            searchField.setPromptText("Clients search...");
         }
         else if(receiptsModeRadio.isSelected()){
             initCashierReceiptsManipulationTools();
-
+            searchField.setPromptText("Receipts search..."); //Temp
             functionsPane.getChildren().add(receiptsTodayButton);
             functionsPane.getChildren().add(receiptsPeriodButton);
-            searchField.setPromptText("Receipts search...");
         }
     }
 
@@ -282,11 +278,21 @@ public class MainMenu implements Initializable {
                 "UPC"
         }));
 
+        ObservableList<String> checkModes = FXCollections.observableList(List.of(new String[]{
+            "Check No",
+            "Cashier ID",
+            "Customer Card No",
+            "Print date",
+            "Total Sum",
+            "VAT tax"
+        }));
+
         searchModes.put("employee", employeeModes);
         searchModes.put("customer_card", clientModes);
         searchModes.put("product", productModes);
         searchModes.put("category", categoryModes);
         searchModes.put("store_product", storeProductModes);
+        searchModes.put("checks", checkModes);
     }
 
     private void showEmployees(){
@@ -356,6 +362,7 @@ public class MainMenu implements Initializable {
 
     private void showGenericProducts(){
         updateProductTable();
+        searchField.setPromptText("Goods search...");
         TableColumn<Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Product, String> name = new TableColumn<>("Name");
         TableColumn<Product, String> category = new TableColumn<>("Category");
@@ -378,6 +385,7 @@ public class MainMenu implements Initializable {
     }
 
     private void showStoreProducts(){
+        searchField.setPromptText("Goods search...");
         TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Store_Product, String> name = new TableColumn<>("Name");
         TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
@@ -396,13 +404,45 @@ public class MainMenu implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
         products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
         promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
+        promotional.setCellFactory(column -> new CheckBoxTableCell<>());
+
+        promotional.setCellValueFactory(cellData -> {
+            Store_Product cellValue = cellData.getValue();
+            return new SimpleBooleanProperty(cellValue.isPromotional_product());
+        });
 
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(id, name, upc, price, products_num, promotional);
         dataTable.setItems(store_products);
     }
 
+    private void showChecks(){
+        TableColumn<Check, String> check_number = new TableColumn<>("Check No");
+        TableColumn<Check, String> id_employee = new TableColumn<>("Cashier ID");
+        TableColumn<Check, String> card_number = new TableColumn<>("Customer card No");
+        TableColumn<Check, Date> dateOfCreation = new TableColumn<>("Print date");
+        TableColumn<Check, Double> total_sum = new TableColumn<>("Total Sum");
+        TableColumn<Check, Double> vat = new TableColumn<>("VAT tax");
+
+        ObservableList<Check> checks =  new CheckService().getChecks();
+
+        setSearchModes("checks");
+        categoryChoiceBoxSetVisible(true);
+
+        check_number.setCellValueFactory(new PropertyValueFactory<>("check_number"));
+        id_employee.setCellValueFactory(new PropertyValueFactory<>("Employee_id_employee"));
+        card_number.setCellValueFactory(new PropertyValueFactory<>("CustomerCard_card_number"));
+        dateOfCreation.setCellValueFactory(new PropertyValueFactory<>("print_date"));
+        total_sum.setCellValueFactory(new PropertyValueFactory<>("sum_total"));
+        vat.setCellValueFactory(new PropertyValueFactory<>("vat"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(check_number, id_employee, card_number, dateOfCreation, total_sum, vat);
+        dataTable.setItems(checks);
+    }
+
     private void showPromotedStoreProducts(boolean promoted) {
+        searchField.setPromptText("Goods search...");
         TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Store_Product, String> name = new TableColumn<>("Name");
         TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
@@ -418,6 +458,12 @@ public class MainMenu implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<>("selling_price"));
         products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
         promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
+        promotional.setCellFactory(column -> new CheckBoxTableCell<>());
+
+        promotional.setCellValueFactory(cellData -> {
+            Store_Product cellValue = cellData.getValue();
+            return new SimpleBooleanProperty(cellValue.isPromotional_product());
+        });
 
         setSearchModes("store_product");
         categoryChoiceBoxSetVisible(true);
@@ -430,6 +476,7 @@ public class MainMenu implements Initializable {
     private void showCategories(){
         updateProductTable();
         updateCategoryTable();
+        searchField.setPromptText("Categories search...");
 
         TableColumn<Category, Integer> id = new TableColumn<>("ID");
         TableColumn<Category, String> name = new TableColumn<>("Name");
@@ -463,6 +510,7 @@ public class MainMenu implements Initializable {
     }
 
     private void showClientsCards(){
+        searchField.setPromptText("Clients search...");
         TableColumn<Customer_Card, String> surname = new TableColumn<>("Surname");
         TableColumn<Customer_Card, String> name = new TableColumn<>("Name");
         TableColumn<Customer_Card, String> patronymic = new TableColumn<>("Patronymic");
@@ -594,7 +642,7 @@ public class MainMenu implements Initializable {
         addClient.setOnAction(actionEvent -> addNewCustomerCard());
 
         editClient = new Button("Edit client");
-        editClient.setLayoutX(20); editClient.setLayoutY(270);
+        editClient.setLayoutX(50); editClient.setLayoutY(270);
         editClient.setPrefWidth(120); editClient.setPrefHeight(30);
         editClient.setFont(new Font(13));
         editClient.setOnAction(actionEvent -> editSelectedCustomerCard());
@@ -731,6 +779,7 @@ public class MainMenu implements Initializable {
             functionsPane.getChildren().add(checksAllCashiersAndTime);
             categoryChoiceBoxSetVisible(false);
             searchField.setPromptText("Receipts search...");
+            showChecks();
         }
     }
 

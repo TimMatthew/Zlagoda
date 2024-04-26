@@ -147,7 +147,7 @@ public class ProductService {
 
     public ObservableList<Store_Product> getStoreProducts() {
         ObservableList<Store_Product> store_products = FXCollections.observableArrayList();
-        String sql = "SELECT store_product.id_product, product_name, UPC, selling_price, products_number, promotional_product FROM store_product JOIN product ON store_product.id_product = product.id_product";
+        String sql = "SELECT store_product.id_product, product_name, UPC, selling_price, products_number, promotional_product FROM store_product JOIN product ON store_product.id_product = product.id_product ORDER BY selling_price DESC";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
