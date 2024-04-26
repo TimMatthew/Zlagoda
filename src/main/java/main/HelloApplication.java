@@ -13,7 +13,6 @@ import java.sql.*;
 public class HelloApplication extends Application {
 
     public static Stage mainStage;
-    //public static JMetro jMetro;
     @Override
     public void start(Stage stage) throws IOException, SQLException {
 
@@ -21,7 +20,6 @@ public class HelloApplication extends Application {
         mainStage.setResizable(false);
         mainStage.getIcons().add(new Image(getClass().getResourceAsStream("img/logo.png")));
 
-        //jMetro = new JMetro(Style.DARK);
 
         setScene(mainStage, Authorization.FXML_LOADER(), Authorization.WIDTH, Authorization.HEIGHT, "Ласкаво просимо в ZLAGODA!");
     }

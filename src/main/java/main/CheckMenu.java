@@ -2,22 +2,21 @@ package main;
 
 import Entities.*;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.CheckService;
-import services.SaleService;
 import services.StoreProductService;
 import sessionmanagement.UserInfo;
+import utils.UPC;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,31 +26,33 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class CheckMenu implements Initializable{
-
-
+    public static Stage stage;
 
     public static ObservableList<Store_Product> storeProductsData;
-    protected static HashMap<Store_Product, Integer> storeProductsInCheck;
-    protected static ArrayList<Sale> storeProductSales;
+    public static ObservableList<Sale> sales;
 
     @FXML
     public Button editProduct;
     @FXML
     public TableView storeProductsTable;
     @FXML
-    public Label check;
+    public Label checkTitle, operatorTitle;
+    @FXML
+    public ListView<Sale> saleListView;
     @FXML
     private Button addProduct;
     public Check newCheck;
+    public static String checkID;
     private Customer_Card cc;
-    private static Stage st;
     private static Employee cashier;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        checkID = UPC.generateRandomUPC(10);
+        sales = FXCollections.observableArrayList();
         storeProductsData = new StoreProductService().getAllStoreProducts();
-        check.setText("ТМ 'Злагода'\n №4358734954");
+        checkTitle.setText("ТМ 'Злагода'\n №" + checkID);
+        operatorTitle.setText("Оператор: " + cashier.getFullName());
 
         TableColumn<Store_Product, Integer> upc = new TableColumn<>("UPC");
         TableColumn<Store_Product, String> product = new TableColumn<>("Product");
@@ -71,65 +72,49 @@ public class CheckMenu implements Initializable{
             return new SimpleBooleanProperty(cellValue.isPromotional_product());
         });
 
+        saleListView.setItems(sales);
+
         storeProductsData = new StoreProductService().getAllStoreProducts();
         storeProductsTable.getColumns().clear();
         storeProductsTable.getColumns().addAll(upc, product, price, count, promotional);
         storeProductsTable.setItems(storeProductsData);
-        storeProductsInCheck = new HashMap<>();
-        updateCheckMenuData();
     }
 
-    @FXML
-    private void quit(ActionEvent actionEvent) throws IOException {
-        HelloApplication.setScene(HelloApplication.mainStage, new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")), MainMenu.WIDTH, MainMenu.HEIGHT, "Welcome to ZLAGODA!");
-        st.close();
-    }
-
-    public static void updateCheckMenuData(){
-        storeProductsData = new StoreProductService().getAllStoreProducts();
-        cashier = UserInfo.employeeProfile;
-    }
-
-    public static void setScene(Stage s){
-        st=s;
+    public static void updateCheckMenuData(Store_Product updatedProduct, Sale sale) {
+        for (int i = 0; i < storeProductsData.size(); i++) {
+            if (storeProductsData.get(i).getStore_Product_UPC().equals(updatedProduct.getStore_Product_UPC())) {
+                storeProductsData.set(i, updatedProduct);
+                break;
+            }
+        }
+        if (sale != null) {
+            for (int i = 0; i < sales.size(); i++) {
+                if (sales.get(i).getStore_Product_UPC().equals(sale.getStore_Product_UPC())) {
+                    sales.set(i, sale);
+                    break;
+                }
+            }
+        }
     }
 
     public void addStoreProductToCheck(ActionEvent actionEvent) throws IOException {
 
-        Store_Product sp=null;
         int selectedIndex = storeProductsTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            sp = (Store_Product)storeProductsTable.getItems().get(selectedIndex);
-            Store_Product prom;
-            if (sp.isPromotional_product()){
-                prom = sp;
-                sp = storeProductsData.stream()
-                        .filter(product -> prom.getStore_Product_UPC() != null && prom.getStore_Product_UPC().equals(product.getSale_UPC_prom()))
-                        .findFirst()
-                        .orElse(null);
-            } else if (sp.getSale_UPC_prom() != null){
-                Store_Product finalSelected = sp;
-                prom = storeProductsData.stream()
-                        .filter(product -> finalSelected.getSale_UPC_prom() != null && finalSelected.getSale_UPC_prom().equals(product.getStore_Product_UPC()))
-                        .findFirst()
-                        .orElse(null);;
-            } else {
-                prom = null;
-            }
-        }
-        Stage s = new Stage();
-        EnterAmount.setStoreProduct(sp);
-        HelloApplication.setScene(s, new FXMLLoader(HelloApplication.class.getResource("EnterAmount.fxml")), 290, 178, "Enter an amount");
-        EnterAmount.st = s;
+        if (selectedIndex < 0)
+            return;
+        Store_Product sp = (Store_Product)storeProductsTable.getItems().get(selectedIndex);
+        EnterAmount.initWindow(stage,sp,null);
     }
 
     public static void addProductIntoCheck(Store_Product storeProduct, int storeAmountForCheck) {
-        storeProductsInCheck.put(storeProduct, storeAmountForCheck);
+        int amount = storeProduct.getProducts_number();
+        double price = storeProduct.getSelling_price();
+        Sale sale = new Sale(storeProduct.getStore_Product_UPC(), checkID, storeAmountForCheck, getTotalSalePrice(amount, price));
+        sale.setProduct_name(storeProduct.getProductName());
+        sale.setProduct_price(storeProduct.getSelling_price());
+        sales.add(sale);
         storeProduct.setProducts_number(storeProduct.getProducts_number()-storeAmountForCheck);
-    }
-
-    public void edit(ActionEvent actionEvent){
-
+        updateCheckMenuData(storeProduct, null);
     }
 
     public void createCheck(ActionEvent actionEvent) throws SQLException {
@@ -138,19 +123,7 @@ public class CheckMenu implements Initializable{
         String custCardNumber = null;
         double sumTotal=0, totalVat=0;
 
-
-        Check newCheck = new Check(UUID.randomUUID().toString());
-        ArrayList<Sale> productsSales = new ArrayList<>();
-
-        for (Map.Entry<Store_Product, Integer> product : storeProductsInCheck.entrySet()) {
-            Sale s = new Sale(product.getKey().getStore_Product_UPC(),
-                    newCheck.getCheck_number(),
-                    product.getKey().getProducts_number(),
-                    product.getKey().getSelling_price());
-            productsSales.add(s);
-        }
-
-        for(Sale s: productsSales){
+        for(Sale s: sales){
             sumTotal += s.getProduct_number()*s.getSelling_price();
         }
 
@@ -163,5 +136,34 @@ public class CheckMenu implements Initializable{
         newCheck.setVat(totalVat);
 
         new CheckService().addCheck(newCheck);
+    }
+
+    public void editSale(ActionEvent actionEvent) {
+        int selectedIndex = saleListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex < 0)
+            return;
+        Sale sale = saleListView.getItems().get(selectedIndex);
+        EnterAmount.initWindow(stage,null,sale);
+    }
+
+    public void cancel(ActionEvent actionEvent) {
+        stage.close();
+    }
+
+    public static void initMenu(){
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(HelloApplication.mainStage);
+        stage.setResizable(false);
+        cashier = UserInfo.employeeProfile;
+        try {
+            HelloApplication.setScene(stage, new FXMLLoader(HelloApplication.class.getResource("CheckMenu.fxml")), 967, 644, "Каса");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static double getTotalSalePrice(int amount, double price){
+        return amount * price;
     }
 }

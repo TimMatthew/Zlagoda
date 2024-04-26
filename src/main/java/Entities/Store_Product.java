@@ -23,7 +23,7 @@ public class Store_Product {
     }
 
     public Store_Product(String sale_UPC_prom, int product_id_product, double selling_price, int products_number, boolean promotional_product) {
-        this(UPC.generateRandomUPC(), sale_UPC_prom, product_id_product, selling_price, products_number, promotional_product);
+        this(UPC.generateRandomUPC(12), sale_UPC_prom, product_id_product, selling_price, products_number, promotional_product);
     }
 
     public Store_Product(int product_id_product, String store_Product_UPC, double selling_price, int products_number, int promotional_product) {

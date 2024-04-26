@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import services.*;
 import sessionmanagement.UserInfo;
 import javafx.scene.control.*;
@@ -748,8 +747,7 @@ public class MainMenu implements Initializable {
     }
 
     public void createCheck(ActionEvent actionEvent) throws IOException {
-        Stage s = new Stage();
-        HelloApplication.setScene(s, new FXMLLoader(HelloApplication.class.getResource("CheckMenu.fxml")), 967, 644, "Каса");
+        CheckMenu.initMenu();
     }
 
     @FXML

@@ -5,11 +5,13 @@ public class Sale {
     String Check_check_number; //NN PPK, FK2
     int product_number; //NN
     double selling_price; //NN Тип даних в RM - Decimal (13,4), що б це не означало...
+    String product_name;
+    double product_price;
 
-    public Sale(String store_Product_UPC, String check_check_number, int product_name, double selling_price) {
+    public Sale(String store_Product_UPC, String check_check_number, int product_number, double selling_price) {
         Store_Product_UPC = store_Product_UPC;
         Check_check_number = check_check_number;
-        this.product_number = product_name;
+        this.product_number = product_number;
         this.selling_price = selling_price;
     }
 
@@ -43,5 +45,26 @@ public class Sale {
 
     public void setSelling_price(double selling_price) {
         this.selling_price = selling_price;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
+
+    public double getProduct_price() {
+        return product_price;
+    }
+
+    public void setProduct_price(double product_price) {
+        this.product_price = product_price;
+    }
+
+    @Override
+    public String toString() {
+        return product_name + ": " + product_price + " * " + product_number + " = " + selling_price + ";";
     }
 }

@@ -5,17 +5,18 @@ import services.StoreProductService;
 import java.util.Random;
 
 public class UPC {
-    public static String generateRandomUPC() {
+    public static String generateRandomUPC(int length) {
+        length -= 2;
         Random random = new Random();
         StringBuilder upcBuilder = new StringBuilder("1");
-        for (int i = 0; i < 10; i++) {
-            int digit = random.nextInt(10);
+        for (int i = 0; i < length; i++) {
+            int digit = random.nextInt(length);
             upcBuilder.append(digit);
         }
         int checksum = calculateUPCChecksum(upcBuilder.toString());
         upcBuilder.append(checksum);
         if (!new StoreProductService().isUniqueUPC(upcBuilder.toString()))
-            return generateRandomUPC();
+            return generateRandomUPC(length+2);
         return upcBuilder.toString();
     }
 

@@ -1,53 +1,85 @@
 package main;
 
+import Entities.Employee;
 import Entities.Sale;
 import Entities.Store_Product;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EnterAmount implements Initializable {
+    public static Stage stage;
     public Button confirmButton;
     public Label invalid;
     public Label outnumbered;
-    public TextField input;
+    public Spinner<Integer> input;
 
-    protected static Stage st;
     public static Store_Product storeProduct;
-
-    protected static void setStoreProduct(Store_Product sp){
-        storeProduct=sp;
-    }
+    public static Sale sale;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         invalid.setVisible(false);
         outnumbered.setVisible(false);
 
+        if (sale != null){
+            Optional<Store_Product> firstProductWithIdOne =  CheckMenu.storeProductsData.stream()
+                    .filter(product -> product.getStore_Product_UPC().equals(sale.getStore_Product_UPC()))
+                    .findFirst();
+            firstProductWithIdOne.ifPresent(store_product -> storeProduct = store_product);
+        }
+        int start = sale == null ? 0 : sale.getProduct_number();
+        int max;
+        if (sale != null)
+            max = Math.max(storeProduct.getProducts_number(), sale.getProduct_number());
+        else max = storeProduct.getProducts_number();
+        input.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, max, start, 1));
     }
 
     public void confirmAddition(ActionEvent actionEvent) {
-        String res = input.getText();
-        if(!res.matches("[0-9]*$")) {
-            outnumbered.setVisible(false);
-            invalid.setVisible(true);
-        }
-        else if(Integer.parseInt(res)>storeProduct.getProducts_number()){
+        int res = input.getValue();
+        if(res > storeProduct.getProducts_number() || res == 0){
             outnumbered.setVisible(true);
             invalid.setVisible(false);
         }
         else{
-            int storeAmountForCheck = Integer.parseInt(res);
-            outnumbered.setVisible(false);
-            invalid.setVisible(false);
-            st.close();
-            CheckMenu.addProductIntoCheck(storeProduct, storeAmountForCheck);
+            if (sale == null) {
+                outnumbered.setVisible(false);
+                invalid.setVisible(false);
+                stage.close();
+                CheckMenu.addProductIntoCheck(storeProduct, res);
+            } else {
+                int differance = sale.getProduct_number() - res;
+                sale.setProduct_number(res);
+                storeProduct.setProducts_number(storeProduct.getProducts_number() + differance);
+                outnumbered.setVisible(false);
+                invalid.setVisible(false);
+                stage.close();
+                CheckMenu.updateCheckMenuData(storeProduct, sale);
+            }
+        }
+    }
+
+
+    public static void initWindow(Stage owner, Store_Product sp, Sale sl){
+        stage = new Stage();
+        storeProduct = sp;
+        sale = sl;
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(owner);
+        stage.setResizable(false);
+        try {
+            HelloApplication.setScene(stage, new FXMLLoader(EnterAmount.class.getResource("EnterAmount.fxml")), 311, 200, "Каса");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
