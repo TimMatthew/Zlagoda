@@ -55,13 +55,13 @@ public class MainMenu{
     public static ObservableList<Store_Product> storeProductData;
 
     //Кнопки для товарів
-    private Button genericGoodsButton, storeGoodsButton, promotedGoodsButton, nonPromotedGoodsButton;
+    private Button genericProductsButton, storeProductsButton, promotedProductsButton, nonPromotedProductsButton;
 
     //Кнопки для категорій
     private Button listedCategoriesButton;
 
     //Кнопки для клієнтів
-    private Button addLoyalClientButton, clientSortNameButton;
+    private Button loyalClientsButton, addLoyalClientButton, clientSortNameButton;
 
     //Кнопки для чеків
     private Button receiptsTodayButton, receiptsPeriodButton;
@@ -145,29 +145,29 @@ public class MainMenu{
     }
 
     protected void initCashierGoodsModes() {
-        genericGoodsButton = new Button("Generic goods");
-        genericGoodsButton.setLayoutX(20); genericGoodsButton.setLayoutY(20);
-        genericGoodsButton.setPrefWidth(150); genericGoodsButton.setPrefHeight(30);
-        genericGoodsButton.setFont(new Font(13));
-        genericGoodsButton.setOnAction(actionEvent -> showGenericProducts());
+        genericProductsButton = new Button("Generic products");
+        genericProductsButton.setLayoutX(20); genericProductsButton.setLayoutY(20);
+        genericProductsButton.setPrefWidth(150); genericProductsButton.setPrefHeight(30);
+        genericProductsButton.setFont(new Font(13));
+        genericProductsButton.setOnAction(actionEvent -> showGenericProducts());
 
-        storeGoodsButton = new Button("Present in store goods");
-        storeGoodsButton.setLayoutX(20); storeGoodsButton.setLayoutY(70);
-        storeGoodsButton.setPrefWidth(150); storeGoodsButton.setPrefHeight(30);
-        storeGoodsButton.setFont(new Font(13));
-        storeGoodsButton.setOnAction(actionEvent -> showStoreProducts());
+        storeProductsButton = new Button("Present in store goods");
+        storeProductsButton.setLayoutX(20); storeProductsButton.setLayoutY(70);
+        storeProductsButton.setPrefWidth(150); storeProductsButton.setPrefHeight(30);
+        storeProductsButton.setFont(new Font(13));
+        storeProductsButton.setOnAction(actionEvent -> showStoreProducts());
 
-        promotedGoodsButton = new Button("Promoted goods");
-        promotedGoodsButton.setLayoutX(20); promotedGoodsButton.setLayoutY(120);
-        promotedGoodsButton.setPrefWidth(150); promotedGoodsButton.setPrefHeight(30);
-        promotedGoodsButton.setFont(new Font(13));
-        promotedGoodsButton.setOnAction(actionEvent -> showPromotedStoreProducts(true));
+        promotedProductsButton = new Button("Promoted goods");
+        promotedProductsButton.setLayoutX(20); promotedProductsButton.setLayoutY(120);
+        promotedProductsButton.setPrefWidth(150); promotedProductsButton.setPrefHeight(30);
+        promotedProductsButton.setFont(new Font(13));
+        promotedProductsButton.setOnAction(actionEvent -> showPromotedStoreProducts(true));
 
-        nonPromotedGoodsButton = new Button("Non-promoted goods");
-        nonPromotedGoodsButton.setLayoutX(20); nonPromotedGoodsButton.setLayoutY(170);
-        nonPromotedGoodsButton.setPrefWidth(150); nonPromotedGoodsButton.setPrefHeight(30);
-        nonPromotedGoodsButton.setFont(new Font(13));
-        nonPromotedGoodsButton.setOnAction(actionEvent -> showPromotedStoreProducts(false));
+        nonPromotedProductsButton = new Button("Non-promoted goods");
+        nonPromotedProductsButton.setLayoutX(20); nonPromotedProductsButton.setLayoutY(170);
+        nonPromotedProductsButton.setPrefWidth(150); nonPromotedProductsButton.setPrefHeight(30);
+        nonPromotedProductsButton.setFont(new Font(13));
+        nonPromotedProductsButton.setOnAction(actionEvent -> showPromotedStoreProducts(false));
     }
 
     protected void initCashierCategoriesModes() {
@@ -178,24 +178,32 @@ public class MainMenu{
         listedCategoriesButton.setOnAction(actionEvent -> showCategories());
     }
 
+    protected void initCashierClientsModes() {
+        loyalClientsButton = new Button("Loyal clients");
+        loyalClientsButton.setLayoutX(20); loyalClientsButton.setLayoutY(20);
+        loyalClientsButton.setPrefWidth(150); loyalClientsButton.setPrefHeight(30);
+        loyalClientsButton.setFont(new Font(13));
+        loyalClientsButton.setOnAction(actionEvent -> showClientsCards());
+    }
+
     protected void initCashierClientsManipulationTools(){
         addLoyalClientButton = new Button("Add loyal client");
         addLoyalClientButton.setLayoutX(20); addLoyalClientButton.setLayoutY(220);
-        addLoyalClientButton.setPrefWidth(110); addLoyalClientButton.setPrefHeight(30);
+        addLoyalClientButton.setPrefWidth(120); addLoyalClientButton.setPrefHeight(30);
 
         clientSortNameButton = new Button("Sort by name");
         clientSortNameButton.setLayoutX(20); clientSortNameButton.setLayoutY(270);
-        clientSortNameButton.setPrefWidth(110); clientSortNameButton.setPrefHeight(30);
+        clientSortNameButton.setPrefWidth(120); clientSortNameButton.setPrefHeight(30);
     }
 
     protected void initCashierReceiptsManipulationTools(){
         receiptsTodayButton = new Button("Receipts for today");
-        receiptsTodayButton.setLayoutX(13); receiptsTodayButton.setLayoutY(20);
-        receiptsTodayButton.setPrefWidth(140); receiptsTodayButton.setPrefHeight(30);
+        receiptsTodayButton.setLayoutX(20); receiptsTodayButton.setLayoutY(20);
+        receiptsTodayButton.setPrefWidth(150); receiptsTodayButton.setPrefHeight(30);
 
         receiptsPeriodButton = new Button("Receipts for set period");
-        receiptsPeriodButton.setLayoutX(13); receiptsPeriodButton.setLayoutY(70);
-        receiptsPeriodButton.setPrefWidth(140); receiptsPeriodButton.setPrefHeight(30);
+        receiptsPeriodButton.setLayoutX(20); receiptsPeriodButton.setLayoutY(70);
+        receiptsPeriodButton.setPrefWidth(150); receiptsPeriodButton.setPrefHeight(30);
     }
 
     @FXML
@@ -206,10 +214,10 @@ public class MainMenu{
         if(goodsModeRadio.isSelected()){
             initCashierGoodsModes();
             initGoodsManipulationTools();
-            functionsPane.getChildren().add(genericGoodsButton);
-            functionsPane.getChildren().add(storeGoodsButton);
-            functionsPane.getChildren().add(promotedGoodsButton);
-            functionsPane.getChildren().add(nonPromotedGoodsButton);
+            functionsPane.getChildren().add(genericProductsButton);
+            functionsPane.getChildren().add(storeProductsButton);
+            functionsPane.getChildren().add(promotedProductsButton);
+            functionsPane.getChildren().add(nonPromotedProductsButton);
 
             functionsPane.getChildren().add(addProduct);
             functionsPane.getChildren().add(editProduct);
@@ -219,18 +227,23 @@ public class MainMenu{
             initCashierCategoriesModes();
             initCategoriesManipulationTools();
             functionsPane.getChildren().add(listedCategoriesButton);
+
             functionsPane.getChildren().add(addCategory);
             functionsPane.getChildren().add(editCategory);
             searchField.setPromptText("Categories search...");
         }
         else if(clientsModeRadio.isSelected()){
+            initCashierClientsModes();
             initCashierClientsManipulationTools();
+            functionsPane.getChildren().add(loyalClientsButton);
+
             functionsPane.getChildren().add(addLoyalClientButton);
             functionsPane.getChildren().add(clientSortNameButton);
             searchField.setPromptText("Clients search...");
         }
         else if(receiptsModeRadio.isSelected()){
             initCashierReceiptsManipulationTools();
+
             functionsPane.getChildren().add(receiptsTodayButton);
             functionsPane.getChildren().add(receiptsPeriodButton);
             searchField.setPromptText("Receipts search...");
@@ -295,37 +308,6 @@ public class MainMenu{
         employeeData = new EmployeeService().getAllEmployees();
     }
 
-    private void showCustomerCards(){
-        TableColumn<Customer_Card, String> surname = new TableColumn<>("Surname");
-        TableColumn<Customer_Card, String> name = new TableColumn<>("Name");
-        TableColumn<Customer_Card, String> patronymic = new TableColumn<>("Patronymic");
-        TableColumn<Customer_Card, String> phone_number = new TableColumn<>("Phone");
-        TableColumn<Customer_Card, String> city = new TableColumn<>("City");
-        TableColumn<Customer_Card, String> street = new TableColumn<>("Street");
-        TableColumn<Customer_Card, String> zip_code = new TableColumn<>("Zip code");
-        TableColumn<Customer_Card, String> percent = new TableColumn<>("Discount");
-
-        TableColumn fullName = new TableColumn<>("Full name");
-        TableColumn address = new TableColumn<>("Address");
-
-        fullName.getColumns().addAll(surname, name, patronymic);
-        address.getColumns().addAll(city, street, zip_code);
-
-        surname.setCellValueFactory(new PropertyValueFactory<>("cust_surname"));
-        name.setCellValueFactory(new PropertyValueFactory<>("cust_name"));
-        patronymic.setCellValueFactory(new PropertyValueFactory<>("cust_patronymic"));
-        phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
-        city.setCellValueFactory(new PropertyValueFactory<>("city"));
-        street.setCellValueFactory(new PropertyValueFactory<>("street"));
-        zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
-        percent.setCellValueFactory(new PropertyValueFactory<>("percent"));
-
-        dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(fullName, phone_number, address, percent);
-        updateCustomerCardTable();
-        dataTable.setItems(customerCardData);
-    }
-
     private void showGenericProducts(){
         TableColumn<Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Product, String> name = new TableColumn<>("Name");
@@ -349,7 +331,7 @@ public class MainMenu{
         TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Store_Product, String> name = new TableColumn<>("Name");
         TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
-        TableColumn<Store_Product, Double> price = new TableColumn<>("price");
+        TableColumn<Store_Product, Double> price = new TableColumn<>("Price");
         TableColumn<Store_Product, Integer> products_num = new TableColumn<>("Quantity");
         TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
 
@@ -371,7 +353,7 @@ public class MainMenu{
         TableColumn<Store_Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Store_Product, String> name = new TableColumn<>("Name");
         TableColumn<Store_Product, String> upc = new TableColumn<>("UPC");
-        TableColumn<Store_Product, Double> price = new TableColumn<>("price");
+        TableColumn<Store_Product, Double> price = new TableColumn<>("Price");
         TableColumn<Store_Product, Integer> products_num = new TableColumn<>("Quantity");
         TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
 
@@ -428,6 +410,37 @@ public class MainMenu{
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(id, name, count, count_store);
         dataTable.setItems(categoryData);
+    }
+
+    private void showClientsCards(){
+        TableColumn<Customer_Card, String> surname = new TableColumn<>("Surname");
+        TableColumn<Customer_Card, String> name = new TableColumn<>("Name");
+        TableColumn<Customer_Card, String> patronymic = new TableColumn<>("Patronymic");
+        TableColumn<Customer_Card, String> phone_number = new TableColumn<>("Phone");
+        TableColumn<Customer_Card, String> city = new TableColumn<>("City");
+        TableColumn<Customer_Card, String> street = new TableColumn<>("Street");
+        TableColumn<Customer_Card, String> zip_code = new TableColumn<>("Zip code");
+        TableColumn<Customer_Card, String> percent = new TableColumn<>("Discount");
+
+        TableColumn fullName = new TableColumn<>("Full name");
+        TableColumn address = new TableColumn<>("Address");
+
+        fullName.getColumns().addAll(surname, name, patronymic);
+        address.getColumns().addAll(city, street, zip_code);
+
+        surname.setCellValueFactory(new PropertyValueFactory<>("cust_surname"));
+        name.setCellValueFactory(new PropertyValueFactory<>("cust_name"));
+        patronymic.setCellValueFactory(new PropertyValueFactory<>("cust_patronymic"));
+        phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        city.setCellValueFactory(new PropertyValueFactory<>("city"));
+        street.setCellValueFactory(new PropertyValueFactory<>("street"));
+        zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
+        percent.setCellValueFactory(new PropertyValueFactory<>("percent"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(fullName, phone_number, address, percent);
+        updateCustomerCardTable();
+        dataTable.setItems(customerCardData);
     }
 
     private void addNewEmployee() {
@@ -614,7 +627,7 @@ public class MainMenu{
             functionsPane.getChildren().add(addClient);
             functionsPane.getChildren().add(editClient);
             searchField.setPromptText("Clients search...");
-            showCustomerCards();
+            showClientsCards();
         }
         else if(categoryMode.isSelected()){
             initCategoriesManipulationTools();
