@@ -35,7 +35,7 @@ public class CustomerCardService {
             statement.setString(6, card.getCity());
             statement.setString(7, card.getStreet());
             statement.setString(8, card.getZip_code());
-            statement.setString(9, card.getPercent());
+            statement.setString(9, String.valueOf(card.getPercent()));
 
             statement.executeUpdate();
         }
@@ -56,7 +56,7 @@ public class CustomerCardService {
             statement.setString(5, card.getCity());
             statement.setString(6, card.getStreet());
             statement.setString(7, card.getZip_code());
-            statement.setString(8, card.getPercent());
+            statement.setString(8, String.valueOf(card.getPercent()));
             statement.setString(9, card.getCard_number());
 
             new LogService().addLog(LogAction.UPDATE_CUSTOMER_CARD, LogService.getLogMessage("updated the customer card: " + card));
@@ -79,7 +79,7 @@ public class CustomerCardService {
                 String zipCode = rs.getString("zip_code");
                 String percent = rs.getString("percent");
 
-                customers.add(new Customer_Card(id, surname, name, patronymic, phoneNumber, city, street, zipCode, percent));
+                customers.add(new Customer_Card(id, surname, name, patronymic, phoneNumber, city, street, zipCode, Integer.parseInt(percent)));
             }
         } catch (SQLException e) {
             System.err.println("Error fetching employees from database: " + e.getMessage());
@@ -122,7 +122,7 @@ public class CustomerCardService {
                 String zipCode = rs.getString("zip_code");
                 String percent = rs.getString("percent");
 
-                customers.add(new Customer_Card(id, surname, name, patronymic, phoneNumber, city, street, zipCode, percent));
+                customers.add(new Customer_Card(id, surname, name, patronymic, phoneNumber, city, street, zipCode, Integer.parseInt(percent)));
             }
         } catch (SQLException e) {
             System.err.println("Error fetching employees from database: " + e.getMessage());

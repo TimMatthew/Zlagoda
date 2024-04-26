@@ -11,9 +11,9 @@ public class Customer_Card {
     String city; //N
     String street; //N
     String zip_code; //N
-    String percent; //NN
+    int percent; //NN
 
-    public Customer_Card(String cust_surname, String cust_name, String cust_patronymic, String phone_number, String city, String street, String zip_code, String percent) {
+    public Customer_Card(String cust_surname, String cust_name, String cust_patronymic, String phone_number, String city, String street, String zip_code, int percent) {
         this.card_number = UUID.randomUUID().toString();
         this.cust_surname = cust_surname;
         this.cust_name = cust_name;
@@ -25,7 +25,7 @@ public class Customer_Card {
         this.percent = percent;
     }
 
-    public Customer_Card(String card_number, String cust_surname, String cust_name, String cust_patronymic, String phone_number, String city, String street, String zip_code, String percent) {
+    public Customer_Card(String card_number, String cust_surname, String cust_name, String cust_patronymic, String phone_number, String city, String street, String zip_code, int percent) {
         this(cust_surname, cust_name, cust_patronymic, phone_number, city, street, zip_code, percent);
 
         this.card_number = card_number;
@@ -91,11 +91,11 @@ public class Customer_Card {
         this.zip_code = zip_code;
     }
 
-    public String getPercent() {
+    public int getPercent() {
         return percent;
     }
 
-    public void setPercent(String percent) {
+    public void setPercent(int percent) {
         this.percent = percent;
     }
 

@@ -27,6 +27,10 @@ public class Check {
         this.vat = vat;
     }
 
+    public Check(String check_number) {
+        this.check_number = check_number;
+    }
+
     public String getCheck_number() {
         return check_number;
     }

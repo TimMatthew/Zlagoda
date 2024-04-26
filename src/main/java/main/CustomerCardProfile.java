@@ -50,7 +50,7 @@ public class CustomerCardProfile implements Initializable {
             cityLabel.setText(currentCustomer.getCity());
             streetLabel.setText(currentCustomer.getStreet());
             zipcodeLabel.setText(currentCustomer.getZip_code());
-            percentLabel.setText(currentCustomer.getPercent());
+            percentLabel.setText(String.valueOf(currentCustomer.getPercent()));
 
             if (UserInfo.position.equals("Cashier"))
                 editButton.setVisible(false);
@@ -94,11 +94,11 @@ public class CustomerCardProfile implements Initializable {
         String city = cityField.getText().trim();
         String street = streetField.getText().trim();
         String zipcode = zipcodeField.getText().trim();
-        String percent = percentField.getText().trim();
+        int percent = Integer.parseInt(percentField.getText().trim());
 
         if (currentCustomer != null && name.equals(nameLabel.getText()) && surname.equals(surnameLabel.getText()) &&
                 patronymic.equals(patronymicLabel.getText()) && phone.equals(phoneLabel.getText()) && city.equals(cityLabel.getText()) &&
-                 street.equals(streetLabel.getText()) && zipcode.equals(zipcodeLabel.getText()) && percent.equals(percentLabel.getText())) {
+                 street.equals(streetLabel.getText()) && zipcode.equals(zipcodeLabel.getText()) && String.valueOf(percent).equals(percentLabel.getText())) {
             setLabelsVisible(true);
             setTextFieldsVisible(false);
             editButton.setVisible(true);
@@ -107,7 +107,7 @@ public class CustomerCardProfile implements Initializable {
             return;
         }
 
-        if (!valuesValidation(name, surname, patronymic, phone, city, street, zipcode, percent))
+        if (!valuesValidation(name, surname, patronymic, phone, city, street, zipcode, String.valueOf(percent)))
             return;
 
         CustomerCardService ccs = new CustomerCardService();
