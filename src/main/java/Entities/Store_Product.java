@@ -87,4 +87,17 @@ public class Store_Product {
         productName = MainMenu.productMapGetName.get(Product_id_product);
         return productName;
     }
+
+    @Override
+    public String toString() {
+        return "Store_Product{" +
+                "Store_Product_UPC='" + Store_Product_UPC + '\'' +
+                ", Sale_UPC_prom='" + Sale_UPC_prom + '\'' +
+                ", Product_id_product=" + Product_id_product +
+                ", productName='" + productName + '\'' +
+                ", selling_price=" + selling_price +
+                ", products_number=" + products_number +
+                ", promotional_product=" + promotional_product +
+                '}';
+    }
 }

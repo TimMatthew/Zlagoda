@@ -22,7 +22,8 @@ public class StoreProductManager implements Initializable {
 
     public static Store_Product currentStoreProduct;
     public static Store_Product currentPromStoreProduct;
-    private static boolean isPromotional;
+    private static String selectedProductName;
+    private boolean isPromotional;
     private static StoreProductService service;
     private static Stage stage;
 
@@ -52,6 +53,9 @@ public class StoreProductManager implements Initializable {
         productChoiceBox.setItems(FXCollections.observableArrayList(MainMenu.productMapGetID.keySet()));
         service = new StoreProductService();
 
+        if (selectedProductName != null)
+            productChoiceBox.setValue(selectedProductName);
+
         promCountSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0, 5));
         countSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0, 5));
         priceSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 5));
@@ -68,6 +72,7 @@ public class StoreProductManager implements Initializable {
             if (currentPromStoreProduct != null){
                 currentPromStoreProduct = service.getStoreProduct(currentStoreProduct.getSale_UPC_prom());
                 promotionalCheckBox.setSelected(true);
+                isPromotional = true;
                 promCountLabel.setText(String.valueOf(currentPromStoreProduct.getProducts_number()));
             }
             promotionalCheckBox.setDisable(true);
@@ -158,17 +163,18 @@ public class StoreProductManager implements Initializable {
                 Store_Product oldProduct = service.getStoreProductByProductId(id_product);
                 oldProduct.setSelling_price(price);
                 oldProduct.setProducts_number(oldProduct.getProducts_number() + product_number);
-                if (oldProduct.isPromotional_product()){
+                if (oldProduct.getSale_UPC_prom() != null){
                     Store_Product oldPromProduct = service.getStoreProduct(oldProduct.getSale_UPC_prom());
                     if(!promotional_product){
                         service.deleteStoreProduct(oldPromProduct.getStore_Product_UPC());
+                        oldProduct.setSale_UPC_prom(null);
                     } else {
                         oldPromProduct.setProducts_number(oldPromProduct.getProducts_number() + promProduct_number);
                         oldPromProduct.setSelling_price(service.promotionalPrice(price));
                         service.updateStoreProduct(oldPromProduct);
                     }
                 }
-                if (!oldProduct.isPromotional_product() && promotional_product){
+                if (oldProduct.getSale_UPC_prom() == null && promotional_product){
                     oldProduct.setSale_UPC_prom(promUPC);
                     service.addStoreProduct(currentPromStoreProduct);
                 }
@@ -289,9 +295,10 @@ public class StoreProductManager implements Initializable {
         errorLabel.setVisible(true);
         errorLabel.setText(msg);
     }
-    public static void initProfile(Store_Product storeProduct, Store_Product promStoreProduct, String title){
+    public static void initProfile(Store_Product storeProduct, Store_Product promStoreProduct, String productName, String title){
         currentStoreProduct = storeProduct;
         currentPromStoreProduct = promStoreProduct;
+        selectedProductName = productName;
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(HelloApplication.mainStage);

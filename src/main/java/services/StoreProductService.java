@@ -3,6 +3,7 @@ package services;
 import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import utils.LogAction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +34,7 @@ public class StoreProductService {
 
             statement.executeUpdate();
         }
+        new LogService().addLog(LogAction.ADD_PRODUCT_TO_STORE, LogService.getLogMessage("addded to store: " + product));
 
         return true;
     }
@@ -49,6 +51,8 @@ public class StoreProductService {
             statement.setString(6, storeProduct.getStore_Product_UPC());
 
             statement.executeUpdate();
+            new LogService().addLog(LogAction.UPDATE_PRODUCT_IN_STORE, LogService.getLogMessage("updated the product in store: " + storeProduct));
+
         } catch (SQLException e) {
             System.err.println("Error fetching employees from database: " + e.getMessage());
         }
@@ -77,6 +81,7 @@ public class StoreProductService {
         String sql = "DELETE FROM store_product WHERE  UPC= ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, upc);
+            new LogService().addLog(LogAction.DELETE_PRODUCT_IN_STORE, LogService.getLogMessage("deleted the product in store: " + getStoreProduct(upc)));
             statement.executeUpdate();
         }
     }

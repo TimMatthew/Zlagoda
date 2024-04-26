@@ -4,6 +4,7 @@ import Entities.Product;
 import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import utils.LogAction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +34,7 @@ public class ProductService {
             statement.executeUpdate();
         }
 
+        new LogService().addLog(LogAction.ADD_PRODUCT, LogService.getLogMessage("added the new product: " + product));
         return true;
     }
 
@@ -46,6 +48,7 @@ public class ProductService {
             statement.setInt(4, product.getId_product());
 
             statement.executeUpdate();
+            new LogService().addLog(LogAction.UPDATE_PRODUCT, LogService.getLogMessage("updated the product: " + product));
         }
     }
     public ObservableList<Product> getAllProducts() {
@@ -70,6 +73,7 @@ public class ProductService {
         String sql = "DELETE FROM product WHERE  id_product= ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
+            new LogService().addLog(LogAction.DELETE_PRODUCT, LogService.getLogMessage("deleted the product: " + getProduct(id)));
             statement.executeUpdate();
         }
     }
@@ -97,6 +101,28 @@ public class ProductService {
                     return resultSet.getString("product_name");
                 else
                     return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Product getProduct(int id) {
+        String sql = "SELECT product_name FROM product WHERE id_product = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    int category_id = rs.getInt("category_number");
+                    String name = rs.getString("product_name");
+                    String characteristics = rs.getString("characteristics");
+
+                    return new Product(id, category_id, name, characteristics);
+                }
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import net.sf.jasperreports.engine.util.LinkedMap;
+import utils.LogAction;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class CategoryService {
             statement.setString(2, category.getCategory_name());
 
             statement.executeUpdate();
+            new LogService().addLog(LogAction.ADD_CATEGORY, LogService.getLogMessage("added the new category: " + category));
         }
 
         return true;
@@ -44,6 +46,7 @@ public class CategoryService {
             statement.setInt(2, category.getCategory_number());
 
             statement.executeUpdate();
+            new LogService().addLog(LogAction.UPDATE_CATEGORY, LogService.getLogMessage("updated the category: " + category));
         }
     }
     public ObservableList<Category> getAllCategories() {
@@ -66,6 +69,7 @@ public class CategoryService {
         String sql = "DELETE FROM category WHERE category_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, category_number);
+            new LogService().addLog(LogAction.DELETE_CATEGORY, LogService.getLogMessage("deleted the category: " + getCategoryName(category_number)));
             statement.executeUpdate();
             return true;
         } catch (SQLIntegrityConstraintViolationException e){

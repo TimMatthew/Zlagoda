@@ -42,7 +42,7 @@ public class ProductManager implements Initializable {
     public ComboBox<String> categoriesComboBox;
 
     @FXML
-    private Button editButton, saveButton, deleteButton;
+    private Button editButton, saveButton, deleteButton, addtoStoreButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,8 +56,10 @@ public class ProductManager implements Initializable {
             categoriesComboBox.setValue(currentProduct.getCategory_name());
             categoriesComboBox.setVisible(false);
 
-            if (UserInfo.position.equals("Cashier"))
+            if (UserInfo.position.equals("Cashier")) {
                 editButton.setVisible(false);
+                addtoStoreButton.setVisible(false);
+            }
             saveButton.setVisible(false);
             deleteButton.setVisible(false);
 
@@ -65,6 +67,7 @@ public class ProductManager implements Initializable {
             setTextFieldsVisible(false);
         } else {
             editButton.setVisible(false);
+            addtoStoreButton.setVisible(false);
             setLabelsVisible(false);
             setTextFieldsVisible(true);
         }
@@ -81,6 +84,7 @@ public class ProductManager implements Initializable {
         categoryLabel.setText(categoriesComboBox.getValue());
 
         editButton.setVisible(false);
+        addtoStoreButton.setVisible(false);
         deleteButton.setVisible(true);
         saveButton.setVisible(true);
     }
@@ -97,6 +101,7 @@ public class ProductManager implements Initializable {
             setLabelsVisible(true);
             setTextFieldsVisible(false);
             editButton.setVisible(true);
+            addtoStoreButton.setVisible(true);
             saveButton.setVisible(false);
             deleteButton.setVisible(false);
             return;
@@ -144,6 +149,7 @@ public class ProductManager implements Initializable {
         categoryLabel.setText(categoriesComboBox.getValue());
 
         editButton.setVisible(true);
+        addtoStoreButton.setVisible(true);
         saveButton.setVisible(false);
     }
 
@@ -155,6 +161,14 @@ public class ProductManager implements Initializable {
             currentProduct = null;
         }
         stage.close();
+    }
+    @FXML
+    public void handleAddToStoreButtonAction(ActionEvent actionEvent) {
+        if (currentProduct != null) {
+            StoreProductManager.initProfile(null, null, currentProduct.getProduct_name(), "Adding product to store");
+            currentProduct = null;
+            stage.close();
+        }
     }
 
     private void setLabelsVisible(boolean visible) {
@@ -214,5 +228,4 @@ public class ProductManager implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
 }

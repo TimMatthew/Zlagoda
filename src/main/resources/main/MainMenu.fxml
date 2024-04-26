@@ -124,14 +124,19 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button id="printReportButton" fx:id="printReportButton" alignment="CENTER" layoutX="48.0" layoutY="644.0" mnemonicParsing="false" onAction="#printReport" prefHeight="35.0" prefWidth="155.0" text="Print reports">
+            <Button id="printReportButton" fx:id="printReportButton" alignment="CENTER" layoutX="23.0" layoutY="644.0" mnemonicParsing="false" onAction="#printReport" prefHeight="38.0" prefWidth="100.0" text="Print reports">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Button>
             <Button id="createCheckButton" fx:id="createCheckButton" alignment="CENTER" layoutX="48.0" layoutY="644.0" mnemonicParsing="false" onAction="#createCheck" prefHeight="35.0" prefWidth="155.0" text="Create a check">
                <font>
                   <Font size="16.0" />
+               </font>
+            </Button>
+            <Button id="printReportButton" fx:id="checkLogButton" alignment="CENTER" layoutX="128.0" layoutY="644.0" mnemonicParsing="false" onAction="#checkLog" prefHeight="38.0" prefWidth="100.0" text="Check log">
+               <font>
+                  <Font size="14.0" />
                </font>
             </Button>
          </children>
@@ -149,7 +154,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <TableView fx:id="dataTable" editable="true" layoutY="52.0" prefHeight="693.0" prefWidth="1037.0" />
+            <TableView fx:id="dataTable" editable="true" layoutX="1.0" layoutY="52.0" prefHeight="691.0" prefWidth="1034.0" />
          </children>
       </AnchorPane>
    </children>

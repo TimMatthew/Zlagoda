@@ -4,6 +4,7 @@ import Entities.Customer_Card;
 import Entities.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import utils.LogAction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,6 +39,7 @@ public class CustomerCardService {
             statement.executeUpdate();
         }
 
+        new LogService().addLog(LogAction.ADD_CUSTOMER_CARD, LogService.getLogMessage("added the new customer card: " + card));
         return true;
     }
 
@@ -56,6 +58,7 @@ public class CustomerCardService {
             statement.setString(8, card.getPercent());
             statement.setString(9, card.getCard_number());
 
+            new LogService().addLog(LogAction.UPDATE_CUSTOMER_CARD, LogService.getLogMessage("updated the customer card: " + card));
             statement.executeUpdate();
         }
     }
@@ -87,6 +90,7 @@ public class CustomerCardService {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, card_number);
             statement.executeUpdate();
+            new LogService().addLog(LogAction.DELETE_CUSTOMER_CARD, LogService.getLogMessage("deleted the customer card: " + card_number));
         }
     }
 

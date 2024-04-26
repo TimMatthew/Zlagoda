@@ -3,6 +3,7 @@ package services;
 
 import Entities.Employee;
 import sessionmanagement.UserInfo;
+import utils.LogAction;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -52,6 +53,7 @@ public class AuthorizationService {
 
             statement.executeUpdate();
         }
+        new LogService().addLog(LogAction.ADD_EMPLOYEE, LogService.getLogMessage("registered new employee " + employee.getFullName() + " with login " + login));
 
         return true;
     }
@@ -74,7 +76,8 @@ public class AuthorizationService {
         statement.close();
         resultSet.close();
 
-       UserInfo.updateEmployeeProfile();
+        UserInfo.updateEmployeeProfile();
+        new LogService().addLog(LogAction.LOGIN, LogService.getLogMessage("signed in Zlagoda application."));
 
         UserInfo.position = UserInfo.employeeProfile.getEmpl_role();
         return true;
@@ -110,6 +113,8 @@ public class AuthorizationService {
             statement.setString(3, oldPassword);
 
             int result = statement.executeUpdate();
+            if (result != 0)
+                new LogService().addLog(LogAction.CHANGE_PASSWORD, LogService.getLogMessage("changed password."));
             return result != 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);

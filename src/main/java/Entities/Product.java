@@ -61,4 +61,15 @@ public class Product {
         category_name = MainMenu.categoryMapGetName.get(category_number);
         return category_name;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id_product=" + id_product +
+                ", category_number=" + category_number +
+                ", category_name='" + category_name + '\'' +
+                ", product_name='" + product_name + '\'' +
+                ", characteristics='" + characteristics + '\'' +
+                '}';
+    }
 }

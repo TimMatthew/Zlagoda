@@ -1,8 +1,10 @@
 package services;
 
 import Entities.Employee;
+import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import utils.LogAction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,6 +38,7 @@ public class EmployeeService {
             statement.setString(12, employee.getId_employee());
 
             statement.executeUpdate();
+            new LogService().addLog(LogAction.UPDATE_EMPLOYEE, LogService.getLogMessage("updated the employee: " + employee));
         }
     }
     public ObservableList<Employee> getAllEmployees() {
@@ -64,10 +67,43 @@ public class EmployeeService {
         }
         return employees;
     }
+
+    public Employee getEmployee(String id) {
+        String sql = "SELECT * FROM employee WHERE id_employee =?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, id);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()){
+                    String surname = rs.getString("empl_surname");
+                    String name = rs.getString("empl_name");
+                    String patronymic = rs.getString("empl_patronymic");
+                    String role = rs.getString("empl_role");
+                    String salary = rs.getString("salary");
+                    java.sql.Date dateOfBirth = rs.getDate("date_of_birth");
+                    java.sql.Date dateOfStart = rs.getDate("date_of_start");
+                    String phoneNumber = rs.getString("phone_number");
+                    String city = rs.getString("city");
+                    String street = rs.getString("street");
+                    String zipCode = rs.getString("zip_code");
+
+                    return new Employee(id, surname, name, patronymic, role, salary, dateOfBirth, dateOfStart, phoneNumber, city, street, zipCode);
+                }
+                else
+                    return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void deleteEmployee(String employeeId) throws SQLException {
         String sql = "DELETE FROM employee WHERE id_employee = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, employeeId);
+            new LogService().addLog(LogAction.UPDATE_EMPLOYEE, LogService.getLogMessage("deleted the employee: " + getEmployee(employeeId)));
             statement.executeUpdate();
         }
     }

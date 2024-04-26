@@ -146,4 +146,21 @@ public class Employee {
     public String getFullName(){
         return empl_patronymic == null ? empl_surname + " " + empl_name : empl_surname + " " + empl_name + " " + empl_patronymic;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empl_surname='" + empl_surname + '\'' +
+                ", empl_name='" + empl_name + '\'' +
+                ", empl_patronymic='" + empl_patronymic + '\'' +
+                ", empl_role='" + empl_role + '\'' +
+                ", salary='" + salary + '\'' +
+                ", date_of_birth=" + date_of_birth +
+                ", date_of_start=" + date_of_start +
+                ", phone_number='" + phone_number + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", zip_code='" + zip_code + '\'' +
+                '}';
+    }
 }

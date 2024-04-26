@@ -52,4 +52,14 @@ public class Category {
     public void setAvailableProducts_count(int count) {
         this.available_products_count = count;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "category_number=" + category_number +
+                ", category_name='" + category_name + '\'' +
+                ", products_count=" + products_count +
+                ", available_products_count=" + available_products_count +
+                '}';
+    }
 }

@@ -46,6 +46,8 @@ public class MainMenu{
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
     private Button goodsAmountSoldInSetTime;
     public static ObservableList<Employee> employeeData;
+    public static Map<String, String> employeeDataMapGetName;
+    public static Map<String, String> employeeDataMapGetID;
     public static ObservableList<Customer_Card> customerCardData;
     public static ObservableList<Category> categoryData;
     public static Map<String, Integer> categoryMapGetID;
@@ -73,7 +75,7 @@ public class MainMenu{
     @FXML
     private AnchorPane functionsPane;
     @FXML
-    private Button printReportButton;
+    private Button printReportButton, checkLogButton;
     @FXML
     private TextField searchField;
 
@@ -107,6 +109,7 @@ public class MainMenu{
         storeProductsMode.setVisible(false);
         managerReceiptsMode.setVisible(false);
         printReportButton.setVisible(false);
+        checkLogButton.setVisible(false);
 
         updateCustomerCardTable();
         updateCategoryTable();
@@ -140,10 +143,6 @@ public class MainMenu{
         updateStoreProductTable();
     }
 
-    @FXML
-    protected void openProfile(ActionEvent e) {
-        EmployeeProfile.initProfile(UserInfo.employeeProfile, "Manager profile");
-    }
 
     protected void initCashierGoodsModes() {
         genericProductsButton = new Button("Generic products");
@@ -307,6 +306,10 @@ public class MainMenu{
     }
     private void updateEmployeesTable(){
         employeeData = new EmployeeService().getAllEmployees();
+        employeeDataMapGetName = employeeData.stream()
+                .collect(Collectors.toMap(Employee::getId_employee, Employee::getFullName));
+        employeeDataMapGetID = employeeData.stream()
+                .collect(Collectors.toMap(Employee::getFullName, Employee::getId_employee));
     }
 
     private void showGenericProducts(){
@@ -489,7 +492,7 @@ public class MainMenu{
         storeProductData = new StoreProductService().getAllStoreProducts();
     }
     private void addNewStoreProduct() {
-        StoreProductManager.initProfile(null, null, "New store product");
+        StoreProductManager.initProfile(null, null, null, "New store product");
     }
     private void editSelectedStoreProduct() {
         int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
@@ -511,7 +514,7 @@ public class MainMenu{
             } else {
                 prom = null;
             }
-            StoreProductManager.initProfile(selected, prom,  selected.getProductName() + " product");
+            StoreProductManager.initProfile(selected, prom, null, selected.getProductName() + " product");
         }
     }
 
@@ -661,6 +664,10 @@ public class MainMenu{
     }
 
     @FXML
+    protected void openProfile(ActionEvent e) {
+        EmployeeProfile.initProfile(UserInfo.employeeProfile, "Manager profile");
+    }
+    @FXML
     public void quit(ActionEvent actionEvent) throws IOException {
         UserInfo.id = null;
         UserInfo.position = null;
@@ -690,5 +697,9 @@ public class MainMenu{
             return;
         DataPrinter.createReport(new DataBaseHandler().getConnection(), new HashMap<>(), new JasperService().getReport(template));
         DataPrinter.showReport();
+    }
+    @FXML
+    public void checkLog(ActionEvent actionEvent) throws IOException {
+        HelloApplication.setScene(HelloApplication.mainStage,  new FXMLLoader(LogModeView.class.getResource("LogView.fxml")), WIDTH, HEIGHT, "Log Mode View");
     }
 }

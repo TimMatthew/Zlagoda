@@ -1,5 +1,7 @@
 package services;
 
+import utils.LogAction;
+
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +28,7 @@ public class JasperService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        new LogService().addLog(LogAction.PRINT, LogService.getLogMessage("requested data to print " + name));
         return in;
     }
 }

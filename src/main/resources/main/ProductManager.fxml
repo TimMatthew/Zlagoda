@@ -57,10 +57,11 @@
                   </Label>
                   <TextArea fx:id="characteristicsArea" layoutX="14.0" layoutY="85.0" prefHeight="89.0" prefWidth="308.0" promptText=". . ." wrapText="true" />
                   <Label fx:id="characteristicsLabel" alignment="TOP_LEFT" layoutX="16.0" layoutY="85.0" prefHeight="90.0" prefWidth="308.0" wrapText="true" />
-                  <Button fx:id="editButton" layoutX="142.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
+                  <Button fx:id="editButton" layoutX="266.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="67.0" text="Edit" />
                   <Button fx:id="saveButton" layoutX="18.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="67.0" text="Save" />
                   <Button fx:id="deleteButton" layoutX="266.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="27.0" prefWidth="67.0" text="Delete" />
                   <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="185.0" prefHeight="24.0" prefWidth="351.0" textFill="RED" />
+                  <Button fx:id="addtoStoreButton" layoutX="19.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleAddToStoreButtonAction" prefHeight="26.0" prefWidth="85.0" text="Add to store" />
                </children>
             </AnchorPane>
          </children>

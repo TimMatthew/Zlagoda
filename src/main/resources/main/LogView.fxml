@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="770.0" prefWidth="1326.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.LogModeView">
+   <children>
+      <AnchorPane fx:id="mainAnchor" prefHeight="770.0" prefWidth="1130.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="770.0" stroke="BLACK" strokeType="INSIDE" width="1326.0" />
+            <AnchorPane id="optionButtonsPane" layoutX="1066.0" layoutY="14.0" prefHeight="745.0" prefWidth="246.0">
+               <children>
+                  <Rectangle id="managerOptionPane" fx:id="managerOptionPane" arcHeight="5.0" arcWidth="5.0" fill="#cfe9ff" height="745.0" stroke="BLACK" strokeType="INSIDE" width="246.0" />
+                  <AnchorPane id="AccountInfo" fx:id="AccountInfo" layoutX="48.0" layoutY="530.0" prefHeight="42.0" prefWidth="153.0">
+                     <children>
+                        <Label id="cashierPIB" fx:id="employeePIB" alignment="CENTER" layoutX="13.0" layoutY="9.0" prefHeight="25.0" prefWidth="126.0" text="Manager Name">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label id="cashierTitle" fx:id="employeeTitle" alignment="CENTER" layoutX="42.0" layoutY="34.0" prefHeight="25.0" prefWidth="68.0" text="Manager">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <Button id="exitAccountButton" fx:id="exitAccountButton" alignment="CENTER" layoutX="83.0" layoutY="690.0" mnemonicParsing="false" onAction="#quit" prefHeight="35.0" prefWidth="85.0" text="Quit">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="profileButton" alignment="CENTER" layoutX="83.0" layoutY="600.0" mnemonicParsing="false" onAction="#openProfile" prefHeight="35.0" prefWidth="85.0" text="Profile">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button id="printReportButton" fx:id="printReportButton" alignment="CENTER" layoutX="23.0" layoutY="644.0" mnemonicParsing="false" onAction="#printReport" prefHeight="38.0" prefWidth="100.0" text="Print report">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button id="printReportButton" fx:id="backButton" alignment="CENTER" layoutX="128.0" layoutY="644.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="38.0" prefWidth="100.0" text="Back">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <AnchorPane id="functionsPane" fx:id="functionsPane" layoutX="16.0" layoutY="209.0" prefHeight="328.0" prefWidth="214.0">
+                     <children>
+                        <AnchorPane id="modesHintPane" layoutX="31.0" layoutY="94.0" prefHeight="140.0" prefWidth="153.0">
+                           <children>
+                              <Label id="cashierPIB" fx:id="b" alignment="CENTER" layoutX="29.0" layoutY="56.0" prefHeight="28.0" prefWidth="94.0" text="Log Mode" textFill="#4284a1">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="cashierDataPane" layoutX="14.0" layoutY="14.0" prefHeight="745.0" prefWidth="1037.0">
+               <children>
+                  <Rectangle id="cashierDataPane" fx:id="cashierDataPane" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="745.0" stroke="BLACK" strokeType="INSIDE" width="1037.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c3c3c3" height="52.0" stroke="BLACK" strokeType="INSIDE" width="1037.0" />
+                  <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="987.0" layoutY="6.0" onMouseClicked="#refreshTable" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/search_icon.png" />
+                     </image>
+                  </ImageView>
+                  <ChoiceBox fx:id="actionChoiceBox" layoutX="7.0" layoutY="7.0" prefHeight="38.0" prefWidth="482.0" />
+                  <ChoiceBox fx:id="employeeChoiceBox" layoutX="498.0" layoutY="7.0" prefHeight="38.0" prefWidth="481.0" />
+                  <TableView fx:id="dataTable" layoutX="1.0" layoutY="52.0" prefHeight="692.0" prefWidth="1034.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
