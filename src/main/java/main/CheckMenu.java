@@ -15,7 +15,6 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import services.CheckService;
-import services.SaleService;
 import services.StoreProductService;
 import sessionmanagement.UserInfo;
 
@@ -39,7 +38,7 @@ public class CheckMenu implements Initializable{
     @FXML
     public TableView storeProductsTable;
     @FXML
-    public Label check;
+    public Label checkIllustration;
     @FXML
     private Button addProduct;
     public Check newCheck;
@@ -51,7 +50,8 @@ public class CheckMenu implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         storeProductsData = new StoreProductService().getAllStoreProducts();
-        check.setText("ТМ 'Злагода'\n №4358734954");
+        checkIllustration = new Label();
+        checkIllustration.setText("ТМ 'Злагода'\n №4358734954");
 
         TableColumn<Store_Product, Integer> upc = new TableColumn<>("UPC");
         TableColumn<Store_Product, String> product = new TableColumn<>("Product");
@@ -90,25 +90,22 @@ public class CheckMenu implements Initializable{
         cashier = UserInfo.employeeProfile;
     }
 
-    public static void setScene(Stage s){
-        st=s;
-    }
-
     public void addStoreProductToCheck(ActionEvent actionEvent) throws IOException {
 
-        Store_Product sp=null;
+        Store_Product storeProductToAdd = null;
+
         int selectedIndex = storeProductsTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            sp = (Store_Product)storeProductsTable.getItems().get(selectedIndex);
+            storeProductToAdd = (Store_Product)storeProductsTable.getItems().get(selectedIndex);
             Store_Product prom;
-            if (sp.isPromotional_product()){
-                prom = sp;
-                sp = storeProductsData.stream()
+            if (storeProductToAdd.isPromotional_product()){
+                prom = storeProductToAdd;
+                storeProductToAdd = storeProductsData.stream()
                         .filter(product -> prom.getStore_Product_UPC() != null && prom.getStore_Product_UPC().equals(product.getSale_UPC_prom()))
                         .findFirst()
                         .orElse(null);
-            } else if (sp.getSale_UPC_prom() != null){
-                Store_Product finalSelected = sp;
+            } else if (storeProductToAdd.getSale_UPC_prom() != null){
+                Store_Product finalSelected = storeProductToAdd;
                 prom = storeProductsData.stream()
                         .filter(product -> finalSelected.getSale_UPC_prom() != null && finalSelected.getSale_UPC_prom().equals(product.getStore_Product_UPC()))
                         .findFirst()
@@ -118,14 +115,19 @@ public class CheckMenu implements Initializable{
             }
         }
         Stage s = new Stage();
-        EnterAmount.setStoreProduct(sp);
+        EnterAmount.setStoreProduct(storeProductToAdd);
         HelloApplication.setScene(s, new FXMLLoader(HelloApplication.class.getResource("EnterAmount.fxml")), 290, 178, "Enter an amount");
+
         EnterAmount.st = s;
     }
 
-    public static void addProductIntoCheck(Store_Product storeProduct, int storeAmountForCheck) {
-        storeProductsInCheck.put(storeProduct, storeAmountForCheck);
-        storeProduct.setProducts_number(storeProduct.getProducts_number()-storeAmountForCheck);
+    public static void addProductIntoCheck(Store_Product storeProduct, int productAmountForCheck) {
+
+        storeProductsInCheck.put(storeProduct, productAmountForCheck);
+
+
+        storeProduct.setProducts_number(storeProduct.getProducts_number()-productAmountForCheck);
+
     }
 
     public void edit(ActionEvent actionEvent){

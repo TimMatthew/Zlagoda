@@ -31,7 +31,7 @@
                </font>
             </Button>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="454.0" layoutX="8.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" width="254.0" />
-            <Label fx:id="check" alignment="TOP_LEFT" layoutX="13.0" layoutY="14.0" prefHeight="440.0" prefWidth="245.0" text="Label">
+            <Label fx:id="checkIllustration" alignment="TOP_LEFT" layoutX="13.0" layoutY="14.0" prefHeight="440.0" prefWidth="245.0" text="Label">
                <font>
                   <Font size="14.0" />
                </font>
