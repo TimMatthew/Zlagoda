@@ -6,9 +6,7 @@ import javafx.collections.ObservableList;
 import utils.LogAction;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class CategoryService {
     private final Connection connection;
@@ -187,19 +185,60 @@ public class CategoryService {
 //    }
     public ObservableList<Category> getCategoriesByPropertyStartsWith(String property, String startsWith) {
         ObservableList<Category> categories = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM category WHERE " + property + " LIKE ?";
+        String sql = "SELECT c.category_number, c.category_name, " +
+                "COUNT(DISTINCT p.id_product) AS products_count, " +
+                "COUNT(DISTINCT sp.UPC) AS available_products_count, " +
+                "SUM(sp.products_number) AS total_available_products_count " +
+                "FROM category c " +
+                "LEFT JOIN product p ON c.category_number = p.category_number " +
+                "LEFT JOIN store_product sp ON p.id_product = sp.id_product " +
+                "WHERE c." + property + " LIKE ? " +
+                "GROUP BY c.category_number, c.category_name " +
+                "ORDER BY c.category_number";
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, startsWith + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("category_number");
                 String name = rs.getString("category_name");
+                int productsCount = rs.getInt("products_count");
+                int availableProductsCount = rs.getInt("available_products_count");
+                int totalAvailableProductsCount = rs.getInt("total_available_products_count");
 
-                categories.add(new Category(id, name));
+                Category category = new Category(id, name);
+                category.setProducts_count(productsCount);
+                category.setAvailableProducts_count(availableProductsCount);
+                category.setTotal_available_products_count(totalAvailableProductsCount);
+                categories.add(category);
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching employees from database: " + e.getMessage());
+            System.err.println("Error fetching categories from database: " + e.getMessage());
         }
         return categories;
+    }
+
+    public Map<String, Double> getCategoryAveragePrices() {
+        Map<String, Double> categoryPrices = new LinkedHashMap<>();
+
+            String sql = "SELECT c.category_name, AVG(sp.selling_price) AS average_price " +
+                    "FROM category c " +
+                    "JOIN product p ON c.category_number = p.category_number " +
+                    "JOIN store_product sp ON p.id_product = sp.id_product " +
+                    "GROUP BY c.category_name " +
+                    "ORDER BY average_price DESC";
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    String categoryName = resultSet.getString("category_name");
+                    double averagePrice = resultSet.getDouble("average_price");
+                    categoryPrices.put(categoryName, averagePrice);
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryPrices;
     }
 }

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -43,6 +44,8 @@ public class MainMenu implements Initializable {
     //Функції для чеків
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
     private Button goodsAmountSoldInSetTime;
+    @FXML
+    public ImageView logo;
 
     public static ObservableList<Employee> employeeData;
     public static Map<String, String> employeeDataMapGetName;
@@ -76,7 +79,7 @@ public class MainMenu implements Initializable {
     @FXML
     private Label employeePIB, employeeTitle;
     @FXML
-    private Button printReportButton, checkLogButton;
+    private Button printReportButton, checkLogButton, statisticsButton, quitButton;
     @FXML
     private TextField searchField;
     @FXML
@@ -112,6 +115,7 @@ public class MainMenu implements Initializable {
         managerReceiptsMode.setVisible(false);
         printReportButton.setVisible(false);
         checkLogButton.setVisible(false);
+        statisticsButton.setVisible(false);
 
 
         initSearchModes();
@@ -128,6 +132,9 @@ public class MainMenu implements Initializable {
         categoriesModeRadio.setVisible(false);
         clientsModeRadio.setVisible(false);
         receiptsModeRadio.setVisible(false);
+        quitButton.setLayoutX(128);
+        quitButton.setPrefHeight(38);
+        quitButton.setPrefWidth(100);
 
 
         initSearchModes();
@@ -446,6 +453,9 @@ public class MainMenu implements Initializable {
     }
 
     private void setSearchModes(String name){
+        if (logo.isVisible())
+            logo.setVisible(false);
+
         initSearchModes();
         ObservableList<String> modes = searchModes.get(name);
         searchModeChoiceBox.getItems().clear();
@@ -763,6 +773,10 @@ public class MainMenu implements Initializable {
     @FXML
     public void checkLog(ActionEvent actionEvent) throws IOException {
         HelloApplication.setScene(HelloApplication.mainStage,  new FXMLLoader(LogModeView.class.getResource("LogView.fxml")), WIDTH, HEIGHT, "Log Mode View");
+    }
+    @FXML
+    public void showStatistics(ActionEvent actionEvent) throws IOException {
+        HelloApplication.setScene(HelloApplication.mainStage,  new FXMLLoader(StatisticsModeView.class.getResource("StatisticsView.fxml")), WIDTH, HEIGHT, "Statistics Mode View");
     }
 
 
