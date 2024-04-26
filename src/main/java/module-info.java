@@ -4,6 +4,7 @@ module org.example.zlagoda {
     requires java.sql;
     requires mysql.connector.j;
     requires jasperreports;
+    requires java.desktop;
 
     opens Entities to javafx.base;
 

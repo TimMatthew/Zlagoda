@@ -19,6 +19,7 @@ import utils.DataPrinter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -661,6 +662,20 @@ public class MainMenu{
 
     @FXML
     public void printReport(ActionEvent actionEvent) {
-        DataPrinter.printTableView(dataTable);
+        String template = "";
+        if (managerClientsMode.isSelected())
+            template = "customer_report";
+        else if (employeesMode.isSelected())
+            template = "employee_report";
+        else if (categoryMode.isSelected())
+            template = "category_report";
+        else if (managerProductsMode.isSelected())
+            template = "product_report";
+        else if (storeProductsMode.isSelected())
+            template = "store_product_report";
+        else
+            return;
+        DataPrinter.createReport(new DataBaseHandler().getConnection(), new HashMap<>(), new JasperService().getReport(template));
+        DataPrinter.showReport();
     }
 }
