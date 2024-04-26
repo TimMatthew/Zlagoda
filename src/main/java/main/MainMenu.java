@@ -149,7 +149,7 @@ public class MainMenu{
     }
 
 
-    protected void initCashierGoodsModes() {
+    protected void initCashierProductsModes() {
         genericProductsButton = new Button("Generic products");
         genericProductsButton.setLayoutX(20); genericProductsButton.setLayoutY(20);
         genericProductsButton.setPrefWidth(150); genericProductsButton.setPrefHeight(30);
@@ -193,11 +193,11 @@ public class MainMenu{
 
     protected void initCashierClientsManipulationTools(){
         addLoyalClientButton = new Button("Add loyal client");
-        addLoyalClientButton.setLayoutX(20); addLoyalClientButton.setLayoutY(220);
+        addLoyalClientButton.setLayoutX(20); addLoyalClientButton.setLayoutY(70);
         addLoyalClientButton.setPrefWidth(120); addLoyalClientButton.setPrefHeight(30);
 
         clientSortNameButton = new Button("Sort by name");
-        clientSortNameButton.setLayoutX(20); clientSortNameButton.setLayoutY(270);
+        clientSortNameButton.setLayoutX(20); clientSortNameButton.setLayoutY(120);
         clientSortNameButton.setPrefWidth(120); clientSortNameButton.setPrefHeight(30);
     }
 
@@ -217,24 +217,18 @@ public class MainMenu{
         functionsPane.getChildren().clear();
 
         if(goodsModeRadio.isSelected()){
-            initCashierGoodsModes();
-            initGoodsManipulationTools();
+            initCashierProductsModes();
             functionsPane.getChildren().add(genericProductsButton);
             functionsPane.getChildren().add(storeProductsButton);
             functionsPane.getChildren().add(promotedProductsButton);
             functionsPane.getChildren().add(nonPromotedProductsButton);
 
-            functionsPane.getChildren().add(addProduct);
-            functionsPane.getChildren().add(editProduct);
             searchField.setPromptText("Goods search...");
         }
         else if(categoriesModeRatio.isSelected()) {
             initCashierCategoriesModes();
-            initCategoriesManipulationTools();
             functionsPane.getChildren().add(listedCategoriesButton);
 
-            functionsPane.getChildren().add(addCategory);
-            functionsPane.getChildren().add(editCategory);
             searchField.setPromptText("Categories search...");
         }
         else if(clientsModeRadio.isSelected()){

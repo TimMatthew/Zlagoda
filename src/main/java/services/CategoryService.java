@@ -134,7 +134,7 @@ public class CategoryService {
                 dependencies.get(category_number).add(id_product);
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching employees from database: " + e.getMessage());
+            System.err.println("Error fetching зкщвгсеі from database: " + e.getMessage());
         }
         return dependencies;
     }

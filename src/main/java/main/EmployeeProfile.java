@@ -6,9 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.*;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.AuthorizationService;
@@ -20,7 +18,6 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -36,13 +33,16 @@ public class EmployeeProfile implements Initializable {
     @FXML
     public Label errorLabel, passwordInfoLabel;
     @FXML
-    private Label nameLabel, surnameLabel, patronymicLabel, positionLabel, salaryLabel,
+    private Label nameLabel, surnameLabel, patronymicLabel, positionLabel,
+            salaryLabel,
             birthdayLabel, startLabel, phoneLabel, cityLabel, streetLabel, zipcodeLabel, loginLabel;
 
     @FXML
-    private TextField nameField, surnameField, patronymicField, salaryField,
+    private TextField nameField, surnameField, patronymicField,
             phoneField, cityField, streetField, zipcodeField, loginField;
 
+    @FXML
+    private Spinner<Double> salarySpinner;
     @FXML
     private DatePicker birthdayField, startField;
 
@@ -55,6 +55,7 @@ public class EmployeeProfile implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         positionChoiceBox.setItems(FXCollections.observableArrayList("Manager", "Cashier"));
+        salarySpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 50));
 
         if (currentEmployee == null || !UserInfo.id.equals(currentEmployee.getId_employee()))
             changePasswordButton.setVisible(false);
@@ -102,7 +103,8 @@ public class EmployeeProfile implements Initializable {
         nameField.setText(nameLabel.getText());
         surnameField.setText(surnameLabel.getText());
         patronymicField.setText(patronymicLabel.getText());
-        salaryField.setText(salaryLabel.getText());
+//        salaryField.setText(salaryLabel.getText());
+        salarySpinner.getValueFactory().setValue(Double.parseDouble(salaryLabel.getText()));
         birthdayField.setValue(LocalDate.parse(birthdayLabel.getText()));
         startField.setValue(LocalDate.parse(startLabel.getText()));
         phoneField.setText(phoneLabel.getText());
@@ -125,7 +127,7 @@ public class EmployeeProfile implements Initializable {
         String surname = surnameField.getText().trim();
         String patronymic = patronymicField.getText().trim();
         String role = positionChoiceBox.getValue();
-        String salary = salaryField.getText().trim();
+        String salary = salarySpinner.getValue().toString();
         LocalDate birthday = birthdayField.getValue();
         LocalDate start = startField.getValue();
         String phone = phoneField.getText().trim();
@@ -180,7 +182,7 @@ public class EmployeeProfile implements Initializable {
         surnameLabel.setText(surnameField.getText());
         patronymicLabel.setText(patronymicField.getText());
         positionLabel.setText(positionChoiceBox.getValue());
-        salaryLabel.setText(salaryField.getText());
+        salaryLabel.setText(salarySpinner.getValue().toString());
         birthdayLabel.setText(birthdayField.getValue().toString());
         startLabel.setText(startField.getValue().toString());
         phoneLabel.setText(phoneField.getText());
@@ -225,7 +227,7 @@ public class EmployeeProfile implements Initializable {
         nameField.setVisible(visible);
         surnameField.setVisible(visible);
         patronymicField.setVisible(visible);
-        salaryField.setVisible(visible);
+        salarySpinner.setVisible(visible);
         birthdayField.setVisible(visible);
         startField.setVisible(visible);
         phoneField.setVisible(visible);
@@ -312,5 +314,4 @@ public class EmployeeProfile implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
 }
