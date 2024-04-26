@@ -16,6 +16,7 @@ public class Product {
         this.category_number = category_number;
         this.product_name = product_name;
         this.characteristics = characteristics;
+        this.category_name = getCategory_name();
     }
 
     public Product(int id_product, int category_number, String product_name, String characteristics) {
@@ -23,6 +24,7 @@ public class Product {
         this.category_number = category_number;
         this.product_name = product_name;
         this.characteristics = characteristics;
+        this.category_name = getCategory_name();
     }
 
     public int getId_product() {

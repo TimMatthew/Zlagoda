@@ -101,6 +101,7 @@ public class MainMenu{
         storeProductsMode = (RadioButton) root.lookup("#storeProductsMode");
         managerReceiptsMode = (RadioButton) root.lookup("#managerReceiptsMode");
         printReportButton = (Button) root.lookup("#printReportButton");
+        checkLogButton = (Button) root.lookup("#createCheckButton");
 
         employeesMode.setVisible(false);
         managerClientsMode.setVisible(false);
@@ -313,9 +314,10 @@ public class MainMenu{
     }
 
     private void showGenericProducts(){
+        updateProductTable();
         TableColumn<Product, Integer> id = new TableColumn<>("ID");
         TableColumn<Product, String> name = new TableColumn<>("Name");
-        TableColumn<Product, Integer> category = new TableColumn<>("Category");
+        TableColumn<Product, String> category = new TableColumn<>("Category");
         TableColumn<Product, Double> price = new TableColumn<>("Price");
         TableColumn<Product, Integer> characteristic = new TableColumn<>("Characteristics");
 
