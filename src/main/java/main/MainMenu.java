@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -78,6 +79,8 @@ public class MainMenu{
     private Button printReportButton, checkLogButton;
     @FXML
     private TextField searchField;
+    @FXML
+    ChoiceBox<String> searchModeChoiceBox;
 
     // Для касира
     @FXML
@@ -111,6 +114,7 @@ public class MainMenu{
         managerReceiptsMode.setVisible(false);
         printReportButton.setVisible(false);
         checkLogButton.setVisible(false);
+
 
         updateCustomerCardTable();
         updateCategoryTable();
@@ -703,5 +707,8 @@ public class MainMenu{
     @FXML
     public void checkLog(ActionEvent actionEvent) throws IOException {
         HelloApplication.setScene(HelloApplication.mainStage,  new FXMLLoader(LogModeView.class.getResource("LogView.fxml")), WIDTH, HEIGHT, "Log Mode View");
+    }
+
+    public void search(MouseEvent mouseEvent) {
     }
 }

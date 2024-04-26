@@ -56,7 +56,7 @@ public class EmployeeProfile implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         positionChoiceBox.setItems(FXCollections.observableArrayList("Manager", "Cashier"));
 
-        if (!UserInfo.id.equals(currentEmployee.getId_employee()))
+        if (currentEmployee == null || !UserInfo.id.equals(currentEmployee.getId_employee()))
             changePasswordButton.setVisible(false);
 
         if (currentEmployee != null) {

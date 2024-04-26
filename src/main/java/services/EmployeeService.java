@@ -107,4 +107,32 @@ public class EmployeeService {
             statement.executeUpdate();
         }
     }
+
+    public ObservableList<Employee> getEmployeesByPropertyStartsWith(String property, String startsWith) {
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM employee WHERE empl_surname LIKE ?";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, startsWith + "%");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id_employee");
+                String surname = rs.getString("empl_surname");
+                String name = rs.getString("empl_name");
+                String patronymic = rs.getString("empl_patronymic");
+                String role = rs.getString("empl_role");
+                String salary = rs.getString("salary");
+                java.sql.Date dateOfBirth = rs.getDate("date_of_birth");
+                java.sql.Date dateOfStart = rs.getDate("date_of_start");
+                String phoneNumber = rs.getString("phone_number");
+                String city = rs.getString("city");
+                String street = rs.getString("street");
+                String zipCode = rs.getString("zip_code");
+
+                employees.add(new Employee(id, surname, name, patronymic, role, salary, dateOfBirth, dateOfStart, phoneNumber, city, street, zipCode));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
 }
