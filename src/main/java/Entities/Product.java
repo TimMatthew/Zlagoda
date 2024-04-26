@@ -24,6 +24,7 @@ public class Product {
         this.product_name = product_name;
         this.characteristics = characteristics;
     }
+
     public int getId_product() {
         return id_product;
     }

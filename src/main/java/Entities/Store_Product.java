@@ -26,6 +26,15 @@ public class Store_Product {
         this(UPC.generateRandomUPC(), sale_UPC_prom, product_id_product, selling_price, products_number, promotional_product);
     }
 
+    public Store_Product(int product_id_product, String store_Product_UPC, double selling_price, int products_number, int promotional_product) {
+        this.Product_id_product = product_id_product;
+        this.productName = getProductName();
+        this.Store_Product_UPC = store_Product_UPC;
+        this.selling_price = selling_price;
+        this.products_number = products_number;
+        this.promotional_product = promotional_product == 1;
+    }
+
     public String getStore_Product_UPC() {
         return Store_Product_UPC;
     }

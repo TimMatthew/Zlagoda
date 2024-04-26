@@ -20,7 +20,7 @@
             <Rectangle id="managerOptionPane" fx:id="managerOptionPane" arcHeight="5.0" arcWidth="5.0" fill="#cfe9ff" height="745.0" stroke="BLACK" strokeType="INSIDE" width="246.0" />
             <AnchorPane id="Modes" fx:id="Modes" layoutX="11.0" layoutY="14.0" prefHeight="185.0" prefWidth="224.0">
                <children>
-                  <RadioButton fx:id="employeesMode" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#provideMode" text="Employees mode">
+                  <RadioButton fx:id="employeesMode" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#provideManagerMode" text="Employees mode">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -28,32 +28,32 @@
                         <ToggleGroup fx:id="modes" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="managerClientsMode" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideMode" text="Clients mode" toggleGroup="$modes">
+                  <RadioButton fx:id="managerClientsMode" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideManagerMode" text="Clients mode" toggleGroup="$modes">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="categoryMode" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideMode" text="Category mode" toggleGroup="$modes">
+                  <RadioButton fx:id="categoryMode" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideManagerMode" text="Category mode" toggleGroup="$modes">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="managerProductsMode" layoutX="14.0" layoutY="102.0" mnemonicParsing="false" onAction="#provideMode" text="Goods mode" toggleGroup="$modes">
+                  <RadioButton fx:id="managerProductsMode" layoutX="14.0" layoutY="102.0" mnemonicParsing="false" onAction="#provideManagerMode" text="Goods mode" toggleGroup="$modes">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="storeProductsMode" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" onAction="#provideMode" text="Goods in store mode" toggleGroup="$modes">
+                  <RadioButton fx:id="storeProductsMode" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" onAction="#provideManagerMode" text="Goods in store mode" toggleGroup="$modes">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="managerReceiptsMode" layoutX="14.0" layoutY="161.0" mnemonicParsing="false" onAction="#provideMode" text="Receipts mode" toggleGroup="$modes">
+                  <RadioButton fx:id="managerReceiptsMode" layoutX="14.0" layoutY="161.0" mnemonicParsing="false" onAction="#provideManagerMode" text="Receipts mode" toggleGroup="$modes">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton id="goodsModeRadio" fx:id="goodsModeRadio" layoutX="15.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Goods mode">
+                  <RadioButton id="goodsModeRadio" fx:id="goodsModeRadio" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Goods mode" toggleGroup="$modes1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -61,12 +61,17 @@
                         <ToggleGroup fx:id="modes1" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton id="clientsModeRadio" fx:id="clientsModeRadio" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Clients mode">
+                  <RadioButton id="categoriesModeRatio" fx:id="categoriesModeRatio" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Categories mode" toggleGroup="$modes1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton id="receiptsModeRadio" fx:id="receiptsModeRadio" layoutX="14.0" layoutY="102.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Receipts mode">
+                  <RadioButton id="clientsModeRadio" fx:id="clientsModeRadio" layoutX="14.0" layoutY="103.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Clients mode" toggleGroup="$modes1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton id="receiptsModeRadio" fx:id="receiptsModeRadio" layoutX="14.0" layoutY="135.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Receipts mode" toggleGroup="$modes1">
                      <font>
                         <Font size="14.0" />
                      </font>
