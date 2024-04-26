@@ -7,6 +7,7 @@ public class Category {
     String category_name; //NN
     int products_count; //NN
     int available_products_count;
+    int total_available_products_count;
 
     public Category(String category_name) {
         this.category_number = new CategoryService().getNewCategoryID();
@@ -51,6 +52,22 @@ public class Category {
 
     public void setAvailableProducts_count(int count) {
         this.available_products_count = count;
+    }
+
+    public int getAvailable_products_count() {
+        return available_products_count;
+    }
+
+    public void setAvailable_products_count(int available_products_count) {
+        this.available_products_count = available_products_count;
+    }
+
+    public int getTotal_available_products_count() {
+        return total_available_products_count;
+    }
+
+    public void setTotal_available_products_count(int total_available_products_count) {
+        this.total_available_products_count = total_available_products_count;
     }
 
     @Override

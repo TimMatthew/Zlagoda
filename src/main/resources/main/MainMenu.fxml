@@ -54,7 +54,7 @@
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton id="goodsModeRadio" fx:id="goodsModeRadio" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Goods mode" toggleGroup="$modes1">
+                  <RadioButton id="goodsModeRadio" fx:id="productsModeRadio" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Goods mode" toggleGroup="$modes1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -62,7 +62,7 @@
                         <ToggleGroup fx:id="modes1" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton id="categoriesModeRatio" fx:id="categoriesModeRatio" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Categories mode" toggleGroup="$modes1">
+                  <RadioButton id="categoriesModeRatio" fx:id="categoriesModeRadio" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#provideCashierMode" text="Categories mode" toggleGroup="$modes1">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -102,14 +102,14 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane id="AccountInfo" fx:id="AccountInfo" layoutX="48.0" layoutY="530.0" prefHeight="42.0" prefWidth="153.0">
+            <AnchorPane id="AccountInfo" fx:id="AccountInfo" layoutY="530.0" prefHeight="60.0" prefWidth="250.0">
                <children>
-                  <Label id="cashierPIB" fx:id="employeePIB" alignment="CENTER" layoutX="13.0" layoutY="9.0" prefHeight="25.0" prefWidth="126.0" text="Manager Name">
+                  <Label id="cashierPIB" fx:id="employeePIB" alignment="CENTER" layoutX="24.0" layoutY="1.0" prefHeight="26.0" prefWidth="202.0" text="Manager Name">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label id="cashierTitle" fx:id="employeeTitle" alignment="CENTER" layoutX="42.0" layoutY="34.0" prefHeight="25.0" prefWidth="68.0" text="Manager">
+                  <Label id="cashierTitle" fx:id="employeeTitle" alignment="CENTER" layoutX="91.0" layoutY="33.0" prefHeight="25.0" prefWidth="68.0" text="Manager">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -157,6 +157,7 @@
             </TextField>
             <TableView fx:id="dataTable" editable="true" layoutX="1.0" layoutY="52.0" prefHeight="691.0" prefWidth="1034.0" />
             <ChoiceBox fx:id="searchModeChoiceBox" layoutX="7.0" layoutY="6.0" prefHeight="39.0" prefWidth="234.0" />
+            <ChoiceBox fx:id="categoryChoiceBox" layoutX="246.0" layoutY="7.0" prefHeight="39.0" prefWidth="234.0" visible="false" />
          </children>
       </AnchorPane>
    </children>

@@ -187,4 +187,29 @@ public class ProductService {
         }
         return store_products;
     }
+
+
+    public ObservableList<Product> getProductsByPropertyStartsWith(String property, String category, String startsWith) {
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM product WHERE " + property + " LIKE ?";
+        if (!category.equals("All categories"))
+            sql = sql + " AND category_number =? ";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, startsWith + "%");
+            if (!category.equals("All categories"))
+                pst.setInt(2, new CategoryService().getCategoryID(category));
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id_product");
+                int category_id = rs.getInt("category_number");
+                String name = rs.getString("product_name");
+                String characteristics = rs.getString("characteristics");
+
+                products.add(new Product(id, category_id, name, characteristics));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return products;
+    }
 }

@@ -1,5 +1,6 @@
 package services;
 
+import Entities.Product;
 import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -175,6 +176,35 @@ public class StoreProductService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public ObservableList<Store_Product> getStoreProductsByPropertyStartsWith(String property, String category, String startsWith) {
+        ObservableList<Store_Product> storeProducts = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM store_product WHERE " + property + " LIKE ?";
+        if (property.equals("product_name"))
+            sql = "SELECT * FROM store_product JOIN product p on store_product.id_product = p.id_product WHERE p.product_name LIKE ?";
+        if (!category.equals("All categories"))
+            sql = sql + " AND p.category_number =?";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, startsWith + "%");
+            if (!category.equals("All categories"))
+                pst.setInt(2, new CategoryService().getCategoryID(category));
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String upc = rs.getString("UPC");
+                String upc_prom = rs.getString("upc_prom");
+                int id_product = rs.getInt("id_product");
+                double selling_price = rs.getDouble("selling_price");
+                int products_number = rs.getInt("products_number");
+                boolean promotional_product = rs.getBoolean("promotional_product");
+
+                storeProducts.add(new Store_Product(upc, upc_prom, id_product, selling_price, products_number, promotional_product));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return storeProducts;
     }
 
     public double promotionalPrice(double price){

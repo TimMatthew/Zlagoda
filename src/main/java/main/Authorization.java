@@ -38,14 +38,7 @@ public class Authorization {
         if (as.signIn(login, password)) {
             HelloApplication.mainStage.hide();
             errorLabel.setVisible(false);
-            if (UserInfo.position.equals("Manager"))
-            {
-                new MainMenu().initManager(HelloApplication.mainStage);
-            }
-            else
-            {
-                new MainMenu().initCashier(HelloApplication.mainStage);
-            }
+            HelloApplication.setScene(HelloApplication.mainStage, new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")), MainMenu.WIDTH, MainMenu.HEIGHT, "Main Menu");
         }
         else
             setErrorMessage("Incorrect login or password.");

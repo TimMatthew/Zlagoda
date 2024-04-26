@@ -6,8 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -18,13 +17,11 @@ import sessionmanagement.UserInfo;
 import javafx.scene.control.*;
 import utils.DataPrinter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class MainMenu{
+public class MainMenu implements Initializable {
 
     protected static final int WIDTH = 1326, HEIGHT = 770;
 
@@ -46,6 +43,7 @@ public class MainMenu{
     //Функції для чеків
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
     private Button goodsAmountSoldInSetTime;
+
     public static ObservableList<Employee> employeeData;
     public static Map<String, String> employeeDataMapGetName;
     public static Map<String, String> employeeDataMapGetID;
@@ -76,35 +74,35 @@ public class MainMenu{
     @FXML
     private AnchorPane functionsPane;
     @FXML
+    private Label employeePIB, employeeTitle;
+    @FXML
     private Button printReportButton, checkLogButton;
     @FXML
     private TextField searchField;
     @FXML
-    ChoiceBox<String> searchModeChoiceBox;
+    ChoiceBox<String> searchModeChoiceBox, categoryChoiceBox;
+    private static Map<String, ObservableList<String>> searchModes;
 
     // Для касира
     @FXML
-    private RadioButton goodsModeRadio, categoriesModeRatio, clientsModeRadio, receiptsModeRadio;
+    private RadioButton productsModeRadio, categoriesModeRadio, clientsModeRadio, receiptsModeRadio;
     @FXML
     private Button createCheckButton;
     @FXML
     public TableView dataTable;
 
-    protected void initCashier(Stage st) throws IOException {
-        Parent root = new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")).load();
-        Scene sc = new Scene(root, MainMenu.WIDTH, MainMenu.HEIGHT);
-        st.setTitle("Особистий кабінет касира");
-        st.setScene(sc);
-        st.show();
 
-        employeesMode = (RadioButton) root.lookup("#employeesMode");
-        managerClientsMode = (RadioButton) root.lookup("#managerClientsMode");
-        categoryMode = (RadioButton) root.lookup("#categoryMode");
-        managerProductsMode = (RadioButton) root.lookup("#managerProductsMode");
-        storeProductsMode = (RadioButton) root.lookup("#storeProductsMode");
-        managerReceiptsMode = (RadioButton) root.lookup("#managerReceiptsMode");
-        printReportButton = (Button) root.lookup("#printReportButton");
-        checkLogButton = (Button) root.lookup("#createCheckButton");
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        employeeTitle.setText(UserInfo.position);
+        employeePIB.setText(UserInfo.employeeProfile.getFullName());
+        if (UserInfo.position.equals("Manager"))
+            initManager();
+        else
+            initCashier();
+    }
+
+    protected void initCashier(){
 
         employeesMode.setVisible(false);
         managerClientsMode.setVisible(false);
@@ -116,31 +114,23 @@ public class MainMenu{
         checkLogButton.setVisible(false);
 
 
+        initSearchModes();
         updateCustomerCardTable();
         updateCategoryTable();
         updateProductTable();
         updateStoreProductTable();
     }
 
-    protected void initManager(Stage st) throws IOException{
-        Parent root = new FXMLLoader(HelloApplication.class.getResource("MainMenu.fxml")).load();
-        Scene sc = new Scene(root, MainMenu.WIDTH, MainMenu.HEIGHT);
-        st.setTitle("Особистий кабінет менеджера");
-        st.setScene(sc);
-        st.show();
-
-        createCheckButton = (Button) root.lookup("#createCheckButton");
-        goodsModeRadio = (RadioButton) root.lookup("#goodsModeRadio");
-        categoriesModeRatio = (RadioButton) root.lookup("#categoriesModeRatio");
-        clientsModeRadio = (RadioButton) root.lookup("#clientsModeRadio");
-        receiptsModeRadio = (RadioButton) root.lookup("#receiptsModeRadio");
+    protected void initManager() {
 
         createCheckButton.setVisible(false);
-        goodsModeRadio.setVisible(false);
-        categoriesModeRatio.setVisible(false);
+        productsModeRadio.setVisible(false);
+        categoriesModeRadio.setVisible(false);
         clientsModeRadio.setVisible(false);
         receiptsModeRadio.setVisible(false);
 
+
+        initSearchModes();
         updateEmployeesTable();
         updateCustomerCardTable();
         updateCategoryTable();
@@ -148,8 +138,7 @@ public class MainMenu{
         updateStoreProductTable();
     }
 
-
-    protected void initCashierProductsModes() {
+    protected void initCashierGoodsModes() {
         genericProductsButton = new Button("Generic products");
         genericProductsButton.setLayoutX(20); genericProductsButton.setLayoutY(20);
         genericProductsButton.setPrefWidth(150); genericProductsButton.setPrefHeight(30);
@@ -216,8 +205,8 @@ public class MainMenu{
 
         functionsPane.getChildren().clear();
 
-        if(goodsModeRadio.isSelected()){
-            initCashierProductsModes();
+        if(productsModeRadio.isSelected()){
+            initCashierGoodsModes();
             functionsPane.getChildren().add(genericProductsButton);
             functionsPane.getChildren().add(storeProductsButton);
             functionsPane.getChildren().add(promotedProductsButton);
@@ -225,7 +214,7 @@ public class MainMenu{
 
             searchField.setPromptText("Goods search...");
         }
-        else if(categoriesModeRatio.isSelected()) {
+        else if(categoriesModeRadio.isSelected()) {
             initCashierCategoriesModes();
             functionsPane.getChildren().add(listedCategoriesButton);
 
@@ -247,6 +236,51 @@ public class MainMenu{
             functionsPane.getChildren().add(receiptsPeriodButton);
             searchField.setPromptText("Receipts search...");
         }
+    }
+
+    private void initSearchModes(){
+        searchModes = new HashMap<>();
+        ObservableList<String> employeeModes = FXCollections.observableList(List.of(new String[]{
+                "Surname",
+                "Name",
+                "Patronymic",
+                "Phone",
+                "City",
+                "Street",
+                "Zip-code",
+        }));
+
+        ObservableList<String> clientModes = FXCollections.observableList(List.of(new String[]{
+                "Surname",
+                "Name",
+                "Patronymic",
+                "Phone",
+                "City",
+                "Street",
+                "Zip-code",
+        }));
+
+        ObservableList<String> productModes = FXCollections.observableList(List.of(new String[]{
+                "Name",
+                "ID",
+                "Characteristics"
+        }));
+
+        ObservableList<String> categoryModes = FXCollections.observableList(List.of(new String[]{
+                "Name",
+                "ID"
+        }));
+
+        ObservableList<String> storeProductModes = FXCollections.observableList(List.of(new String[]{
+                "Name",
+                "UPC"
+        }));
+
+        searchModes.put("employee", employeeModes);
+        searchModes.put("customer_card", clientModes);
+        searchModes.put("product", productModes);
+        searchModes.put("category", categoryModes);
+        searchModes.put("store_product", storeProductModes);
     }
 
     private void showEmployees(){
@@ -279,6 +313,9 @@ public class MainMenu{
         city.setCellValueFactory(new PropertyValueFactory<>("city"));
         street.setCellValueFactory(new PropertyValueFactory<>("street"));
         zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
+
+        setSearchModes("employee");
+
 
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(fullName, role, salary, date_of_birth, date_of_start, phone_number, address);
@@ -325,6 +362,9 @@ public class MainMenu{
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         characteristic.setCellValueFactory(new PropertyValueFactory<>("characteristics"));
 
+        setSearchModes("product");
+        categoryChoiceBoxSetVisible(true);
+
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(id, name, category, characteristic);
         updateProductTable();
@@ -340,6 +380,9 @@ public class MainMenu{
         TableColumn<Store_Product, Boolean> promotional = new TableColumn<>("Is promotional");
 
         ObservableList<Store_Product> store_products =  new ProductService().getStoreProducts();
+
+        setSearchModes("store_product");
+        categoryChoiceBoxSetVisible(true);
 
         id.setCellValueFactory(new PropertyValueFactory<>("Product_id_product"));
         name.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -370,6 +413,9 @@ public class MainMenu{
         products_num.setCellValueFactory(new PropertyValueFactory<>("products_number"));
         promotional.setCellValueFactory(new PropertyValueFactory<>("promotional_product"));
 
+        setSearchModes("store_product");
+        categoryChoiceBoxSetVisible(true);
+
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(id, name, upc, price, products_num, promotional);
         dataTable.setItems(store_products);
@@ -381,39 +427,30 @@ public class MainMenu{
 
         TableColumn<Category, Integer> id = new TableColumn<>("ID");
         TableColumn<Category, String> name = new TableColumn<>("Name");
-        TableColumn<Category, Integer> count = new TableColumn<>("Overall products of this category");
-        TableColumn<Category, Integer> count_store = new TableColumn<>("Available products of this category");
+        TableColumn<Category, Integer> count = new TableColumn<>("Available products");
+        TableColumn<Category, Integer> count_store = new TableColumn<>("Available store products");
+        TableColumn<Category, Integer> total_count_store = new TableColumn<>("Overall store products");
 
         id.setCellValueFactory(new PropertyValueFactory<>("category_number"));
         name.setCellValueFactory(new PropertyValueFactory<>("category_name"));
-
-        for(int i = 0; i < categoryData.size(); i++){
-            int counter = 0;
-            for(int j = 0; j < productData.size(); j++){
-                if (categoryData.get(i).getCategory_number() == productData.get(j).getCategory_number()) {
-                    counter++;
-                }
-            }
-            categoryData.get(i).setProducts_count(counter);
-        }
-
         count.setCellValueFactory(new PropertyValueFactory<>("products_count"));
-
-        LinkedHashMap<String, List<String>> dependencies = new CategoryService().getAvailableProductsByCategory();
-        for (String category : dependencies.keySet()) {
-            List<String> products = dependencies.get(category);
-            for(int i = 0; i < categoryData.size(); i++) {
-                if (Integer.parseInt(category) == categoryData.get(i).getCategory_number()) {
-                    categoryData.get(i).setAvailableProducts_count(products.size());
-                }
-            }
-        }
-
         count_store.setCellValueFactory(new PropertyValueFactory<>("availableProducts_count"));
+        total_count_store.setCellValueFactory(new PropertyValueFactory<>("total_available_products_count"));
+
+        setSearchModes("category");
+        categoryChoiceBoxSetVisible(false);
 
         dataTable.getColumns().clear();
-        dataTable.getColumns().addAll(id, name, count, count_store);
+        dataTable.getColumns().addAll(id, name, count, count_store, total_count_store);
         dataTable.setItems(categoryData);
+    }
+
+    private void setSearchModes(String name){
+        initSearchModes();
+        ObservableList<String> modes = searchModes.get(name);
+        searchModeChoiceBox.getItems().clear();
+        searchModeChoiceBox.getItems().addAll(modes);
+        searchModeChoiceBox.setValue(modes.get(0));
     }
 
     private void showClientsCards(){
@@ -440,6 +477,9 @@ public class MainMenu{
         street.setCellValueFactory(new PropertyValueFactory<>("street"));
         zip_code.setCellValueFactory(new PropertyValueFactory<>("zip_code"));
         percent.setCellValueFactory(new PropertyValueFactory<>("percent"));
+
+        setSearchModes("customer_card");
+        categoryChoiceBoxSetVisible(false);
 
         dataTable.getColumns().clear();
         dataTable.getColumns().addAll(fullName, phone_number, address, percent);
@@ -613,6 +653,22 @@ public class MainMenu{
         checksAllCashiersAndTime.setPrefWidth(120); checksAllCashiersAndTime.setPrefHeight(30);
     }
 
+    private void categoryChoiceBoxSetVisible(boolean visible){
+        categoryChoiceBox.setVisible(visible);
+        if (visible){
+            categoryChoiceBox.getItems().clear();
+            categoryChoiceBox.getItems().addAll(new CategoryService().getCategoryNames());
+            categoryChoiceBox.getItems().add("All categories");
+            categoryChoiceBox.setValue("All categories");
+            searchField.setLayoutX(487);
+            searchField.setPrefWidth(494);
+        }
+        else {
+            searchField.setLayoutX(246);
+            searchField.setPrefWidth(734);
+        }
+    }
+
     @FXML
     private void provideManagerMode(ActionEvent e){
 
@@ -624,6 +680,7 @@ public class MainMenu{
             functionsPane.getChildren().add(emplPhoneAddressBySur);
             functionsPane.getChildren().add(editEmployee);
             searchField.setPromptText("Employees search...");
+            categoryChoiceBoxSetVisible(false);
             showEmployees();
         }
         else if(managerClientsMode.isSelected()){
@@ -631,6 +688,7 @@ public class MainMenu{
             functionsPane.getChildren().add(addClient);
             functionsPane.getChildren().add(editClient);
             searchField.setPromptText("Clients search...");
+            categoryChoiceBoxSetVisible(false);
             showClientsCards();
         }
         else if(categoryMode.isSelected()){
@@ -638,6 +696,7 @@ public class MainMenu{
             functionsPane.getChildren().add(addCategory);
             functionsPane.getChildren().add(editCategory);
             searchField.setPromptText("Categories search...");
+            categoryChoiceBoxSetVisible(false);
             showCategories();
         }
         else if(managerProductsMode.isSelected()){
@@ -645,6 +704,7 @@ public class MainMenu{
             functionsPane.getChildren().add(addProduct);
             functionsPane.getChildren().add(editProduct);
             searchField.setPromptText("Products search...");
+            categoryChoiceBoxSetVisible(true);
             showGenericProducts();
         }
         else if(storeProductsMode.isSelected()){
@@ -652,6 +712,7 @@ public class MainMenu{
             functionsPane.getChildren().add(addStoreProduct);
             functionsPane.getChildren().add(editStoreProduct);
             searchField.setPromptText("Products in store search...");
+            categoryChoiceBoxSetVisible(true);
             showStoreProducts();
         }
         else if(managerReceiptsMode.isSelected()){
@@ -659,6 +720,7 @@ public class MainMenu{
             functionsPane.getChildren().add(goodsAmountSoldInSetTime);
             functionsPane.getChildren().add(checksSetCashiersAndTime);
             functionsPane.getChildren().add(checksAllCashiersAndTime);
+            categoryChoiceBoxSetVisible(false);
             searchField.setPromptText("Receipts search...");
         }
     }
@@ -703,6 +765,88 @@ public class MainMenu{
         HelloApplication.setScene(HelloApplication.mainStage,  new FXMLLoader(LogModeView.class.getResource("LogView.fxml")), WIDTH, HEIGHT, "Log Mode View");
     }
 
+
+    @FXML
     public void search(MouseEvent mouseEvent) {
+        String query = searchField.getText().trim();
+        String table = "";
+        if (employeesMode.isSelected()) {
+            ObservableList<Employee> empl;
+            EmployeeService s = new EmployeeService();
+            switch (searchModeChoiceBox.getValue()) {
+                case "Surname" -> empl = s.getEmployeesByPropertyStartsWith("empl_surname", query);
+                case "Name" -> empl = s.getEmployeesByPropertyStartsWith("empl_name", query);
+                case "Patronymic" -> empl = s.getEmployeesByPropertyStartsWith("empl_patronymic", query);
+                case "Phone" -> empl = s.getEmployeesByPropertyStartsWith("phone_number", query);
+                case "City" -> empl = s.getEmployeesByPropertyStartsWith("city", query);
+                case "Street" -> empl = s.getEmployeesByPropertyStartsWith("street", query);
+                case "Zip-code" -> empl = s.getEmployeesByPropertyStartsWith("zip_code", query);
+                default -> {
+                    return;
+                }
+            }
+            dataTable.setItems(empl);
+        }
+        else if (managerClientsMode.isSelected() || clientsModeRadio.isSelected()){
+
+            ObservableList<Customer_Card> cust;
+            CustomerCardService s = new CustomerCardService();
+            switch (searchModeChoiceBox.getValue()) {
+                case "Surname" -> cust = s.getCustomersByPropertyStartsWith("cust_surname", query);
+                case "Name" -> cust = s.getCustomersByPropertyStartsWith("cust_name", query);
+                case "Patronymic" -> cust = s.getCustomersByPropertyStartsWith("cust_patronymic", query);
+                case "Phone" -> cust = s.getCustomersByPropertyStartsWith("phone_number", query);
+                case "City" -> cust = s.getCustomersByPropertyStartsWith("city", query);
+                case "Street" -> cust = s.getCustomersByPropertyStartsWith("street", query);
+                case "Zip-code" -> cust = s.getCustomersByPropertyStartsWith("zip_code", query);
+                default -> {
+                    return;
+                }
+            }
+            dataTable.setItems(cust);
+        }
+        else if (categoryMode.isSelected() || categoriesModeRadio.isSelected()) {
+
+            ObservableList<Category> c;
+            CategoryService s = new CategoryService();
+            switch (searchModeChoiceBox.getValue()) {
+                case "Name" -> c = s.getCategoriesByPropertyStartsWith("category_name", query);
+                case "ID" -> c = s.getCategoriesByPropertyStartsWith("category_number", query);
+                default -> {
+                    return;
+                }
+            }
+            dataTable.setItems(c);
+        }
+        else if (managerProductsMode.isSelected() || productsModeRadio.isSelected()){
+
+            ObservableList<Product> p;
+            ProductService s = new ProductService();
+            String category = categoryChoiceBox.getValue();
+            switch (searchModeChoiceBox.getValue()) {
+                case "Name" -> p = s.getProductsByPropertyStartsWith("product_name", category, query);
+                case "ID" -> p = s.getProductsByPropertyStartsWith("id_product", category, query);
+                case "Characteristics" -> p = s.getProductsByPropertyStartsWith("characteristics", category, query);
+                default -> {
+                    return;
+                }
+            }
+            dataTable.setItems(p);
+        }
+        else if (storeProductsMode.isSelected() ) {
+
+            ObservableList<Store_Product> empl;
+            StoreProductService s = new StoreProductService();
+            String category = categoryChoiceBox.getValue();
+            switch (searchModeChoiceBox.getValue()) {
+                case "Name" -> empl = s.getStoreProductsByPropertyStartsWith("id_product", category, query);
+                case "UPC" -> empl = s.getStoreProductsByPropertyStartsWith("UPC", category, query);
+                default -> {
+                    return;
+                }
+            }
+            dataTable.setItems(empl);
+        }
+
     }
 }

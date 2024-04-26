@@ -1,17 +1,14 @@
 package services;
 
 import Entities.Category;
-import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import net.sf.jasperreports.engine.util.LinkedMap;
 import utils.LogAction;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CategoryService {
     private final Connection connection;
@@ -50,20 +47,35 @@ public class CategoryService {
         }
     }
     public ObservableList<Category> getAllCategories() {
-        ObservableList<Category> customers = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM category ORDER BY category_number";
+        ObservableList<Category> categories = FXCollections.observableArrayList();
+        String sql = "SELECT c.category_number, c.category_name, " +
+                "COUNT(DISTINCT p.id_product) AS products_count, " +
+                "COUNT(DISTINCT sp.UPC) AS available_products_count, " +
+                "SUM(sp.products_number) AS total_available_products_count " +
+                "FROM category c " +
+                "LEFT JOIN product p ON c.category_number = p.category_number " +
+                "LEFT JOIN store_product sp ON p.id_product = sp.id_product " +
+                "GROUP BY c.category_number, c.category_name " +
+                "ORDER BY c.category_number";
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("category_number");
                 String name = rs.getString("category_name");
+                int productsCount = rs.getInt("products_count");
+                int availableProductsCount = rs.getInt("available_products_count");
+                int totalAvailableProductsCount = rs.getInt("total_available_products_count");
 
-                customers.add(new Category(id, name));
+                Category category = new Category(id, name);
+                category.setProducts_count(productsCount);
+                category.setAvailableProducts_count(availableProductsCount);
+                category.setTotal_available_products_count(totalAvailableProductsCount);
+                categories.add(category);
             }
         } catch (SQLException e) {
             System.err.println("Error fetching employees from database: " + e.getMessage());
         }
-        return customers;
+        return categories;
     }
     public boolean deleteCategory(int category_number) throws SQLException {
         String sql = "DELETE FROM category WHERE category_number = ?";
@@ -104,6 +116,41 @@ public class CategoryService {
             return null;
         }
     }
+    public int getCategoryID(String name) {
+        String sql = "SELECT category_number FROM category WHERE category_name = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, name);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next())
+                    return resultSet.getInt("category_number");
+                else
+                    return -1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+    public ObservableList<String> getCategoryNames() {
+        ObservableList<String> names = FXCollections.observableArrayList();
+        String sql = "SELECT category_name FROM category";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()){
+                    names.add(resultSet.getString("category_name"));
+                }
+
+                return names;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public int getNewCategoryID() {
         String sql = "SELECT MAX(category_number) AS max_category_number FROM category";
@@ -119,23 +166,40 @@ public class CategoryService {
         return maxCategoryNumber + 1;
     }
 
-    public LinkedHashMap<String, List<String>> getAvailableProductsByCategory() {
-        LinkedHashMap<String, List<String>> dependencies = new LinkedHashMap<>();
-        String sql = "SELECT store_product.id_Product, category_number FROM product JOIN store_product ON store_product.id_product = product.id_product WHERE promotional_product = 1";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet rs = statement.executeQuery();
+//    public LinkedHashMap<String, List<String>> getAvailableProductsByCategory() {
+//        LinkedHashMap<String, List<String>> dependencies = new LinkedHashMap<>();
+//        String sql = "SELECT store_product.id_Product, category_number FROM product JOIN store_product ON store_product.id_product = product.id_product WHERE promotional_product = 1";
+//        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                String id_product = rs.getString("id_product");
+//                String category_number = rs.getString("category_number");
+//
+//                if (!dependencies.containsKey(category_number)) {
+//                    dependencies.put(category_number, new ArrayList<>());
+//                }
+//                dependencies.get(category_number).add(id_product);
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Error fetching зкщвгсеі from database: " + e.getMessage());
+//        }
+//        return dependencies;
+//    }
+    public ObservableList<Category> getCategoriesByPropertyStartsWith(String property, String startsWith) {
+        ObservableList<Category> categories = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM category WHERE " + property + " LIKE ?";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, startsWith + "%");
+            ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                String id_product = rs.getString("id_product");
-                String category_number = rs.getString("category_number");
+                int id = rs.getInt("category_number");
+                String name = rs.getString("category_name");
 
-                if (!dependencies.containsKey(category_number)) {
-                    dependencies.put(category_number, new ArrayList<>());
-                }
-                dependencies.get(category_number).add(id_product);
+                categories.add(new Category(id, name));
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching зкщвгсеі from database: " + e.getMessage());
+            System.err.println("Error fetching employees from database: " + e.getMessage());
         }
-        return dependencies;
+        return categories;
     }
 }

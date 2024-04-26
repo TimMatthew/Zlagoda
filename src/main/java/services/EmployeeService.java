@@ -110,7 +110,7 @@ public class EmployeeService {
 
     public ObservableList<Employee> getEmployeesByPropertyStartsWith(String property, String startsWith) {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM employee WHERE empl_surname LIKE ?";
+        String sql = "SELECT * FROM employee WHERE " + property + " LIKE ?";
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, startsWith + "%");
             ResultSet rs = pst.executeQuery();

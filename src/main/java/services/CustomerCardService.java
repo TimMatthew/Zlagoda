@@ -1,5 +1,6 @@
 package services;
 
+import Entities.Category;
 import Entities.Customer_Card;
 import Entities.Employee;
 import javafx.collections.FXCollections;
@@ -102,6 +103,31 @@ public class CustomerCardService {
 
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next();
+    }
+
+    public ObservableList<Customer_Card> getCustomersByPropertyStartsWith(String property, String startsWith) {
+        ObservableList<Customer_Card> customers = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM customer_card WHERE " + property + " LIKE ?";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, startsWith + "%");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("card_number");
+                String surname = rs.getString("cust_surname");
+                String name = rs.getString("cust_name");
+                String patronymic = rs.getString("cust_patronymic");
+                String phoneNumber = rs.getString("phone_number");
+                String city = rs.getString("city");
+                String street = rs.getString("street");
+                String zipCode = rs.getString("zip_code");
+                String percent = rs.getString("percent");
+
+                customers.add(new Customer_Card(id, surname, name, patronymic, phoneNumber, city, street, zipCode, percent));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return customers;
     }
 
 }
