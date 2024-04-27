@@ -29,7 +29,7 @@ public class StatisticsModeView implements Initializable {
 
     //BarChartMode buttons
     @FXML
-    public Button topProductsByPriceButton, topCategoriesByAvgPriceButton, topProductsBySoldAmountsButton, topCategoriesBySoldAmountsButton, topEmployeesByChecksButton, workerOfTheWeekButton;
+    public Button topProductsByPriceButton, topCategoriesByAvgPriceButton, topEmployeesByChecksButton, workerOfTheDayButton;
     @FXML
     public BarChart<String, Double> barChart;
     public ImageView logo;
@@ -90,35 +90,6 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-
-    public void showTopProductsBySoldAmounts(ActionEvent actionEvent) {
-        logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
-        barChart.getData().clear();
-        barChart.getData().addAll(series);
-        barChart.setVisible(true);
-    }
-
-    public void showTopCategoriesBySoldAmounts(ActionEvent actionEvent) {
-        logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
-        barChart.getData().clear();
-        barChart.getData().addAll(series);
-        barChart.setVisible(true);
-    }
-
     public void showTopEmployeesByChecksPrices(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
@@ -133,15 +104,10 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-    public void showWorkerOfTheWeek(ActionEvent actionEvent) {
+    public void showWorkerOfTheDay(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
+        String sql = "SELECT e.empl_surname || ' ' || e.empl_name AS employee_name, SUM(c.sum_total) AS total_amount FROM employee e JOIN check_t c ON e.id_employee = c.id_employee WHERE c.print_date >= DATE_SUB(NOW(), INTERVAL 0 DAY) GROUP BY e.empl_surname, e.empl_name ORDER BY total_amount DESC LIMIT 1\n";
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);

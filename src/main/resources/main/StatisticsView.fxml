@@ -68,7 +68,7 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="workerOfTheWeekButton" alignment="CENTER" layoutX="24.0" layoutY="228" mnemonicParsing="false" onAction="#showWorkerOfTheWeek" prefHeight="38.0" prefWidth="197.0" text="View worker of the week">
+                  <Button id="profileButton" fx:id="workerOfTheDayButton" alignment="CENTER" layoutX="24.0" layoutY="228" mnemonicParsing="false" onAction="#showWorkerOfTheDay" prefHeight="38.0" prefWidth="197.0" text="View worker of the day">
                      <font>
                         <Font size="13.0" />
                      </font>
