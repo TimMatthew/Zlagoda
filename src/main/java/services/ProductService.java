@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductService {
@@ -263,8 +265,24 @@ public class ProductService {
         return products;
     }
 
-    public void getCustomMethod3() {
-
+    public  Map<String, List<String>> getCustomMethod3() {
+        Map<String, List<String>> products = new HashMap<>();
+        String sql = "SELECT p.id_product, p.product_name, p.characteristics FROM product p WHERE NOT EXISTS (SELECT 1 FROM store_product sp JOIN sale s ON sp.UPC = s.UPC WHERE sp.id_product = p.id_product) AND p.category_number NOT IN (SELECT category_number FROM category WHERE category_number > :category_param)";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String id_product = rs.getString("id_product");
+                String product_name = rs.getString("product_name");
+                String characteristics = rs.getString("characteristics");
+                List<String> list = new ArrayList<>();
+                list.add(product_name);
+                list.add(characteristics);
+                products.put(id_product, list);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return products;
     }
 
     public void getCustomMethod4() {
