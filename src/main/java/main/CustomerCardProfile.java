@@ -52,8 +52,7 @@ public class CustomerCardProfile implements Initializable {
             zipcodeLabel.setText(currentCustomer.getZip_code());
             percentLabel.setText(String.valueOf(currentCustomer.getPercent()));
 
-            if (UserInfo.position.equals("Cashier"))
-                editButton.setVisible(false);
+            editButton.setVisible(false);
             saveButton.setVisible(false);
 
             setLabelsVisible(true);
