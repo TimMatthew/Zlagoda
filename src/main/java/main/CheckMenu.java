@@ -27,8 +27,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 public class CheckMenu implements Initializable{
     public static Stage stage;
 
@@ -49,9 +47,9 @@ public class CheckMenu implements Initializable{
     public ChoiceBox<String> searchModeChoiceBox, categoryChoiceBox;
     @FXML
     private Button addProduct;
-    public Check newCheck;
+    public static Check newCheck;
     public static String checkID;
-    private Customer_Card cc;
+    public static Customer_Card customerCard;
     private static Employee cashier;
 
     @Override
@@ -139,20 +137,21 @@ public class CheckMenu implements Initializable{
         updateCheckMenuData(storeProduct, null);
     }
 
-    public void createCheck(ActionEvent actionEvent) throws SQLException {
+    public void chooseCustomerCard(){
+        ChooseCustomer.initWindow(stage);
+    }
+
+    public static void createCheck() throws SQLException {
         if (sales.isEmpty())
             return;
 
-        int custCardPercent = cc==null ? 0 : cc.getPercent();
-        String custCardNumber = null;
         double sumTotal=0;
-
         for(Sale s: sales){
             sumTotal += s.getTotal_price();
         }
 
         double totalVat = sumTotal*0.2;
-        newCheck = new Check(checkID, cashier.getId_employee(), cc == null ? null : cc.getCard_number(), Timestamp.valueOf(LocalDateTime.now()),sumTotal, totalVat);
+        newCheck = new Check(checkID, cashier.getId_employee(), customerCard == null ? null : customerCard.getCard_number(), Timestamp.valueOf(LocalDateTime.now()),sumTotal, totalVat);
         new CheckService().addCheck(newCheck);
 
         SaleService saleService = new SaleService();
@@ -188,6 +187,7 @@ public class CheckMenu implements Initializable{
 
     public static void initMenu(){
         stage = new Stage();
+        customerCard = null;
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(HelloApplication.mainStage);
         stage.setResizable(false);

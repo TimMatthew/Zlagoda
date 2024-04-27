@@ -36,7 +36,7 @@
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcffca" height="150.0" layoutY="471.0" stroke="BLACK" strokeType="INSIDE" width="270.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dadada" height="473.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" width="270.0" />
-            <Button ellipsisString="" layoutX="135.0" layoutY="572.0" mnemonicParsing="false" onAction="#createCheck" prefHeight="35.0" prefWidth="120.0" text="Confirm check" textFill="#11b15e" textOverrun="CLIP">
+            <Button ellipsisString="" layoutX="135.0" layoutY="572.0" mnemonicParsing="false" onAction="#chooseCustomerCard" prefHeight="35.0" prefWidth="120.0" text="Confirm check" textFill="#11b15e" textOverrun="CLIP">
                <font>
                   <Font size="15.0" />
                </font>

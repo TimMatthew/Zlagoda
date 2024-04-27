@@ -37,7 +37,7 @@ public class EnterAmount implements Initializable {
                     .findFirst();
             firstProductWithIdOne.ifPresent(store_product -> storeProduct = store_product);
         }
-        int start = sale == null ? 0 : sale.getProduct_number();
+        int start = sale == null ? 1 : sale.getProduct_number();
         int max;
         if (sale != null)
             max = Math.max(storeProduct.getProducts_number(), sale.getProduct_number());

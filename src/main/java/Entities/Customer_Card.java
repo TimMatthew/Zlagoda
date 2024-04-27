@@ -105,16 +105,6 @@ public class Customer_Card {
 
     @Override
     public String toString() {
-        return "Customer_Card{" +
-                "card_number='" + card_number + '\'' +
-                ", cust_surname='" + cust_surname + '\'' +
-                ", cust_name='" + cust_name + '\'' +
-                ", cust_patronymic='" + cust_patronymic + '\'' +
-                ", phone_number='" + phone_number + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", zip_code='" + zip_code + '\'' +
-                ", percent='" + percent + '\'' +
-                '}';
+        return getFullName() + ", " + phone_number + ", " + percent + "%";
     }
 }
