@@ -29,7 +29,7 @@ public class StatisticsModeView implements Initializable {
 
     //BarChartMode buttons
     @FXML
-    public Button topProductsByPriceButton, topCategoriesByAvgPriceButton, topEmployeesByChecksButton, workerOfTheDayButton;
+    public Button topProductsByPriceButton, topCategoriesByAvgPriceButton, topEmployeesByChecksButton;
     @FXML
     public BarChart<String, Double> barChart;
     public ImageView logo;
@@ -104,10 +104,56 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-    public void showWorkerOfTheDay(ActionEvent actionEvent) {
+    public void customMethod1(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
-        String sql = "SELECT e.empl_surname || ' ' || e.empl_name AS employee_name, SUM(c.sum_total) AS total_amount FROM employee e JOIN check_t c ON e.id_employee = c.id_employee WHERE c.print_date >= DATE_SUB(NOW(), INTERVAL 0 DAY) GROUP BY e.empl_surname, e.empl_name ORDER BY total_amount DESC LIMIT 1\n";
+
+        Map<String, Double> worker = new ProductService().getCustomMethod1();
+        for (String key : worker.keySet()) {
+            series.getData().add(new XYChart.Data<>(key, worker.get(key)));
+        }
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+
+    public void customMethod2(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod3(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod4(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod5(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod6(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);
