@@ -20,6 +20,7 @@ import javafx.scene.control.*;
 import utils.DataPrinter;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,7 @@ public class MainMenu implements Initializable {
 
     //Функції для чеків
     private ComboBox<String> checksSetCashiersAndTime, checksAllCashiersAndTime;
-    private Button goodsAmountSoldInSetTime;
+    private Button goodsAmountSoldInSetTime, deleteCheckButton;
     @FXML
     public ImageView logo;
 
@@ -59,6 +60,7 @@ public class MainMenu implements Initializable {
     public static Map<String, Integer> productMapGetID;
     public static Map<Integer, String> productMapGetName;
     public static ObservableList<Store_Product> storeProductData;
+    public static ObservableList<Check> checkData;
 
     //Кнопки для товарів
     private Button genericProductsButton, storeProductsButton, promotedProductsButton, nonPromotedProductsButton;
@@ -122,6 +124,7 @@ public class MainMenu implements Initializable {
         updateCategoryTable();
         updateProductTable();
         updateStoreProductTable();
+        updateChecksTable();
     }
 
     protected void initManager() {
@@ -141,6 +144,7 @@ public class MainMenu implements Initializable {
         updateCategoryTable();
         updateProductTable();
         updateStoreProductTable();
+        updateChecksTable();
     }
 
     protected void initCashierGoodsModes() {
@@ -233,6 +237,7 @@ public class MainMenu implements Initializable {
             searchField.setPromptText("Receipts search..."); //Temp
             functionsPane.getChildren().add(receiptsTodayButton);
             functionsPane.getChildren().add(receiptsPeriodButton);
+            showChecks();
         }
     }
 
@@ -275,12 +280,12 @@ public class MainMenu implements Initializable {
         }));
 
         ObservableList<String> checkModes = FXCollections.observableList(List.of(new String[]{
-            "Check No",
-            "Cashier ID",
-            "Customer Card No",
-            "Print date",
-            "Total Sum",
-            "VAT tax"
+                "Check No",
+                "Cashier ID",
+                "Customer Card No",
+                "Print date",
+                "Total Sum",
+                "VAT tax"
         }));
 
         searchModes.put("employee", employeeModes);
@@ -354,6 +359,10 @@ public class MainMenu implements Initializable {
                 .collect(Collectors.toMap(Employee::getId_employee, Employee::getFullName));
         employeeDataMapGetID = employeeData.stream()
                 .collect(Collectors.toMap(Employee::getFullName, Employee::getId_employee));
+    }
+
+    private void updateChecksTable(){
+        checkData = new CheckService().getChecks();
     }
 
     private void showGenericProducts(){
@@ -704,6 +713,28 @@ public class MainMenu implements Initializable {
         checksAllCashiersAndTime.setPromptText("Sum of sold goods");
         checksAllCashiersAndTime.setLayoutX(20); checksAllCashiersAndTime.setLayoutY(220);
         checksAllCashiersAndTime.setPrefWidth(120); checksAllCashiersAndTime.setPrefHeight(30);
+
+        deleteCheckButton = new Button("Delete check");
+        deleteCheckButton.setLayoutX(20); goodsAmountSoldInSetTime.setLayoutY(270);
+        deleteCheckButton.setPrefWidth(120); goodsAmountSoldInSetTime.setPrefHeight(50);
+        deleteCheckButton.setFont(new Font(13));
+        deleteCheckButton.setOnAction(actionEvent -> {
+            try {
+                delete();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @FXML
+    private void delete() throws SQLException {
+
+        int selectedIndex = dataTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Check selected = (Check)dataTable.getItems().get(selectedIndex);
+            new CheckService().deleteCheck(selected.getCheck_number());
+        }
     }
 
     private void categoryChoiceBoxSetVisible(boolean visible){
@@ -773,11 +804,14 @@ public class MainMenu implements Initializable {
             functionsPane.getChildren().add(goodsAmountSoldInSetTime);
             functionsPane.getChildren().add(checksSetCashiersAndTime);
             functionsPane.getChildren().add(checksAllCashiersAndTime);
+            functionsPane.getChildren().add(deleteCheckButton);
             categoryChoiceBoxSetVisible(false);
             searchField.setPromptText("Receipts search...");
             showChecks();
         }
     }
+
+
 
     @FXML
     protected void openProfile(ActionEvent e) {
@@ -845,6 +879,22 @@ public class MainMenu implements Initializable {
                 }
             }
             dataTable.setItems(empl);
+        }
+        else if(managerReceiptsMode.isSelected()){
+            ObservableList<Check> checks;
+            CheckService s = new CheckService();
+            switch(searchModeChoiceBox.getValue()){
+                case "check_number" -> checks = s.getChecksByPropertyStartsWith("check_number", query);
+                case "id_employee" -> checks = s.getChecksByPropertyStartsWith("id_employee", query);
+                case "card_number" -> checks = s.getChecksByPropertyStartsWith("card_number", query);
+                case "print_data" -> checks = s.getChecksByPropertyStartsWith("print_data", query);
+                case "sum_total" -> checks = s.getChecksByPropertyStartsWith("sum_total", query);
+                case "vat" -> checks = s.getChecksByPropertyStartsWith("vat", query);
+                default -> {
+                    return;
+                }
+            }
+            dataTable.setItems(checks);
         }
         else if (managerClientsMode.isSelected() || clientsModeRadio.isSelected()){
 
