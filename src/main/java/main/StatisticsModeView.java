@@ -76,20 +76,6 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-    public void showTopProductsBySoldAmounts(ActionEvent actionEvent) {
-        logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
-        barChart.getData().clear();
-        barChart.getData().addAll(series);
-        barChart.setVisible(true);
-    }
-
     public void showTopCategoriesByAvgPrice(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
@@ -105,6 +91,19 @@ public class StatisticsModeView implements Initializable {
     }
 
 
+    public void showTopProductsBySoldAmounts(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+//
+//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
+//        for (String s : data.keySet()){
+//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
+//        }
+//
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
 
     public void showTopCategoriesBySoldAmounts(ActionEvent actionEvent) {
         logo.setVisible(false);
@@ -120,15 +119,15 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-    public void showTopEmployeesByChecksButton(ActionEvent actionEvent) {
+    public void showTopEmployeesByChecksPrices(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
+
+        Map<String, Double> sells = new ProductService().getProductSellsByPerson();
+        for (String key : sells.keySet()) {
+            series.getData().add(new XYChart.Data<>(key, sells.get(key)));
+        }
+
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);

@@ -63,23 +63,12 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="topProductsBySoldAmountsButton" alignment="CENTER" layoutX="24.0" layoutY="168" mnemonicParsing="false" onAction="#showTopProductsBySoldAmounts" prefHeight="38.0" prefWidth="197.0" text="Top products by sold amounts">
+                  <Button id="profileButton" fx:id="topEmployeesByChecksButton" alignment="CENTER" layoutX="24.0" layoutY="168" mnemonicParsing="false" onAction="#showTopEmployeesByChecksPrices" prefHeight="38.0" prefWidth="197.0" text="Top employees by checks prices">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="topCategoriesBySoldAmountsButton" alignment="CENTER" layoutX="24.0" layoutY="228" mnemonicParsing="false" onAction="#showTopCategoriesBySoldAmounts" prefHeight="38.0" prefWidth="197.0" text="Top categories by sold amounts">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Button>
-
-                  <Button id="profileButton" fx:id="topEmployeesByChecksButton" alignment="CENTER" layoutX="24.0" layoutY="288" mnemonicParsing="false" onAction="#showTopEmployeesByChecksButton" prefHeight="38.0" prefWidth="197.0" text="Top employees by checks prices">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Button>
-                  <Button id="profileButton" fx:id="workerOfTheWeekButton" alignment="CENTER" layoutX="24.0" layoutY="348" mnemonicParsing="false" onAction="#showWorkerOfTheWeek" prefHeight="38.0" prefWidth="197.0" text="View worker of the week">
+                  <Button id="profileButton" fx:id="workerOfTheWeekButton" alignment="CENTER" layoutX="24.0" layoutY="228" mnemonicParsing="false" onAction="#showWorkerOfTheWeek" prefHeight="38.0" prefWidth="197.0" text="View worker of the week">
                      <font>
                         <Font size="13.0" />
                      </font>

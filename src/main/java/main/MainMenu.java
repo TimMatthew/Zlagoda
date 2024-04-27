@@ -107,7 +107,6 @@ public class MainMenu implements Initializable {
     }
 
     protected void initCashier(){
-
         employeesMode.setVisible(false);
         managerClientsMode.setVisible(false);
         categoryMode.setVisible(false);
@@ -118,7 +117,6 @@ public class MainMenu implements Initializable {
         checkLogButton.setVisible(false);
         statisticsButton.setVisible(false);
 
-
         initSearchModes();
         updateCustomerCardTable();
         updateCategoryTable();
@@ -127,7 +125,6 @@ public class MainMenu implements Initializable {
     }
 
     protected void initManager() {
-
         createCheckButton.setVisible(false);
         productsModeRadio.setVisible(false);
         categoriesModeRadio.setVisible(false);
@@ -228,7 +225,6 @@ public class MainMenu implements Initializable {
             initCashierClientsModes();
             initCashierClientsManipulationTools();
             functionsPane.getChildren().add(loyalClientsButton);
-
             functionsPane.getChildren().add(addLoyalClientButton);
             functionsPane.getChildren().add(clientSortNameButton);
         }
