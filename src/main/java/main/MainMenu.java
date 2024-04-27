@@ -69,7 +69,7 @@ public class MainMenu implements Initializable {
     private Button listedCategoriesButton;
 
     //Кнопки для клієнтів
-    private Button loyalClientsButton, addLoyalClientButton, clientSortNameButton;
+    private Button loyalClientsButton, addLoyalClientButton, editLoyalClientButton;
 
     //Кнопки для чеків
     private Button receiptsTodayButton, receiptsPeriodButton;
@@ -175,7 +175,7 @@ public class MainMenu implements Initializable {
 
     protected void initCashierCategoriesModes() {
         listedCategoriesButton = new Button("Listed categories");
-        listedCategoriesButton.setLayoutX(20); listedCategoriesButton.setLayoutY(20);
+        listedCategoriesButton.setLayoutX(50); listedCategoriesButton.setLayoutY(150);
         listedCategoriesButton.setPrefWidth(150); listedCategoriesButton.setPrefHeight(30);
         listedCategoriesButton.setFont(new Font(13));
         listedCategoriesButton.setOnAction(actionEvent -> showCategories());
@@ -183,7 +183,7 @@ public class MainMenu implements Initializable {
 
     protected void initCashierClientsModes() {
         loyalClientsButton = new Button("Loyal clients");
-        loyalClientsButton.setLayoutX(20); loyalClientsButton.setLayoutY(20);
+        loyalClientsButton.setLayoutX(50); loyalClientsButton.setLayoutY(170);
         loyalClientsButton.setPrefWidth(150); loyalClientsButton.setPrefHeight(30);
         loyalClientsButton.setFont(new Font(13));
         loyalClientsButton.setOnAction(actionEvent -> showClientsCards());
@@ -191,22 +191,27 @@ public class MainMenu implements Initializable {
 
     protected void initCashierClientsManipulationTools(){
         addLoyalClientButton = new Button("Add loyal client");
-        addLoyalClientButton.setLayoutX(20); addLoyalClientButton.setLayoutY(70);
+        addLoyalClientButton.setLayoutX(50); addLoyalClientButton.setLayoutY(220);
         addLoyalClientButton.setPrefWidth(120); addLoyalClientButton.setPrefHeight(30);
+        addLoyalClientButton.setOnAction(actionEvent -> addNewCustomerCard());
 
-        clientSortNameButton = new Button("Sort by name");
-        clientSortNameButton.setLayoutX(20); clientSortNameButton.setLayoutY(120);
-        clientSortNameButton.setPrefWidth(120); clientSortNameButton.setPrefHeight(30);
+        editLoyalClientButton = new Button("Edit loyal client");
+        editLoyalClientButton.setLayoutX(50); editLoyalClientButton.setLayoutY(270);
+        editLoyalClientButton.setPrefWidth(120); editLoyalClientButton.setPrefHeight(30);
+        editLoyalClientButton.setOnAction(actionEvent -> editSelectedCustomerCard());
+
     }
 
     protected void initCashierReceiptsManipulationTools(){
         receiptsTodayButton = new Button("Receipts for today");
-        receiptsTodayButton.setLayoutX(20); receiptsTodayButton.setLayoutY(20);
+        receiptsTodayButton.setLayoutX(50); receiptsTodayButton.setLayoutY(20);
         receiptsTodayButton.setPrefWidth(150); receiptsTodayButton.setPrefHeight(30);
+        receiptsTodayButton.setVisible(false);
 
         receiptsPeriodButton = new Button("Receipts for set period");
-        receiptsPeriodButton.setLayoutX(20); receiptsPeriodButton.setLayoutY(70);
+        receiptsPeriodButton.setLayoutX(50); receiptsPeriodButton.setLayoutY(70);
         receiptsPeriodButton.setPrefWidth(150); receiptsPeriodButton.setPrefHeight(30);
+        receiptsPeriodButton.setVisible(false);
     }
 
     @FXML
@@ -230,7 +235,7 @@ public class MainMenu implements Initializable {
             initCashierClientsManipulationTools();
             functionsPane.getChildren().add(loyalClientsButton);
             functionsPane.getChildren().add(addLoyalClientButton);
-            functionsPane.getChildren().add(clientSortNameButton);
+            functionsPane.getChildren().add(editLoyalClientButton);
         }
         else if(receiptsModeRadio.isSelected()){
             initCashierReceiptsManipulationTools();
@@ -622,18 +627,18 @@ public class MainMenu implements Initializable {
 
     private void initEmployeesManipulationTools(){
         addEmployee = new Button("Add employee");
-        addEmployee.setLayoutX(50); addEmployee.setLayoutY(20);
+        addEmployee.setLayoutX(50); addEmployee.setLayoutY(220);
         addEmployee.setPrefWidth(120); addEmployee.setPrefHeight(30);
         addEmployee.setFont(new Font(13));
         addEmployee.setOnAction(actionEvent -> addNewEmployee());
 
-        emplPhoneAddressBySur = new Button("Phone and address by surname");
-        emplPhoneAddressBySur.setLayoutX(7); emplPhoneAddressBySur.setLayoutY(70);
-        emplPhoneAddressBySur.setPrefWidth(200); emplPhoneAddressBySur.setPrefHeight(30);
-        emplPhoneAddressBySur.setFont(new Font(13));
+//        emplPhoneAddressBySur = new Button("Phone and address by surname");
+//        emplPhoneAddressBySur.setLayoutX(7); emplPhoneAddressBySur.setLayoutY(70);
+//        emplPhoneAddressBySur.setPrefWidth(200); emplPhoneAddressBySur.setPrefHeight(30);
+//        emplPhoneAddressBySur.setFont(new Font(13));
 
         editEmployee = new Button("Edit selected employee");
-        editEmployee.setLayoutX(18); editEmployee.setLayoutY(120);
+        editEmployee.setLayoutX(18); editEmployee.setLayoutY(270);
         editEmployee.setPrefWidth(180); editEmployee.setPrefHeight(30);
         editEmployee.setFont(new Font(13));
         editEmployee.setOnAction(actionEvent -> editSelectedEmployee());
@@ -655,13 +660,13 @@ public class MainMenu implements Initializable {
 
     private void initCategoriesManipulationTools(){
         addCategory = new Button("Add category");
-        addCategory.setLayoutX(20); addCategory.setLayoutY(220);
+        addCategory.setLayoutX(50); addCategory.setLayoutY(220);
         addCategory.setPrefWidth(120); addCategory.setPrefHeight(30);
         addCategory.setFont(new Font(13));
         addCategory.setOnAction(actionEvent -> addNewCategory());
 
         editCategory = new Button("Edit category");
-        editCategory.setLayoutX(20); editCategory.setLayoutY(270);
+        editCategory.setLayoutX(50); editCategory.setLayoutY(270);
         editCategory.setPrefWidth(120); editCategory.setPrefHeight(30);
         editCategory.setFont(new Font(13));
         editCategory.setOnAction(actionEvent -> editSelectedCategory());
@@ -669,13 +674,13 @@ public class MainMenu implements Initializable {
 
     private void initGoodsManipulationTools(){
         addProduct = new Button("Add product");
-        addProduct.setLayoutX(20); addProduct.setLayoutY(220);
+        addProduct.setLayoutX(50); addProduct.setLayoutY(220);
         addProduct.setPrefWidth(120); addProduct.setPrefHeight(30);
         addProduct.setFont(new Font(13));
         addProduct.setOnAction(actionEvent -> addNewProduct());
 
         editProduct = new Button("Edit product");
-        editProduct.setLayoutX(20); editProduct.setLayoutY(270);
+        editProduct.setLayoutX(50); editProduct.setLayoutY(270);
         editProduct.setPrefWidth(120); editProduct.setPrefHeight(30);
         editProduct.setFont(new Font(13));
         editProduct.setOnAction(actionEvent -> editSelectedProduct());
@@ -683,40 +688,40 @@ public class MainMenu implements Initializable {
 
     private void initStoreProducts(){
         addStoreProduct = new Button("Add product");
-        addStoreProduct.setLayoutX(20); addStoreProduct.setLayoutY(220);
+        addStoreProduct.setLayoutX(50); addStoreProduct.setLayoutY(220);
         addStoreProduct.setPrefWidth(120); addStoreProduct.setPrefHeight(30);
         addStoreProduct.setFont(new Font(13));
         addStoreProduct.setOnAction(actionEvent -> addNewStoreProduct());
 
         editStoreProduct = new Button("Edit store product");
-        editStoreProduct.setLayoutX(20); editStoreProduct.setLayoutY(270);
+        editStoreProduct.setLayoutX(50); editStoreProduct.setLayoutY(270);
         editStoreProduct.setPrefWidth(120); editStoreProduct.setPrefHeight(30);
         editStoreProduct.setFont(new Font(13));
         editStoreProduct.setOnAction(actionEvent -> editSelectedStoreProduct());
     }
 
     private void initReceipts(){
-        goodsAmountSoldInSetTime = new Button("Goods amount sold\n      for set period");
-        goodsAmountSoldInSetTime.setLayoutX(20); goodsAmountSoldInSetTime.setLayoutY(100);
-        goodsAmountSoldInSetTime.setPrefWidth(120); goodsAmountSoldInSetTime.setPrefHeight(50);
-        goodsAmountSoldInSetTime.setFont(new Font(13));
-
-        //Якщо всі касири - вилізає віконце тільки промптом на період
-        //Якщо конкретний касир - буде ще промпт і на прізвище
-        checksSetCashiersAndTime = new ComboBox<>(FXCollections.observableArrayList("Of all cashiers", "Of set cashiers"));
-        checksSetCashiersAndTime.setPromptText("Receipts for set period");
-        checksSetCashiersAndTime.setLayoutX(20); checksSetCashiersAndTime.setLayoutY(170);
-        checksSetCashiersAndTime.setPrefWidth(120); checksSetCashiersAndTime.setPrefHeight(30);
-
-        //Аналогічний принцип
-        checksAllCashiersAndTime = new ComboBox<>(FXCollections.observableArrayList("Of all cashiers", "Of set cashiers"));
-        checksAllCashiersAndTime.setPromptText("Sum of sold goods");
-        checksAllCashiersAndTime.setLayoutX(20); checksAllCashiersAndTime.setLayoutY(220);
-        checksAllCashiersAndTime.setPrefWidth(120); checksAllCashiersAndTime.setPrefHeight(30);
+//        goodsAmountSoldInSetTime = new Button("Goods amount sold\n      for set period");
+//        goodsAmountSoldInSetTime.setLayoutX(20); goodsAmountSoldInSetTime.setLayoutY(100);
+//        goodsAmountSoldInSetTime.setPrefWidth(120); goodsAmountSoldInSetTime.setPrefHeight(50);
+//        goodsAmountSoldInSetTime.setFont(new Font(13));
+//
+//        //Якщо всі касири - вилізає віконце тільки промптом на період
+//        //Якщо конкретний касир - буде ще промпт і на прізвище
+//        checksSetCashiersAndTime = new ComboBox<>(FXCollections.observableArrayList("Of all cashiers", "Of set cashiers"));
+//        checksSetCashiersAndTime.setPromptText("Receipts for set period");
+//        checksSetCashiersAndTime.setLayoutX(20); checksSetCashiersAndTime.setLayoutY(170);
+//        checksSetCashiersAndTime.setPrefWidth(120); checksSetCashiersAndTime.setPrefHeight(30);
+//
+//        //Аналогічний принцип
+//        checksAllCashiersAndTime = new ComboBox<>(FXCollections.observableArrayList("Of all cashiers", "Of set cashiers"));
+//        checksAllCashiersAndTime.setPromptText("Sum of sold goods");
+//        checksAllCashiersAndTime.setLayoutX(20); checksAllCashiersAndTime.setLayoutY(220);
+//        checksAllCashiersAndTime.setPrefWidth(120); checksAllCashiersAndTime.setPrefHeight(30);
 
         deleteCheckButton = new Button("Delete check");
-        deleteCheckButton.setLayoutX(20); goodsAmountSoldInSetTime.setLayoutY(270);
-        deleteCheckButton.setPrefWidth(120); goodsAmountSoldInSetTime.setPrefHeight(50);
+        deleteCheckButton.setLayoutX(50); deleteCheckButton.setLayoutY(290);
+        deleteCheckButton.setPrefWidth(120); deleteCheckButton.setPrefHeight(50);
         deleteCheckButton.setFont(new Font(13));
         deleteCheckButton.setOnAction(actionEvent -> {
             try {
@@ -761,7 +766,7 @@ public class MainMenu implements Initializable {
         if(employeesMode.isSelected()){
             initEmployeesManipulationTools();
             functionsPane.getChildren().add(addEmployee);
-            functionsPane.getChildren().add(emplPhoneAddressBySur);
+            //functionsPane.getChildren().add(emplPhoneAddressBySur);
             functionsPane.getChildren().add(editEmployee);
             searchField.setPromptText("Employees search...");
             categoryChoiceBoxSetVisible(false);
@@ -801,9 +806,9 @@ public class MainMenu implements Initializable {
         }
         else if(managerReceiptsMode.isSelected()){
             initReceipts();
-            functionsPane.getChildren().add(goodsAmountSoldInSetTime);
-            functionsPane.getChildren().add(checksSetCashiersAndTime);
-            functionsPane.getChildren().add(checksAllCashiersAndTime);
+            //functionsPane.getChildren().add(goodsAmountSoldInSetTime);
+            //functionsPane.getChildren().add(checksSetCashiersAndTime);
+            //functionsPane.getChildren().add(checksAllCashiersAndTime);
             functionsPane.getChildren().add(deleteCheckButton);
             categoryChoiceBoxSetVisible(false);
             searchField.setPromptText("Receipts search...");
