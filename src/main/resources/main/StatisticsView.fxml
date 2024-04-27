@@ -53,22 +53,47 @@
                         <AnchorPane id="modesHintPane" layoutX="31.0" layoutY="94.0" prefHeight="140.0" prefWidth="153.0" />
                      </children>
                   </AnchorPane>
-                  <Button id="profileButton" fx:id="topProductsByPriceButton" alignment="CENTER" layoutX="24.0" layoutY="48.0" mnemonicParsing="false" onAction="#showTopProductsByPrice" prefHeight="38.0" prefWidth="197.0" text="Top products by price">
+                  <Button id="profileButton" fx:id="topProductsByPriceButton" alignment="CENTER" layoutX="24.0" layoutY="20.0" mnemonicParsing="false" onAction="#showTopProductsByPrice" prefHeight="38.0" prefWidth="197.0" text="Top products by price">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="topCategoriesByAvgPriceButton" alignment="CENTER" layoutX="24.0" layoutY="108" mnemonicParsing="false" onAction="#showTopCategoriesByAvgPrice" prefHeight="38.0" prefWidth="197.0" text="Top categories by avg. price">
+                  <Button id="profileButton" fx:id="topCategoriesByAvgPriceButton" alignment="CENTER" layoutX="24.0" layoutY="70" mnemonicParsing="false" onAction="#showTopCategoriesByAvgPrice" prefHeight="38.0" prefWidth="197.0" text="Top categories by avg. price">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="topEmployeesByChecksButton" alignment="CENTER" layoutX="24.0" layoutY="168" mnemonicParsing="false" onAction="#showTopEmployeesByChecksPrices" prefHeight="38.0" prefWidth="197.0" text="Top employees by checks prices">
+                  <Button id="profileButton" fx:id="topEmployeesByChecksButton" alignment="CENTER" layoutX="24.0" layoutY="120" mnemonicParsing="false" onAction="#showTopEmployeesByChecksPrices" prefHeight="38.0" prefWidth="197.0" text="Top employees by checks prices">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="workerOfTheWeekButton" alignment="CENTER" layoutX="24.0" layoutY="228" mnemonicParsing="false" onAction="#showWorkerOfTheWeek" prefHeight="38.0" prefWidth="197.0" text="View worker of the week">
+                  <Button id="profileButton" fx:id="customMethod1" alignment="CENTER" layoutX="24.0" layoutY="170" mnemonicParsing="false" onAction="#customMethod1" prefHeight="38.0" prefWidth="197.0" text="1. View worker of the day">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="customMethod2" alignment="CENTER" layoutX="24.0" layoutY="220" mnemonicParsing="false" onAction="#customMethod2" prefHeight="38.0" prefWidth="197.0" text="2. Uncategorized Non-LA products">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="customMethod3" alignment="CENTER" layoutX="24.0" layoutY="270" mnemonicParsing="false" onAction="#customMethod3" prefHeight="38.0" prefWidth="197.0" text="3. ">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="customMethod4" alignment="CENTER" layoutX="24.0" layoutY="320" mnemonicParsing="false" onAction="#customMethod4" prefHeight="38.0" prefWidth="197.0" text="4. ">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="customMethod5" alignment="CENTER" layoutX="24.0" layoutY="370" mnemonicParsing="false" onAction="#customMethod5" prefHeight="38.0" prefWidth="197.0" text="5. ">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="profileButton" fx:id="customMethod6" alignment="CENTER" layoutX="24.0" layoutY="420" mnemonicParsing="false" onAction="#customMethod6" prefHeight="38.0" prefWidth="197.0" text="6. ">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -87,7 +112,6 @@
                         <NumberAxis label="Price" side="LEFT" />
                      </yAxis>
                   </BarChart>
-
                   <ImageView fx:id="logo" fitHeight="164.0" fitWidth="214.0" layoutX="427.0" layoutY="291.0" opacity="0.68" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/logo.png" />

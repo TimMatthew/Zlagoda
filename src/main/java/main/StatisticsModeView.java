@@ -29,7 +29,7 @@ public class StatisticsModeView implements Initializable {
 
     //BarChartMode buttons
     @FXML
-    public Button topProductsByPriceButton, topCategoriesByAvgPriceButton, topProductsBySoldAmountsButton, topCategoriesBySoldAmountsButton, topEmployeesByChecksButton, workerOfTheWeekButton;
+    public Button topProductsByPriceButton, topCategoriesByAvgPriceButton, topEmployeesByChecksButton;
     @FXML
     public BarChart<String, Double> barChart;
     public ImageView logo;
@@ -90,35 +90,6 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-
-    public void showTopProductsBySoldAmounts(ActionEvent actionEvent) {
-        logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
-        barChart.getData().clear();
-        barChart.getData().addAll(series);
-        barChart.setVisible(true);
-    }
-
-    public void showTopCategoriesBySoldAmounts(ActionEvent actionEvent) {
-        logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
-        barChart.getData().clear();
-        barChart.getData().addAll(series);
-        barChart.setVisible(true);
-    }
-
     public void showTopEmployeesByChecksPrices(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
@@ -133,15 +104,56 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
-    public void showWorkerOfTheWeek(ActionEvent actionEvent) {
+    public void customMethod1(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
-//
-//        Map<String, Double> data = new CategoryService().getCategoryAveragePrices();
-//        for (String s : data.keySet()){
-//            series.getData().add(new XYChart.Data<>(s, data.get(s)));
-//        }
-//
+
+        Map<String, Double> worker = new ProductService().getCustomMethod1();
+        for (String key : worker.keySet()) {
+            series.getData().add(new XYChart.Data<>(key, worker.get(key)));
+        }
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+
+    public void customMethod2(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod3(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod4(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod5(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+        barChart.getData().clear();
+        barChart.getData().addAll(series);
+        barChart.setVisible(true);
+    }
+    public void customMethod6(ActionEvent actionEvent) {
+        logo.setVisible(false);
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);

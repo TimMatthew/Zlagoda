@@ -231,4 +231,23 @@ public class ProductService {
         return sells;
     }
 
+    public Map<String, Double> getCustomMethod1() {
+        Map<String, Double> worker = new HashMap<>();
+        String sql = "SELECT e.empl_surname || ' ' || e.empl_name AS employee_name, SUM(c.sum_total) AS total_amount FROM employee e JOIN check_t c ON e.id_employee = c.id_employee WHERE c.print_date >= DATE_SUB(NOW(), INTERVAL 0 DAY) GROUP BY e.empl_surname, e.empl_name ORDER BY total_amount DESC LIMIT 1";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String employee_name = rs.getString("employee_name");
+                String total_amount = rs.getString("total_amount");
+                worker.put(employee_name, Double.parseDouble(total_amount));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return worker;
+    }
+
+    public void getCustomMethod2() {
+
+    }
 }
