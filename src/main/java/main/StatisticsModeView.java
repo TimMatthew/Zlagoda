@@ -1,5 +1,6 @@
 package main;
 
+import Entities.Check;
 import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,13 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import services.CategoryService;
+import services.CheckService;
 import services.ProductService;
 import sessionmanagement.UserInfo;
 
@@ -38,10 +40,15 @@ public class StatisticsModeView implements Initializable {
     @FXML
     public BarChart<String, Double> barChart;
     public ImageView logo;
+    public TableView dataTable;
+    public Spinner<Integer> discountSpinner;
+    public AnchorPane thirdTaskPane;
+    public ChoiceBox<String> selectCategory;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         employeePIB.setText(UserInfo.employeeProfile.getFullName());
+        thirdTaskPane.setVisible(false);
     }
 
     @FXML
@@ -63,6 +70,7 @@ public class StatisticsModeView implements Initializable {
     }
 
     public void showTopProductsByPrice(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
         ObservableList<Store_Product> data = new ProductService().getStoreProducts();
@@ -79,9 +87,11 @@ public class StatisticsModeView implements Initializable {
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);
+        barChart.setTitle("Top Products By Price");
     }
 
     public void showTopCategoriesByAvgPrice(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
 
@@ -93,9 +103,11 @@ public class StatisticsModeView implements Initializable {
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);
+        barChart.setTitle("Top Categories By Avg Price");
     }
 
     public void showTopEmployeesByChecksPrices(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
 
@@ -107,6 +119,8 @@ public class StatisticsModeView implements Initializable {
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);
+        barChart.setTitle("Uncategorized Non-LA products");
+
     }
 
     public void setupListView(Stage primaryStage) {
@@ -119,20 +133,18 @@ public class StatisticsModeView implements Initializable {
                 "Строка 5"
         );
 
-        // Устанавливаем строки в ListView
         listView.setItems(items);
         VBox root = new VBox(listView);
 
-        // Создаем сцену и устанавливаем корневой узел
         Scene scene = new Scene(root, 300, 250);
 
-        // Устанавливаем сцену для primaryStage и отображаем его
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Пример ListView");
+        primaryStage.setTitle(" ListView");
         primaryStage.show();
     }
 
     public void customMethod1(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
 
@@ -144,33 +156,62 @@ public class StatisticsModeView implements Initializable {
         barChart.getData().clear();
         barChart.getData().addAll(series);
         barChart.setVisible(true);
+        barChart.setTitle("Worker of the day");
     }
 
     public void customMethod2(ActionEvent actionEvent) {
         Map<String, String> products = new ProductService().getCustomMethod2();
     }
     public void customMethod3(ActionEvent actionEvent) {
+        barChart.setVisible(false);
+        thirdTaskPane.setVisible(true);
         logo.setVisible(false);
 
-        barChart.getData().clear();
-        barChart.setVisible(true);
+        selectCategory.setItems(FXCollections.observableList(MainMenu.categoryMapGetID.keySet().stream().toList()));
+        selectCategory.setValue(MainMenu.categoryMapGetID.keySet().stream().toList().get(0));
+
+
+        discountSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 25, 5));
+        
+
     }
     public void customMethod4(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
 
         barChart.getData().clear();
         barChart.setVisible(true);
     }
     public void customMethod5(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
 
         barChart.getData().clear();
         barChart.setVisible(true);
     }
     public void customMethod6(ActionEvent actionEvent) {
+        thirdTaskPane.setVisible(false);
         logo.setVisible(false);
 
         barChart.getData().clear();
         barChart.setVisible(true);
+    }
+
+    public void doTable(ActionEvent actionEvent) {
+        TableColumn<Check, String> check_number = new TableColumn<>("Check No");
+        TableColumn<Check, Date> dateOfCreation = new TableColumn<>("Print date");
+        TableColumn<Check, Double> total_sum = new TableColumn<>("Total Sum");
+
+        ObservableList<Check> afterQuery = new CheckService().getChecksByProductCategory(discountSpinner.getValue(), MainMenu.categoryMapGetID.get(selectCategory.getValue()));
+
+        check_number.setCellValueFactory(new PropertyValueFactory<>("check_number"));
+        dateOfCreation.setCellValueFactory(new PropertyValueFactory<>("print_date"));
+        total_sum.setCellValueFactory(new PropertyValueFactory<>("sum_total"));
+
+        dataTable.getColumns().clear();
+        dataTable.getColumns().addAll(check_number, dateOfCreation, total_sum);
+        dataTable.setItems(afterQuery);
+
+
     }
 }
