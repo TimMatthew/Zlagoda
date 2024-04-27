@@ -129,4 +129,39 @@ public class CheckService {
         }
         return checks;
     }
+    public ObservableList<Check> getChecksByProductCategory(int percent, int categoryNumber) {
+        ObservableList<Check> checks = FXCollections.observableArrayList();
+        String sql = "SELECT c.check_number, c.print_date, c.sum_total " +
+                "FROM check_t c " +
+                "WHERE NOT EXISTS ( " +
+                "    SELECT 1 " +
+                "    FROM sale s " +
+                "    JOIN store_product sp ON s.UPC = sp.UPC " +
+                "    JOIN product p ON sp.id_product = p.id_product " +
+                "    WHERE s.check_number = c.check_number " +
+                "      AND p.category_number = ? " +
+                ") " +
+                "AND c.card_number NOT IN ( " +
+                "    SELECT card_number " +
+                "    FROM customer_card " +
+                "    WHERE percent > ? " +
+                ")";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, categoryNumber);
+            statement.setInt(2, percent);
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String check_number = rs.getString("check_number");
+                Date print_date = rs.getDate("print_date");
+                double sum_total = rs.getDouble("sum_total");
+
+                checks.add(new Check(check_number, null, null, print_date, sum_total, 0));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching checks from database: " + e.getMessage());
+        }
+        return checks;
+    }
 }
