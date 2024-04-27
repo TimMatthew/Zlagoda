@@ -82,4 +82,29 @@ public class CheckService {
         }
         return checks;
     }
+
+    public ObservableList<Check> getChecksBetweenDates(Date startDate, Date endDate) {
+        ObservableList<Check> checks = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM check_t WHERE print_date BETWEEN ? AND ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDate(1, new java.sql.Date(startDate.getTime()));
+            statement.setDate(2, new java.sql.Date(endDate.getTime()));
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String check_number = rs.getString("check_number");
+                String id_employee = rs.getString("id_employee");
+                String card_number = rs.getString("card_number");
+                Date print_date = rs.getDate("print_date");
+                double sum_total = rs.getDouble("sum_total");
+                double vat = rs.getDouble("vat");
+
+                checks.add(new Check(check_number, id_employee, card_number, print_date, sum_total, vat));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching checks from database: " + e.getMessage());
+        }
+        return checks;
+    }
 }

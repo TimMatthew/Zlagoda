@@ -15,7 +15,6 @@ public class HelloApplication extends Application {
     public static Stage mainStage;
     @Override
     public void start(Stage stage) throws IOException, SQLException {
-
         mainStage = stage;
         mainStage.setResizable(false);
         mainStage.getIcons().add(new Image(getClass().getResourceAsStream("img/logo.png")));
@@ -32,7 +31,6 @@ public class HelloApplication extends Application {
 
     public static void setScene(Stage st, FXMLLoader fxmlLoader, int width, int height, String title) throws IOException {
         Scene sc = new Scene(fxmlLoader.load(), width, height);
-        //jMetro.setScene(sc);
         st.setTitle(title);
         st.setScene(sc);
         st.show();

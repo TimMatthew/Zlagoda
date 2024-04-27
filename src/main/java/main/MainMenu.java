@@ -812,6 +812,8 @@ public class MainMenu implements Initializable {
             template = "product_report";
         else if (storeProductsMode.isSelected())
             template = "store_product_report";
+        else if (managerReceiptsMode.isSelected())
+            template = "check_report";
         else
             return;
         DataPrinter.createReport(new DataBaseHandler().getConnection(), new HashMap<>(), new JasperService().getReport(template));
