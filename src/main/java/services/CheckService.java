@@ -1,6 +1,7 @@
 package services;
 
 import Entities.Check;
+import Entities.Employee;
 import Entities.Store_Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +43,7 @@ public class CheckService {
         return true;
     }
 
-    public void deleteCustomerCard(String check_number) throws SQLException {
+    public void deleteCheck(String check_number) throws SQLException {
         String sql = "DELETE FROM check_t WHERE check_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, check_number);
@@ -74,11 +75,57 @@ public class CheckService {
                 double sum_total = rs.getDouble("sum_total");
                 double vat = rs.getDouble("vat");
 
-                //store_products.add(new Store_Product(Integer.parseInt(id_product), product_upc, Double.parseDouble(selling_price), Integer.parseInt(products_number), Integer.parseInt(isPromotional)));
                 checks.add(new Check(check_number, id_employee, card_number, print_date, sum_total, vat));
             }
         } catch (SQLException e) {
             System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return checks;
+    }
+
+    public ObservableList<Check> getChecksBetweenDates(Date startDate, Date endDate) {
+        ObservableList<Check> checks = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM check_t WHERE print_date BETWEEN ? AND ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDate(1, new java.sql.Date(startDate.getTime()));
+            statement.setDate(2, new java.sql.Date(endDate.getTime()));
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String check_number = rs.getString("check_number");
+                String id_employee = rs.getString("id_employee");
+                String card_number = rs.getString("card_number");
+                Date print_date = rs.getDate("print_date");
+                double sum_total = rs.getDouble("sum_total");
+                double vat = rs.getDouble("vat");
+
+                checks.add(new Check(check_number, id_employee, card_number, print_date, sum_total, vat));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching checks from database: " + e.getMessage());
+        }
+        return checks;
+    }
+
+    public ObservableList<Check> getChecksByPropertyStartsWith(String property, String query) {
+        ObservableList<Check> checks = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM check_t WHERE " + property + " LIKE ?";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, query + "%");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String check_number = rs.getString("check_number");
+                String idEmployee = rs.getString("id_employee");
+                String cardNumber = rs.getString("card_number");
+                java.sql.Date printData = rs.getDate("print_data");
+                double sumTotal = rs.getDouble("sum_total");
+                double vat = rs.getDouble("vat");
+
+                checks.add(new Check(check_number, idEmployee, cardNumber, printData, sumTotal, vat));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return checks;
     }
