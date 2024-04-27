@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -51,15 +52,27 @@ public class EnterAmount implements Initializable {
             invalid.setVisible(false);
         }
         else{
-            if (sale == null) {
+            ArrayList<Sale> alreadyAdded = new ArrayList<>(CheckMenu.sales.stream()
+                                        .filter(obj -> obj.getStore_Product_UPC().equals(storeProduct.getStore_Product_UPC()))
+                                        .toList());
+            if (sale == null && alreadyAdded.isEmpty()) {
                 outnumbered.setVisible(false);
                 invalid.setVisible(false);
                 stage.close();
                 CheckMenu.addProductIntoCheck(storeProduct, res);
-            } else {
+            } else if (sale != null && alreadyAdded.isEmpty()){
                 int differance = sale.getProduct_number() - res;
                 sale.setProduct_number(res);
                 storeProduct.setProducts_number(storeProduct.getProducts_number() + differance);
+                outnumbered.setVisible(false);
+                invalid.setVisible(false);
+                stage.close();
+                CheckMenu.updateCheckMenuData(storeProduct, sale);
+            }
+            else {
+                sale = alreadyAdded.get(0);
+                sale.setProduct_number(sale.getProduct_number() + res);
+                storeProduct.setProducts_number(storeProduct.getProducts_number() - res);
                 outnumbered.setVisible(false);
                 invalid.setVisible(false);
                 stage.close();

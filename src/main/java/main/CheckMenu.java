@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.CheckService;
+import services.SaleService;
 import services.StoreProductService;
 import sessionmanagement.UserInfo;
 import utils.UPC;
@@ -24,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CheckMenu implements Initializable{
     public static Stage stage;
@@ -108,7 +110,7 @@ public class CheckMenu implements Initializable{
     }
 
     public static void addProductIntoCheck(Store_Product storeProduct, int storeAmountForCheck) {
-        Sale sale = new Sale(storeProduct.getStore_Product_UPC(), checkID, storeAmountForCheck, storeProduct.getProducts_number());
+        Sale sale = new Sale(storeProduct.getStore_Product_UPC(), checkID, storeAmountForCheck, storeProduct.getSelling_price());
         sale.setProduct_name(storeProduct.getProductName());
         sales.add(sale);
         storeProduct.setProducts_number(storeProduct.getProducts_number()-storeAmountForCheck);
@@ -128,14 +130,24 @@ public class CheckMenu implements Initializable{
         }
 
         double totalVat = sumTotal*0.2;
-
-        newCheck.setEmployee_id_employee(cashier.getId_employee());
-        newCheck.setCustomerCard_card_number(null);
-        newCheck.setPrint_date(Timestamp.valueOf(LocalDateTime.now()));
-        newCheck.setSum_total(sumTotal);
-        newCheck.setVat(totalVat);
-
+        newCheck = new Check(checkID, cashier.getId_employee(), cc == null ? null : cc.getCard_number(), Timestamp.valueOf(LocalDateTime.now()),sumTotal, totalVat);
         new CheckService().addCheck(newCheck);
+
+        SaleService saleService = new SaleService();
+        StoreProductService sps = new StoreProductService();
+        for (Sale s : sales){
+            saleService.addSale(s);
+            sps.updateStoreProduct(storeProductsData.stream()
+                    .filter(obj -> obj.getStore_Product_UPC().equals(s.getStore_Product_UPC()))
+                    .toList().get(0));
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Check registering success");
+        alert.setHeaderText("Check was added");
+        alert.setContentText("");
+        alert.showAndWait();
+
+        stage.close();
     }
 
     public void editSale(ActionEvent actionEvent) {
@@ -162,4 +174,5 @@ public class CheckMenu implements Initializable{
             throw new RuntimeException(e);
         }
     }
+
 }
