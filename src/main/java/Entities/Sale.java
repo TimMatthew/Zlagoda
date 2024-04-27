@@ -6,7 +6,6 @@ public class Sale {
     int product_number; //NN
     double selling_price; //NN Тип даних в RM - Decimal (13,4), що б це не означало...
     String product_name;
-    double product_price;
 
     public Sale(String store_Product_UPC, String check_check_number, int product_number, double selling_price) {
         Store_Product_UPC = store_Product_UPC;
@@ -55,16 +54,12 @@ public class Sale {
         this.product_name = product_name;
     }
 
-    public double getProduct_price() {
-        return product_price;
-    }
-
-    public void setProduct_price(double product_price) {
-        this.product_price = product_price;
+    public double getTotal_price() {
+        return selling_price * product_number;
     }
 
     @Override
     public String toString() {
-        return product_name + ": " + product_price + " * " + product_number + " = " + selling_price + ";";
+        return product_name + ": " + selling_price + " * " + product_number + " = " + getTotal_price() + ";";
     }
 }

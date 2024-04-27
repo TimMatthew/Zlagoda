@@ -108,27 +108,26 @@ public class CheckMenu implements Initializable{
     }
 
     public static void addProductIntoCheck(Store_Product storeProduct, int storeAmountForCheck) {
-        int amount = storeProduct.getProducts_number();
-        double price = storeProduct.getSelling_price();
-        Sale sale = new Sale(storeProduct.getStore_Product_UPC(), checkID, storeAmountForCheck, getTotalSalePrice(amount, price));
+        Sale sale = new Sale(storeProduct.getStore_Product_UPC(), checkID, storeAmountForCheck, storeProduct.getProducts_number());
         sale.setProduct_name(storeProduct.getProductName());
-        sale.setProduct_price(storeProduct.getSelling_price());
         sales.add(sale);
         storeProduct.setProducts_number(storeProduct.getProducts_number()-storeAmountForCheck);
         updateCheckMenuData(storeProduct, null);
     }
 
     public void createCheck(ActionEvent actionEvent) throws SQLException {
+        if (sales.isEmpty())
+            return;
 
         int custCardPercent = cc==null ? 0 : cc.getPercent();
         String custCardNumber = null;
-        double sumTotal=0, totalVat=0;
+        double sumTotal=0;
 
         for(Sale s: sales){
-            sumTotal += s.getProduct_number()*s.getSelling_price();
+            sumTotal += s.getTotal_price();
         }
 
-        totalVat = sumTotal*0.2;
+        double totalVat = sumTotal*0.2;
 
         newCheck.setEmployee_id_employee(cashier.getId_employee());
         newCheck.setCustomerCard_card_number(null);
@@ -162,9 +161,5 @@ public class CheckMenu implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static double getTotalSalePrice(int amount, double price){
-        return amount * price;
     }
 }
