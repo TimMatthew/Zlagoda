@@ -1,16 +1,21 @@
 package main;
 
 import Entities.Store_Product;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import services.CategoryService;
 import services.ProductService;
 import sessionmanagement.UserInfo;
@@ -104,6 +109,29 @@ public class StatisticsModeView implements Initializable {
         barChart.setVisible(true);
     }
 
+    public void setupListView(Stage primaryStage) {
+        ListView<String> listView = new ListView<>();
+        ObservableList<String> items = FXCollections.observableArrayList(
+                "Строка 1",
+                "Строка 2",
+                "Строка 3",
+                "Строка 4",
+                "Строка 5"
+        );
+
+        // Устанавливаем строки в ListView
+        listView.setItems(items);
+        VBox root = new VBox(listView);
+
+        // Создаем сцену и устанавливаем корневой узел
+        Scene scene = new Scene(root, 300, 250);
+
+        // Устанавливаем сцену для primaryStage и отображаем его
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Пример ListView");
+        primaryStage.show();
+    }
+
     public void customMethod1(ActionEvent actionEvent) {
         logo.setVisible(false);
         XYChart.Series<String, Double> series = new XYChart.Series<>();
@@ -119,43 +147,30 @@ public class StatisticsModeView implements Initializable {
     }
 
     public void customMethod2(ActionEvent actionEvent) {
-        logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
-
-        barChart.getData().clear();
-        barChart.getData().addAll(series);
-        barChart.setVisible(true);
+        Map<String, String> products = new ProductService().getCustomMethod2();
     }
     public void customMethod3(ActionEvent actionEvent) {
         logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
 
         barChart.getData().clear();
-        barChart.getData().addAll(series);
         barChart.setVisible(true);
     }
     public void customMethod4(ActionEvent actionEvent) {
         logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
 
         barChart.getData().clear();
-        barChart.getData().addAll(series);
         barChart.setVisible(true);
     }
     public void customMethod5(ActionEvent actionEvent) {
         logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
 
         barChart.getData().clear();
-        barChart.getData().addAll(series);
         barChart.setVisible(true);
     }
     public void customMethod6(ActionEvent actionEvent) {
         logo.setVisible(false);
-        XYChart.Series<String, Double> series = new XYChart.Series<>();
 
         barChart.getData().clear();
-        barChart.getData().addAll(series);
         barChart.setVisible(true);
     }
 }

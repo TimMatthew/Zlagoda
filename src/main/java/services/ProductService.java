@@ -247,7 +247,35 @@ public class ProductService {
         return worker;
     }
 
-    public void getCustomMethod2() {
+    public Map<String, String> getCustomMethod2() {
+        Map<String, String> products = new HashMap<>();
+        String sql = "SELECT c.check_number, c.print_date, c.sum_total FROM check_t c WHERE NOT EXISTS ( SELECT 1 FROM sale s JOIN store_product sp ON s.UPC = sp.UPC JOIN product p ON sp.id_product = p.id_product WHERE s.check_number = c.check_number AND p.id_product IN (10, 20, 30)) AND c.card_number NOT IN (SELECT card_number FROM customer_card WHERE percent > 10)";
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String check_number = rs.getString("check_number");
+                String print_date = rs.getString("print_date");
+                products.put(check_number, print_date);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return products;
+    }
+
+    public void getCustomMethod3() {
+
+    }
+
+    public void getCustomMethod4() {
+
+    }
+
+    public void getCustomMethod5() {
+
+    }
+
+    public void getCustomMethod6() {
 
     }
 }
