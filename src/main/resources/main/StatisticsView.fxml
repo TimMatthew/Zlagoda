@@ -81,7 +81,7 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button id="profileButton" fx:id="customMethod3" alignment="CENTER" layoutX="24.0" layoutY="270" mnemonicParsing="false" onAction="#customMethod3" prefHeight="38.0" prefWidth="197.0" text="3. ">
+                  <Button id="profileButton" fx:id="customMethod3" alignment="CENTER" layoutX="24.0" layoutY="270" mnemonicParsing="false" onAction="#customMethod3" prefHeight="38.0" prefWidth="197.0" text="3. Find checks without category and...">
                      <font>
                         <Font size="13.0" />
                      </font>
