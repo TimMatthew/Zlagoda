@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductService {
     private final Connection connection;
@@ -212,4 +214,21 @@ public class ProductService {
         }
         return products;
     }
+
+    public Map<String, Double> getProductSellsByPerson() {
+        Map<String, Double> sells = new HashMap<>();
+        String sql = "SELECT e.empl_surname || ' ' || e.empl_name AS employee_name, SUM(c.sum_total) AS total_amount FROM employee e JOIN check_t c ON e.id_employee = c.id_employee GROUP BY e.empl_surname, e.empl_name ORDER BY total_amount DESC";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String employee_name = rs.getString("employee_name");
+                String total_amount = rs.getString("total_amount");
+                sells.put(employee_name, Double.parseDouble(total_amount));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching employees from database: " + e.getMessage());
+        }
+        return sells;
+    }
+
 }
