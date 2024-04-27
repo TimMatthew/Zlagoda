@@ -133,7 +133,7 @@ public class CategoryService {
     }
     public ObservableList<String> getCategoryNames() {
         ObservableList<String> names = FXCollections.observableArrayList();
-        String sql = "SELECT category_name FROM category";
+        String sql = "SELECT category_name FROM category ORDER BY category_name";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 

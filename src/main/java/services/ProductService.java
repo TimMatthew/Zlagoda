@@ -109,16 +109,16 @@ public class ProductService {
     }
 
     public Product getProduct(int id) {
-        String sql = "SELECT product_name FROM product WHERE id_product = ?";
+        String sql = "SELECT * FROM product WHERE id_product = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    int category_id = rs.getInt("category_number");
                     String name = rs.getString("product_name");
                     String characteristics = rs.getString("characteristics");
+                    int category_id = rs.getInt("category_number");
 
                     return new Product(id, category_id, name, characteristics);
                 }

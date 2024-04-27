@@ -78,4 +78,16 @@ public class Check {
     public void setVat(double vat) {
         this.vat = vat;
     }
+
+    @Override
+    public String toString() {
+        return "Check{" +
+                "check_number='" + check_number + '\'' +
+                ", Employee_id_employee='" + Employee_id_employee + '\'' +
+                ", CustomerCard_card_number='" + CustomerCard_card_number + '\'' +
+                ", print_date=" + print_date +
+                ", sum_total=" + sum_total +
+                ", vat=" + vat +
+                '}';
+    }
 }
